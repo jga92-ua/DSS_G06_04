@@ -52,7 +52,12 @@ class CartaController extends Controller
         return view('cartas.mis', ['cartas' => $cartasConInfo]);
     }
     
-    
+    public function adminCartas()
+{
+    $cartas = \App\Models\Carta::all(); // Muestra todas las cartas
+    return view('cartas.admin', compact('cartas'));
+}
+
     
 
     public function store(Request $request)

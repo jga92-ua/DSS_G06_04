@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartaController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,5 +24,10 @@ Route::get('/', function () {
     Route::get('/cartas/buscar', [CartaController::class, 'buscar'])->name('cartas.buscar');
     Route::get('/cartas/mis-cartas', [CartaController::class, 'misCartas'])->name('cartas.mis');
     Route::delete('/cartas/{id}', [CartaController::class, 'destroy'])->name('cartas.destroy');
-
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::post('/admin', [AdminController::class, 'store'])->name('admin.store');
+    Route::delete('/usuarios/{id}', [AdminController::class, 'destroy'])->name('user.destroy');
+    Route::get('cartas/admin', [CartaController::class, 'adminCartas'])->name('cartas.admin');
+    Route::post('/admin/cartas', [AdminController::class, 'storeCarta'])->name('admin.cartas.store');
+    Route::delete('/admin/cartas/{id}', [AdminController::class, 'eliminarCarta'])->name('admin.cartas.destroy');
 
