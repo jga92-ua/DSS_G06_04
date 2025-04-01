@@ -11,25 +11,37 @@ use App\Models\Carta;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $usuarios = User::all();
-        return view('admin.index', compact('usuarios'));
+        $orden = $request->query('orden', 'fecha_desc'); // Por defecto, ordenamos por fecha descendente
+
+        $usuarios = User::query();
+
+        if ($orden == 'nombre_asc') {
+            $usuarios->orderBy('name', 'asc');
+        } elseif ($orden == 'nombre_desc') {
+            $usuarios->orderBy('name', 'desc');
+        } elseif ($orden == 'fecha_asc') {
+            $usuarios->orderBy('created_at', 'asc');
+        } elseif ($orden == 'fecha_desc') {
+            $usuarios->orderBy('created_at', 'desc');
+        }
+
+        return view('admin.index', ['usuarios' => $usuarios->get()]);
     }
     public function destroy($id)
-{
-    $usuario = User::findOrFail($id);
-    $usuario->delete();
+    {
+        $usuario = User::findOrFail($id);
+        $usuario->delete();
 
-    return redirect()->route('admin.index')->with('success', 'Usuario eliminado correctamente.');
-}
-public function adminCartas()
-{
-    $cartas = Carta::all(); // Todas las cartas del sistema
-    return view('cartas.admin', compact('cartas'));
-}
-
-
+        return redirect()->route('admin.index')->with('success', 'Usuario eliminado correctamente.');
+    }
+    public function adminCartas()
+    {
+        $cartas = Carta::all(); // Todas las cartas del sistema
+        return view('cartas.admin', compact('cartas'));
+    }
 
     public function store(Request $request)
     {
