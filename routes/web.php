@@ -30,4 +30,4 @@ Route::get('/', function () {
     Route::get('cartas/admin', [CartaController::class, 'adminCartas'])->name('cartas.admin');
     Route::post('/admin/cartas', [AdminController::class, 'storeCarta'])->name('admin.cartas.store');
     Route::delete('/admin/cartas/{id}', [AdminController::class, 'eliminarCarta'])->name('admin.cartas.destroy');
-
+    Route::get('/inicio', function () { return view('home.inicio');})->name('inicio');
