@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartaController;
 use App\Http\Controllers\AdminController;
@@ -30,4 +31,5 @@ Route::get('/', function () {
     Route::get('cartas/admin', [CartaController::class, 'adminCartas'])->name('cartas.admin');
     Route::post('/admin/cartas', [AdminController::class, 'storeCarta'])->name('admin.cartas.store');
     Route::delete('/admin/cartas/{id}', [AdminController::class, 'eliminarCarta'])->name('admin.cartas.destroy');
-    Route::get('/inicio', function () { return view('home.inicio');})->name('inicio');
+    Route::get('/inicio', [CartaController::class, 'inicio'])->name('inicio');
+    Route::get('/catalogo', [CartaController::class, 'catalogo'])->name('catalogo');

@@ -51,6 +51,77 @@ class CartaController extends Controller
     
         return view('cartas.mis', ['cartas' => $cartasConInfo]);
     }
+
+    public function inicio()
+    {
+        // Obtener 4 cartas aleatorias para Trending
+        $cartasTrending = Carta::inRandomOrder()->limit(4)->get();
+
+        // Obtener 3 cartas aleatorias del catálogo
+        $cartasCatalogo = Carta::inRandomOrder()->limit(3)->get();
+
+        // Obtener información desde la API para Trending
+        $cartasTrending = $cartasTrending->map(function ($carta) {
+            $idApi = $carta->id_carta_api;
+            $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
+            $datosApi = $apiResponse->json();
+
+            return [
+                'id' => $carta->id,
+                'nombre' => $datosApi['data']['name'] ?? 'Desconocido',
+                'imagen' => $datosApi['data']['images']['small'] ?? asset('imagenes/default-card.png'),
+            ];
+        });
+
+        // Obtener información desde la API para el Catálogo (solo 3 cartas)
+        $cartasCatalogo = $cartasCatalogo->map(function ($carta) {
+            $idApi = $carta->id_carta_api;
+            $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
+            $datosApi = $apiResponse->json();
+
+            return [
+                'id' => $carta->id,
+                'nombre' => $datosApi['data']['name'] ?? 'Desconocido',
+                'imagen' => $datosApi['data']['images']['small'] ?? asset('imagenes/default-card.png'),
+            ];
+        });
+
+        return view('home.inicio', compact('cartasTrending', 'cartasCatalogo'));
+    }
+
+    public function catalogo()
+    {
+        $cartas = Carta::all(); // Obtiene todas las cartas de la base de datos
+
+        // Obtener imÃ¡genes desde la API
+        $cartasConImagenes = $cartas->map(function ($carta) {
+            $idApi = $carta->id_carta_api;
+            $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
+            $datosApi = $apiResponse->json();
+
+            return [
+                'id' => $carta->id,
+                'imagen' => $datosApi['data']['images']['small'] ?? asset('imagenes/default-card.png'),
+            ];
+        });
+
+        return view('catalogo.catalogo', ['cartas' => $cartasConImagenes]);
+    }
+
+    private function obtenerInfoDesdeApi($cartas)
+    {
+        return $cartas->map(function ($carta) {
+            $idApi = $carta->id_carta_api;
+            $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
+            $datosApi = $apiResponse->json();
+
+            return [
+                'id' => $carta->id,
+                'nombre' => $datosApi['data']['name'] ?? 'Desconocido',
+                'imagen' => $datosApi['data']['images']['small'] ?? asset('imagenes/default-card.png'),
+            ];
+        });
+    }
     
     public function adminCartas()
 {
