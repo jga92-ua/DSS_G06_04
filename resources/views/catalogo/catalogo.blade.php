@@ -45,6 +45,29 @@
         border-radius: 8px;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
+
+    .search-form {
+        margin: 20px auto;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .search-form input {
+        padding: 8px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .search-form button {
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 </style>
 
 <nav class="top-bar">
@@ -66,12 +89,22 @@
 
 <div class="section-bar">Catálogo</div>
 
-<div class="cards-container">
-    @foreach($cartas as $carta)
-        <div class="card">
-            <img src="{{ $carta['imagen'] }}" alt="Carta Pokémon">
-        </div>
-    @endforeach
-</div>
+<!-- Formulario de búsqueda -->
+<form method="GET" action="{{ route('catalogo') }}" class="search-form">
+    <input type="text" name="nombre" placeholder="Buscar cartas por nombre" value="{{ request('nombre') }}">
+    <button type="submit">Buscar</button>
+</form>
+
+@if($cartas->isEmpty())
+    <p style="text-align: center; margin-top: 20px;">No se encontraron cartas.</p>
+@else
+    <div class="cards-container">
+        @foreach($cartas as $carta)
+            <div class="card">
+                <img src="{{ $carta['imagen'] }}" alt="Carta Pokémon">
+            </div>
+        @endforeach
+    </div>
+@endif
 
 @endsection

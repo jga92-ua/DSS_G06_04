@@ -16,7 +16,6 @@
                 <div style="border: 1px solid #ccc; padding: 10px; text-align: center; border-radius: 8px; display: flex; flex-direction: column; align-items: center;">
                     <img src="{{ $carta['images']['small'] }}" alt="Carta" width="120">
                     <p><strong>Nombre:</strong> {{ $carta['name'] }}</p>
-                    <p><strong>ID:</strong> {{ $carta['id'] }}</p>
 
                     <div style="margin-top: auto; padding-top: 10px; width: 100%; display: flex; justify-content: center;">
                         <form method="GET" action="{{ route('cartas.create') }}">

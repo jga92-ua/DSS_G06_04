@@ -98,7 +98,7 @@
             <br>
             <span style="font-size: 12px; color: gray;">Product Manager</span>
         </div>
-        <img src="{{ asset('imagenes/usuario.png') }}" alt="Usuario" style="width: 30px; margin-left: 10px;">
+        <img src="{{ asset('imagenes/rocco.png') }}" alt="Usuario" style="width: 30px; margin-left: 10px;">
     </div>
 </nav>
 
