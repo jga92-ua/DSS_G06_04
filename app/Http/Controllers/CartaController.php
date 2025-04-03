@@ -38,7 +38,7 @@ class CartaController extends Controller
             $datosApi = $apiResponse->json();
     
             return [
-                'id' => $carta->id, // 👈 IMPORTANTE: este es el id para eliminar
+                'id' => $carta->id, // IMPORTANTE: este es el id para eliminar
                 'id_carta_api' => $idApi,
                 'nombre' => $datosApi['data']['name'] ?? 'Desconocido',
                 'imagen' => $datosApi['data']['images']['small'] ?? null,
@@ -55,10 +55,10 @@ class CartaController extends Controller
     public function inicio()
     {
         // Obtener 4 cartas aleatorias para Trending
-        $cartasTrending = Carta::inRandomOrder()->limit(4)->get();
+        $cartasTrending = Carta::inRandomOrder()->limit(7)->get();
 
         // Obtener 3 cartas aleatorias del catálogo
-        $cartasCatalogo = Carta::inRandomOrder()->limit(3)->get();
+        $cartasCatalogo = Carta::inRandomOrder()->limit(4)->get();
 
         // Obtener información desde la API para Trending
         $cartasTrending = $cartasTrending->map(function ($carta) {
@@ -124,10 +124,10 @@ class CartaController extends Controller
     }
     
     public function adminCartas()
-{
-    $cartas = \App\Models\Carta::all(); // Muestra todas las cartas
-    return view('cartas.admin', compact('cartas'));
-}
+    {
+        $cartas = \App\Models\Carta::all(); // Muestra todas las cartas
+        return view('cartas.admin', compact('cartas'));
+    }
 
     
 

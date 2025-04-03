@@ -14,11 +14,7 @@
         @csrf
 
         {{-- ID de la carta desde la API (readonly) --}}
-        <div style="margin-bottom: 15px;">
-            <label for="id_carta_api">ID de la carta (API)</label>
-            <input type="text" name="id_carta_api" value="{{ $id_carta_api ?? '' }}" readonly 
-                   style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-        </div>
+        <input type="hidden" name="id_carta_api" value="{{ $id_carta_api ?? '' }}">
 
         {{-- Rareza --}}
         <div style="margin-bottom: 15px;">
