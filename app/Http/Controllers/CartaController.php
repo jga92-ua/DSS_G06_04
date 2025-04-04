@@ -10,17 +10,31 @@ class CartaController extends Controller
 {
     //
     public function buscar(Request $request)
-{
-    $nombre = $request->input('nombre');
-
-    $response = Http::get("https://api.pokemontcg.io/v2/cards", [
-        'q' => "name:$nombre"
-    ]);
-
-    $cartas = $response->json()['data'] ?? [];
-
-    return view('cartas.buscar', compact('cartas'));
-}
+    {
+        $query = $request->input('query');
+        $cartasNombre = [];
+        $cartasTipo = [];
+    
+        // Buscar por nombre (nombre exacto o parcial)
+        $responseNombre = Http::get("https://api.pokemontcg.io/v2/cards?q=name:$query");
+        if ($responseNombre->successful()) {
+            $cartasNombre = $responseNombre->json()['data'];
+        }
+    
+        // Buscar por tipo (por ejemplo "Fire", "Water", "Grass"...)
+        $responseTipo = Http::get("https://api.pokemontcg.io/v2/cards?q=types:$query");
+        if ($responseTipo->successful()) {
+            $cartasTipo = $responseTipo->json()['data'];
+        }
+    
+        // Unir ambos resultados y eliminar duplicados por ID
+        $todasCartas = collect($cartasNombre)
+                        ->merge($cartasTipo)
+                        ->unique('id')
+                        ->values();
+    
+        return view('cartas.buscar', ['cartas' => $todasCartas]);
+    }
     // Mostrar el formulario para crear la carta seleccionada
     public function create(Request $request)
     {

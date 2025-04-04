@@ -16,10 +16,11 @@
 <div class="container">
     <h1>Buscar cartas Pokémon</h1>
 
-    <form method="GET" action="{{ route('cartas.buscar') }}" style="margin-bottom: 20px;">
-        <input type="text" name="nombre" placeholder="Nombre de la carta" required>
-        <button type="submit">Buscar</button>
-    </form>
+    <form method="GET" action="{{ route('cartas.buscar') }}">
+    <input type="text" name="query" placeholder="Nombre o tipo" required>
+    <button type="submit">Buscar</button>
+</form>
+
 
     @if(isset($cartas))
         <h2>Resultados:</h2>
