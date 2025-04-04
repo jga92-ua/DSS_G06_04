@@ -10,7 +10,7 @@ class CategoriaController extends Controller
     public function index()
     {
         $categorias = Categoria::all();
-        return view('admin.categorias', compact('categorias'));
+        return view('admin.index.blade.php', compact('categorias'));
     }
 
     public function create()
@@ -32,11 +32,19 @@ class CategoriaController extends Controller
         return redirect()->back()->with('success', 'Categoría creada correctamente');
     }
 
-    public function edit($id)
-    {
-        $categoria = Categoria::findOrFail($id);
-        return view('admin.categorias_edit', compact('categoria'));
-    }
+        public function edit($id)
+        {
+            $categoria = Categoria::findOrFail($id);
+            return view('admin.editCat', compact('categoria'));
+        }
+
+        public function adminIndex()
+        {
+            $categorias = Categoria::all();
+            return view('admin.categorias', compact('categorias'));
+
+        }
+        
 
     public function update(Request $request, $id)
     {
@@ -45,10 +53,14 @@ class CategoriaController extends Controller
         ]);
 
         $categoria = Categoria::findOrFail($id);
-        $categoria->update(['nombre' => $request->nombre]);
+        $categoria->update([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+        ]);
 
-        return redirect()->route('admin.categorias')->with('success', 'Categoría actualizada');
+        return redirect()->route('admin.index')->with('success', 'Categoría actualizada');
     }
+
     public function destroy($id)
     {
         $categoria = Categoria::findOrFail($id);
