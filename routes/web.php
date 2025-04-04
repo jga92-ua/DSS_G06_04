@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartaController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoriaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +21,13 @@ Route::get('/', function () {
 });
 
     //esto fuchi fuchi del return
+    Route::post('/admin/categorias', [CategoriaController::class, 'store'])->name('admin.categorias.store');
+    Route::delete('/admin/categorias/{id}', [CategoriaController::class, 'destroy'])->name('admin.categorias.destroy');
+
+    Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
+    Route::get('/categorias/create', [CategoriaController::class, 'create'])->name('categorias.create');
+    Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
+    Route::delete('/categorias/{id}', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
     Route::get('/cartas/crear', [CartaController::class, 'create'])->name('cartas.create');
     Route::post('/cartas', [CartaController::class, 'store'])->name('cartas.store');
     Route::get('/cartas/buscar', [CartaController::class, 'buscar'])->name('cartas.buscar');

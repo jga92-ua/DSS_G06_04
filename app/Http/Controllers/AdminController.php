@@ -6,30 +6,37 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Carta;
+use App\Models\Categoria;
+
+
 
 
 
 class AdminController extends Controller
 {
     public function index(Request $request)
-    {
-        $usuarios = User::all();
-        $orden = $request->query('orden', 'fecha_desc'); // Por defecto, ordenamos por fecha descendente
+{
+    $orden = $request->query('orden', 'fecha_desc');
 
-        $usuarios = User::query();
+    $usuariosQuery = User::query();
 
-        if ($orden == 'nombre_asc') {
-            $usuarios->orderBy('name', 'asc');
-        } elseif ($orden == 'nombre_desc') {
-            $usuarios->orderBy('name', 'desc');
-        } elseif ($orden == 'fecha_asc') {
-            $usuarios->orderBy('created_at', 'asc');
-        } elseif ($orden == 'fecha_desc') {
-            $usuarios->orderBy('created_at', 'desc');
-        }
-
-        return view('admin.index', ['usuarios' => $usuarios->get()]);
+    if ($orden == 'nombre_asc') {
+        $usuariosQuery->orderBy('name', 'asc');
+    } elseif ($orden == 'nombre_desc') {
+        $usuariosQuery->orderBy('name', 'desc');
+    } elseif ($orden == 'fecha_asc') {
+        $usuariosQuery->orderBy('created_at', 'asc');
+    } elseif ($orden == 'fecha_desc') {
+        $usuariosQuery->orderBy('created_at', 'desc');
     }
+
+    $usuarios = $usuariosQuery->get();
+    $categorias = Categoria::all(); // ✅ Añade esta línea
+
+    // ✅ Devuelve ambas variables a la vista
+    return view('admin.index', compact('usuarios', 'categorias'));
+}
+
     public function destroy($id)
     {
         $usuario = User::findOrFail($id);

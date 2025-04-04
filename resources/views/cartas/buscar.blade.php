@@ -20,9 +20,13 @@
                     <div style="margin-top: auto; padding-top: 10px; width: 100%; display: flex; justify-content: center;">
                         <form method="GET" action="{{ route('cartas.create') }}">
                             <input type="hidden" name="id_carta_api" value="{{ $carta['id'] }}">
+                            <input type="hidden" name="nombre_carta_api" value="{{ $carta['name'] }}">
                             <button type="submit" style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
                                 Seleccionar esta carta
                             </button>
+
+                            <button class="boton-fluor-rosa">Subir Carta</button>
+
                         </form>
                     </div>
                 </div>

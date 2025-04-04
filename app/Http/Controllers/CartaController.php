@@ -25,7 +25,8 @@ class CartaController extends Controller
     public function create(Request $request)
     {
         $id_carta_api = $request->input('id_carta_api');
-        return view('cartas.crear', compact('id_carta_api'));
+        $nombre_carta_api = $request->input('nombre_carta_api');
+        return view('cartas.crear', compact(['id_carta_api', 'nombre_carta_api']));
     }
     public function misCartas()
     {
@@ -136,6 +137,7 @@ class CartaController extends Controller
     // Validar datos del formulario
     $request->validate([
         'id_carta_api' => 'required|string',
+        'nombre_carta_api' => 'required|string',
         'rareza' => 'required|string',
         'estado' => 'required|string',
         'precio' => 'required|numeric|min:0',
@@ -147,6 +149,7 @@ class CartaController extends Controller
         'id_carta_api' => $request->input('id_carta_api'),
         // 'usuario_id' => auth()->id(), // Solo si tienes login
         'usuario_id' => 1,
+        'nombre_carta_api' => $request->input('nombre_carta_api'),
         'rareza' => $request->input('rareza'),
         'estado' => $request->input('estado'),
         'precio' => $request->input('precio'),

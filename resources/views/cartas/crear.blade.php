@@ -1,4 +1,4 @@
-@extends('layouts.app')
+ @extends('layouts.app')
 
 @section('content')
 <div style="max-width: 600px; margin: auto; padding: 20px;">
@@ -14,8 +14,16 @@
         @csrf
 
         {{-- ID de la carta desde la API (readonly) --}}
+        
+        
+        <input type="hidden" name="nombre_carta_api" value="{{ $nombre_carta_api ?? '' }}">
+        
+            
+            <h3 style="width: 100%; padding: 10px; "> {{ $nombre_carta_api ?? '' }}</h3>
+        
+      
+        
         <input type="hidden" name="id_carta_api" value="{{ $id_carta_api ?? '' }}">
-
         {{-- Rareza --}}
         <div style="margin-bottom: 15px;">
             <label for="rareza">Rareza</label>
