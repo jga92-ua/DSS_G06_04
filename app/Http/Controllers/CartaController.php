@@ -133,7 +133,7 @@ class CartaController extends Controller
     public function edit($id)
     {
         $carta = Carta::findOrFail($id);
-        return view('cartas.edit', compact('carta'));
+        return view('cartas.editCarta', compact('carta'));
     }
 
     public function update(Request $request, $id)
@@ -148,7 +148,7 @@ class CartaController extends Controller
         $carta = Carta::findOrFail($id);
         $carta->update($request->only(['rareza', 'estado', 'precio', 'fecha_adquisicion']));
 
-        return redirect()->route('admin.index')->with('success', 'Carta actualizada');
+        return redirect()->route('cartas.admin')->with('success', 'Carta actualizada');
     }
 
 

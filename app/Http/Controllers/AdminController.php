@@ -57,11 +57,11 @@ class AdminController extends Controller
 
     public function edit($id)
     {
-        $usuario = User::findOrFail($id);
-        return view('admin.editUser.edit', compact('usuario'));
+        $usuario = User::findOrFail($id); // Buscar usuario por ID
+        return view('admin.editUser', compact('usuario'));
     }
 
-        public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -72,6 +72,8 @@ class AdminController extends Controller
         $usuario->update([
             'name' => $request->name,
             'email' => $request->email,
+            'direccion' => $request->direccion,
+            'numTelf' => $request->numTelf,
         ]);
 
         return redirect()->route('admin.index')->with('success', 'Usuario actualizado');

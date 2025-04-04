@@ -1,6 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
+
+<!-- Barra superior fija con botones -->
+<div style="position: fixed; top: 0; left: 0; width: 100%; background: #f9f9f9; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); z-index: 999;">
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+        <a href="{{ route('inicio') }}" style="background-color: #007bff; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Inicio</a>
+        <a href="{{ route('admin.index') }}" style="background-color: #343a40; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Admin</a>
+        <a href="{{ url('/cartas/buscar') }}" style="background-color: #17a2b8; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Buscar carta</a>
+        <a href="{{ route('cartas.mis') }}" style="background-color: #6f42c1; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Mis cartas</a>
+        <a href="{{ route('cartas.admin') }}" style="background-color: #ffc107; color: #212529; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Ver todas las cartas</a>
+
+    </div>
+</div>
+
+<!-- Espacio para evitar que el contenido quede oculto por la barra -->
+<div style="height: 65px;"></div>
+
+
 <div class="container">
     <h1>Panel de administración</h1>
 
@@ -42,14 +59,20 @@
                 <strong>Email:</strong> {{ $usuario->email }}<br>
                 <strong>Teléfono:</strong> {{ $usuario->numTelf }}<br>
 
-                    <form action="{{ route('user.destroy', ['id' => $usuario->id]) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" style="background-color: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 4px;">
-                            Eliminar
-                        </button>
-                    </form>
+                <!-- Botón Editar -->
+                <a href="{{ route('admin.usuarios.edit', $usuario->id) }}"
+                style="background-color: blue; color: white; padding: 5px; text-decoration: none; border-radius: 4px;">
+                    Editar
+                </a>
 
+                <!-- Botón Eliminar -->
+                <form action="{{ route('user.destroy', ['id' => $usuario->id]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" style="background-color: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 4px;">
+                        Eliminar
+                    </button>
+                </form>
 
                 </div>
             @endforeach
