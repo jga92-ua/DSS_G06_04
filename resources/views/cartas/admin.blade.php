@@ -13,8 +13,24 @@
     </div>
 </div>
 
+
 <!-- Espacio para evitar que el contenido quede oculto por la barra -->
 <div style="height: 65px;"></div>
+<form method="GET" action="{{ route('cartas.mis') }}" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px;">
+    <input type="text" name="query" placeholder="Buscar por nombre" value="{{ request('query') }}"
+        style="padding: 6px; border-radius: 5px; border: 1px solid #ccc; width: 250px;">
+
+    <select name="orden" style="padding: 6px; border-radius: 5px; border: 1px solid #ccc;">
+        <option value="">Ordenar por precio</option>
+        <option value="asc" {{ request('orden') === 'asc' ? 'selected' : '' }}>Menor a mayor</option>
+        <option value="desc" {{ request('orden') === 'desc' ? 'selected' : '' }}>Mayor a menor</option>
+    </select>
+
+    <button type="submit"
+        style="padding: 6px 12px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+        Aplicar
+    </button>
+</form>
 
     <div class="container">
         <h1 style="text-align: center;">Cartas subidas por todos los usuarios</h1>
