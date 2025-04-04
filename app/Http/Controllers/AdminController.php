@@ -51,6 +51,7 @@ class AdminController extends Controller
     }
     public function adminCartas()
     {
+        
         $cartas = Carta::all(); // Todas las cartas del sistema
         return view('cartas.admin', compact('cartas'));
     }
@@ -78,6 +79,30 @@ class AdminController extends Controller
 
         return redirect()->route('admin.index')->with('success', 'Usuario actualizado');
     }
+    public function misCartas(Request $request)
+{
+    $query = $request->input('query');
+    $orden = $request->input('orden');
+
+    $cartas = Carta::query();
+
+    // Solo buscar por nombre
+    if ($query) {
+        $cartas->where('nombre_carta_api', 'like', "%$query%");
+    }
+
+    // Ordenar por precio si se indica
+    if ($orden === 'asc') {
+        $cartas->orderBy('precio', 'asc');
+    } elseif ($orden === 'desc') {
+        $cartas->orderBy('precio', 'desc');
+    }
+
+    $cartas = $cartas->get();
+
+    return view('cartas.mis', compact('cartas'));
+}
+
 
     public function store(Request $request)
     {
