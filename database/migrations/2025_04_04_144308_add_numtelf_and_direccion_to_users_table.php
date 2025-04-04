@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('cartas', function (Blueprint $table) {
-            $table->string('nombre_carta_api')->after('id_carta_api')->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('numTelf')->nullable();
+            $table->string('direccion')->nullable();
         });
     }
 
@@ -25,8 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('cartas', function (Blueprint $table) {
-            $table->dropColumn('nombre_carta_api');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['numTelf', 'direccion']);
         });
     }
 };
