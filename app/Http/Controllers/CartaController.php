@@ -130,7 +130,28 @@ class CartaController extends Controller
         return view('cartas.admin', compact('cartas'));
     }
 
-    
+    public function edit($id)
+    {
+        $carta = Carta::findOrFail($id);
+        return view('cartas.edit', compact('carta'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'rareza' => 'required|string',
+            'estado' => 'required|string',
+            'precio' => 'required|numeric',
+            'fecha_adquisicion' => 'required|date',
+        ]);
+
+        $carta = Carta::findOrFail($id);
+        $carta->update($request->only(['rareza', 'estado', 'precio', 'fecha_adquisicion']));
+
+        return redirect()->route('admin.index')->with('success', 'Carta actualizada');
+    }
+
+
 
     public function store(Request $request)
 {

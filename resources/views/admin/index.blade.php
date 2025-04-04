@@ -34,6 +34,8 @@
                             Eliminar
                         </button>
                     </form>
+
+
                 </div>
             @endforeach
         </div>
@@ -60,6 +62,11 @@
                             Eliminar
                         </button>
                     </form>
+                    <a href="{{ route('categorias.edit', $categoria->id) }}"
+           style="flex: 1; background-color: rgb(63, 133, 90); color: white; text-align: center;
+                  text-decoration: none; padding: 6px; border-radius: 4px; font-size: 12px;">
+            Editar
+        </a>
                 </div>
             @endforeach
         </div>

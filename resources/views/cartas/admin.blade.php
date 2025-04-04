@@ -18,10 +18,12 @@
                         @method('DELETE')
                         <button type="submit" 
                                 style="width: 100%; background-color: #dc3545; color: white; border: none; padding: 6px;
-                                       border-radius: 4px; cursor: pointer; font-size: 12px;">
+                                    border-radius: 4px; cursor: pointer; font-size: 12px;">
                             Eliminar
                         </button>
                     </form>
+                   
+
                 </div>
             @endforeach
         </div>

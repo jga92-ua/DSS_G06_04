@@ -50,6 +50,28 @@ class AdminController extends Controller
         return view('cartas.admin', compact('cartas'));
     }
 
+    public function edit($id)
+    {
+        $usuario = User::findOrFail($id);
+        return view('admin.editUser.edit', compact('usuario'));
+    }
+
+        public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => "required|email|unique:users,email,$id",
+        ]);
+
+        $usuario = User::findOrFail($id);
+        $usuario->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        return redirect()->route('admin.index')->with('success', 'Usuario actualizado');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
