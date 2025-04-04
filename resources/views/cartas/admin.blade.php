@@ -7,7 +7,7 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; padding: 10px;">
             @foreach($cartas as $carta)
                 <div style="border: 1px solid #ccc; padding: 8px; border-radius: 6px; background: #fff; font-size: 14px;">
-                    <p><strong>Nombre:</strong> {{ $carta['nombre'] }}</p>
+                    <p><strong>Nombre:</strong> {{ $carta['nombre_cartas'] }}</p>
                     <p><strong>Rareza:</strong> {{ $carta->rareza }}</p>
                     <p><strong>Estado:</strong> {{ $carta->estado }}</p>
                     <p><strong>Precio:</strong> {{ $carta->precio }} €</p>

@@ -13,6 +13,7 @@ class Carta extends Model
 
     protected $fillable = [
         'id_carta_api',
+        'nombre_carta_api',
         'usuario_id',
         'rareza',
         'estado',
