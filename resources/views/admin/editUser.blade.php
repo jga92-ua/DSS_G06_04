@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 <!-- Barra superior fija con botones -->
 <div style="position: fixed; top: 0; left: 0; width: 100%; background: #f9f9f9; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); z-index: 999;">
     <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
@@ -17,24 +16,17 @@
 
 
 <div class="container">
-    <h1>Editar Categoría</h1>
+    <h1>Editar Usuario</h1>
 
-    <form action="{{ route('categorias.update', $categoria->id) }}" method="POST">
-
+    <form action="{{ route('admin.usuarios.update', $usuario->id) }}" method="POST">
         @csrf
-        @method('PUT')
-
-        <div>
-            <label for="nombre">Nombre</label>
-            <input type="text" name="nombre" value="{{ $categoria->nombre }}" required>
-        </div>
-
-        <div>
-            <label for="descripcion">Descripción</label>
-            <input type="text" name="descripcion" value="{{ $categoria->descripcion }}">
-        </div>
-
-        <button type="submit" style="margin-top: 10px;">Actualizar categoría</button>
+        <input type="text" name="name" value="{{ $usuario->name }}" required>
+        <input type="email" name="email" value="{{ $usuario->email }}" required>
+        <input type="text" name="direccion" value="{{ $usuario->direccion }}">
+        <input type="text" name="numTelf" value="{{ $usuario->numTelf }}">
+        <button type="submit">Guardar cambios</button>
     </form>
+
+    <a href="{{ route('admin.index') }}">Volver</a>
 </div>
 @endsection
