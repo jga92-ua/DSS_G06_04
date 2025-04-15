@@ -15,12 +15,10 @@
             }
 
             .container {
-                max-width: 800px;
+                height: 100vh;
+                width: auto;
                 margin: auto;
-                background: white;
                 padding: 30px;
-                border-radius: 8px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             }
 
             h1 {
