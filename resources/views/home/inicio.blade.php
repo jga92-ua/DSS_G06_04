@@ -84,8 +84,6 @@
         border-radius: 8px;
     }
 </style>
-<<<<<<< HEAD
-=======
 <!-- Barra superior fija con botones -->
 <div style="position: fixed; top: 0; left: 0; width: 100%; background: #f9f9f9; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); z-index: 999;">
     <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
@@ -99,7 +97,6 @@
 <!-- Espacio para evitar que el contenido quede oculto por la barra -->
 <div style="height: 65px;"></div>
 
->>>>>>> main
 
 <nav style="display: flex; align-items: center; justify-content: space-between; background-color: #ddd; padding: 10px;">
     <div style="display: flex; align-items: center;">
