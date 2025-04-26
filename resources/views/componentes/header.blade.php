@@ -35,11 +35,18 @@
         </div>
         
         <div class="user">
-            <div class="info">
-                <strong>Renee McKelvey</strong>
-                <span>Production Manager</span>
-            </div>
-            <img src="{{ asset('imagenes/usuario.png') }}" alt="User">
+            @if(auth()->user())
+                <div class="info">
+                    <strong>{{ auth()->user()->name }}</strong>
+                    <span>{{ auth()->user()->role }}</span>
+                </div>
+                <img src="{{ asset('imagenes/usuario.png') }}" alt="User">
+            @else
+                <div class="info">
+                    <strong>Iniciar sesión</strong>
+                </div>
+                <img src="{{ asset('imagenes/usuario.png') }}" alt="User">
+            @endif
         </div>
     </div>
 </header>
@@ -54,11 +61,6 @@
     }
     
     .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
         display: flex;
     }
     
