@@ -10,22 +10,37 @@ class CartaController extends Controller
 {
     //
     public function buscar(Request $request)
-{
-    $nombre = $request->input('nombre');
-
-    $response = Http::get("https://api.pokemontcg.io/v2/cards", [
-        'q' => "name:$nombre"
-    ]);
-
-    $cartas = $response->json()['data'] ?? [];
-
-    return view('cartas.buscar', compact('cartas'));
-}
+    {
+        $query = $request->input('query');
+        $cartasNombre = [];
+        $cartasTipo = [];
+    
+        // Buscar por nombre (nombre exacto o parcial)
+        $responseNombre = Http::get("https://api.pokemontcg.io/v2/cards?q=name:$query");
+        if ($responseNombre->successful()) {
+            $cartasNombre = $responseNombre->json()['data'];
+        }
+    
+        // Buscar por tipo (por ejemplo "Fire", "Water", "Grass"...)
+        $responseTipo = Http::get("https://api.pokemontcg.io/v2/cards?q=types:$query");
+        if ($responseTipo->successful()) {
+            $cartasTipo = $responseTipo->json()['data'];
+        }
+    
+        // Unir ambos resultados y eliminar duplicados por ID
+        $todasCartas = collect($cartasNombre)
+                        ->merge($cartasTipo)
+                        ->unique('id')
+                        ->values();
+    
+        return view('cartas.buscar', ['cartas' => $todasCartas]);
+    }
     // Mostrar el formulario para crear la carta seleccionada
     public function create(Request $request)
     {
         $id_carta_api = $request->input('id_carta_api');
-        return view('cartas.crear', compact('id_carta_api'));
+        $nombre_carta_api = $request->input('nombre_carta_api');
+        return view('cartas.crear', compact(['id_carta_api', 'nombre_carta_api']));
     }
     public function misCartas()
     {
@@ -129,13 +144,35 @@ class CartaController extends Controller
         return view('cartas.admin', compact('cartas'));
     }
 
-    
+    public function edit($id)
+    {
+        $carta = Carta::findOrFail($id);
+        return view('cartas.editCarta', compact('carta'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'rareza' => 'required|string',
+            'estado' => 'required|string',
+            'precio' => 'required|numeric',
+            'fecha_adquisicion' => 'required|date',
+        ]);
+
+        $carta = Carta::findOrFail($id);
+        $carta->update($request->only(['rareza', 'estado', 'precio', 'fecha_adquisicion']));
+
+        return redirect()->route('cartas.admin')->with('success', 'Carta actualizada');
+    }
+
+
 
     public function store(Request $request)
 {
     // Validar datos del formulario
     $request->validate([
         'id_carta_api' => 'required|string',
+        'nombre_carta_api' => 'required|string',
         'rareza' => 'required|string',
         'estado' => 'required|string',
         'precio' => 'required|numeric|min:0',
@@ -147,6 +184,7 @@ class CartaController extends Controller
         'id_carta_api' => $request->input('id_carta_api'),
         // 'usuario_id' => auth()->id(), // Solo si tienes login
         'usuario_id' => 1,
+        'nombre_carta_api' => $request->input('nombre_carta_api'),
         'rareza' => $request->input('rareza'),
         'estado' => $request->input('estado'),
         'precio' => $request->input('precio'),

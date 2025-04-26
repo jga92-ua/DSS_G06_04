@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('cartas', function (Blueprint $table) {
             $table->id(); // ID único interno para cada carta del usuario
             $table->string('id_carta_api'); // ID de la carta en la API
+            $table->string('nombre_carta_api'); // ID de la carta en la API
             $table->unsignedBigInteger('usuario_id'); // FK al usuario que subió la carta
             $table->string('rareza');
             $table->string('estado');
@@ -22,12 +23,13 @@ return new class extends Migration
             $table->timestamps();
 
             // Clave foránea
-            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
     /**
      * Reverse the migrations.
+     * mmhv
      */
     public function down(): void
     {
