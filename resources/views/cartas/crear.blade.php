@@ -1,4 +1,4 @@
- @extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <!-- Barra superior fija con botones -->
@@ -25,22 +25,14 @@
     <form method="POST" action="{{ route('cartas.store') }}">
         @csrf
 
-        {{-- ID de la carta desde la API (readonly) --}}
-<<<<<<< HEAD
-        <input type="hidden" name="id_carta_api" value="{{ $id_carta_api ?? '' }}">
-
-=======
-        
-        
+        {{-- Nombre de la carta desde la API --}}
         <input type="hidden" name="nombre_carta_api" value="{{ $nombre_carta_api ?? '' }}">
         
-            
-            <h3 style="width: 100%; padding: 10px; "> {{ $nombre_carta_api ?? '' }}</h3>
+        <h3 style="width: 100%; padding: 10px;">{{ $nombre_carta_api ?? '' }}</h3>
         
-      
-        
+        {{-- ID de la carta desde la API --}}
         <input type="hidden" name="id_carta_api" value="{{ $id_carta_api ?? '' }}">
->>>>>>> main
+
         {{-- Rareza --}}
         <div style="margin-bottom: 15px;">
             <label for="rareza">Rareza</label>

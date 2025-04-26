@@ -85,35 +85,9 @@
     }
 </style>
 <!-- Barra superior fija con botones -->
-<div style="position: fixed; top: 0; left: 0; width: 100%; background: #f9f9f9; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); z-index: 999;">
-    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-        <a href="{{ route('inicio') }}" style="background-color: #007bff; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Inicio</a>
-        <a href="{{ route('admin.index') }}" style="background-color: #343a40; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Admin</a>
-        <a href="{{ url('/cartas/buscar') }}" style="background-color: #17a2b8; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Buscar carta</a>
-        <a href="{{ route('cartas.mis') }}" style="background-color: #6f42c1; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Mis cartas</a>
-    </div>
-</div>
 
 <!-- Espacio para evitar que el contenido quede oculto por la barra -->
 <div style="height: 65px;"></div>
-
-
-<nav style="display: flex; align-items: center; justify-content: space-between; background-color: #ddd; padding: 10px;">
-    <div style="display: flex; align-items: center;">
-        <button style="background: none; border: none; font-size: 24px; cursor: pointer;">☰</button>
-        <h2 style="margin-left: 10px;">PokeMarket TCG</h2>
-        <img src="{{ asset('imagenes/logo.png') }}" alt="Logo" style="width: 30px; margin-left: 5px;">
-    </div>
-    <div style="display: flex; align-items: center;">
-        <span style="margin-right: 10px;">🔔<sup>2</sup></span>
-        <div style="text-align: right;">
-            <strong>Renee McKelvey</strong>
-            <br>
-            <span style="font-size: 12px; color: gray;">Product Manager</span>
-        </div>
-        <img src="{{ asset('imagenes/rocco.png') }}" alt="Usuario" style="width: 30px; margin-left: 10px;">
-    </div>
-</nav>
 
 <div class="trending-bar">🔥 Trending!</div>
 <div class="cards-container">
