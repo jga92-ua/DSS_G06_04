@@ -5,7 +5,8 @@
 <style>
     .container {
         max-width: 1200px;
-        margin: auto;
+        margin-left: 5px;
+        margin-right: auto;
         padding: 20px;
         text-align: center;
     }
@@ -54,8 +55,8 @@
     }
 
     .search-form input {
-        padding: 8px;
-        width: 300px;
+        padding: 10px;
+        width: 1000px;
         border: 1px solid #ccc;
         border-radius: 5px;
     }
@@ -68,43 +69,37 @@
         border-radius: 5px;
         cursor: pointer;
     }
-</style>
 
-<nav class="top-bar">
-    <div style="display: flex; align-items: center;">
-        <button style="background: none; border: none; font-size: 24px; cursor: pointer;">☰</button>
-        <h2 style="margin-left: 10px;">PokeMarket TCG</h2>
-        <img src="{{ asset('imagenes/logo.png') }}" alt="Logo" style="width: 30px; margin-left: 5px;">
-    </div>
-    <div style="display: flex; align-items: center;">
-        <span style="margin-right: 10px;">🔔<sup>2</sup></span>
-        <div style="text-align: right;">
-            <strong>Renee McKelvey</strong>
-            <br>
-            <span style="font-size: 12px; color: gray;">Product Manager</span>
-        </div>
-        <img src="{{ asset('imagenes/usuario.png') }}" alt="Usuario" style="width: 30px; margin-left: 10px;">
-    </div>
-</nav>
+    /* QUITAR SCROLL HORIZONTAL */
+    html, body {
+        overflow-x: hidden;
+    }
+</style>
 
 <div class="section-bar">Catálogo</div>
 
-<!-- Formulario de búsqueda -->
-<form method="GET" action="{{ route('catalogo') }}" class="search-form">
-    <input type="text" name="nombre" placeholder="Buscar cartas por nombre" value="{{ request('nombre') }}">
-    <button type="submit">Buscar</button>
-</form>
+<div
+    <!-- Formulario de búsqueda -->
+    <form method="GET" action="{{ route('catalogo') }}" class="search-form">
+        <input type="text" name="nombre" placeholder="Buscar cartas por nombre" value="{{ request('nombre') }}">
+        <button type="submit">Buscar</button>
+    </form>
 
-@if($cartas->isEmpty())
-    <p style="text-align: center; margin-top: 20px;">No se encontraron cartas.</p>
-@else
-    <div class="cards-container">
-        @foreach($cartas as $carta)
-            <div class="card">
-                <img src="{{ $carta['imagen'] }}" alt="Carta Pokémon">
-            </div>
-        @endforeach
-    </div>
-@endif
+    @if($cartas->isEmpty())
+        <p style="text-align: center; margin-top: 20px;">No se encontraron cartas.</p>
+    @else
+        <div class="cards-container">
+            @foreach($cartas as $carta)
+                <div class="card">
+                    <img src="{{ $carta['imagen'] }}" alt="Carta Pokémon">
+                </div>
+            @endforeach
+        </div>
+    @endif
+</div>
+
+<div class="mt-6 flex justify-center">
+    {{ $cartasOriginales->links('vendor.pagination.custom') }}
+</div>
 
 @endsection

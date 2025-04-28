@@ -3,9 +3,14 @@
 @section('content')
 
 <style>
+    body, html {
+        overflow-x: hidden;
+    }
+
     .container {
         max-width: 1200px;
-        margin: auto;
+        margin-left: 5px;
+        margin-right: auto;
         padding: 20px;
         text-align: center;
     }
@@ -23,10 +28,10 @@
 
     .cards-container {
         display: flex;
-        overflow-x: auto;
+        flex-wrap: wrap;
         gap: 15px;
         padding: 10px;
-        scroll-behavior: smooth;
+        margin-left: 5px;
     }
 
     .card {
@@ -44,6 +49,7 @@
         display: flex;
         margin-top: 20px;
         gap: 15px;
+        margin-left: 5px;
     }
 
     .left-section {
@@ -84,10 +90,6 @@
         border-radius: 8px;
     }
 </style>
-<!-- Barra superior fija con botones -->
-
-<!-- Espacio para evitar que el contenido quede oculto por la barra -->
-<div style="height: 65px;"></div>
 
 <div class="trending-bar">🔥 Trending!</div>
 <div class="cards-container">

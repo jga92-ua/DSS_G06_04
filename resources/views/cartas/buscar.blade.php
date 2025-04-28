@@ -1,29 +1,92 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Barra superior fija con botones -->
-<div style="position: fixed; top: 0; left: 0; width: 100%; background: #f9f9f9; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); z-index: 999;">
-    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-        <a href="{{ route('inicio') }}" style="background-color: #007bff; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Inicio</a>
-        <a href="{{ url('/cartas/buscar') }}" style="background-color: #17a2b8; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Buscar carta</a>
-        <a href="{{ route('cartas.mis') }}" style="background-color: #6f42c1; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Mis cartas</a>
-    </div>
-</div>
 
-<!-- Espacio para evitar que el contenido quede oculto por la barra -->
-<div style="height: 65px;"></div>
+<style>
+    .container {
+        max-width: 1200px;
+        margin-left: 5px;
+        margin-right: auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .top-bar {
+        background-color: #ddd;
+        padding: 10px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .section-bar {
+        background-color: #ddd;
+        padding: 10px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        margin-top: 10px;
+    }
+
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+        padding: 20px;
+        justify-content: center;
+    }
+
+    .card img {
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-form {
+        margin: 20px auto;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .search-form input {
+        padding: 10px;
+        width: 1000px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .search-form button {
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* QUITAR SCROLL HORIZONTAL */
+    html, body {
+        overflow-x: hidden;
+    }
+</style>
 
 <div class="container">
-    <h1>Buscar cartas Pokémon</h1>
+    <!-- <h1>Buscar cartas Pokémon</h1> -->
 
-    <form method="GET" action="{{ route('cartas.buscar') }}">
-    <input type="text" name="query" placeholder="Nombre o tipo" required>
+    <form method="GET" action="{{ route('cartas.buscar') }}" class="search-form">
+    <input type="text" name="query" placeholder="Nombre o tipo" value="{{ request('query') }}" required>
     <button type="submit">Buscar</button>
 </form>
 
 
     @if(isset($cartas))
-        <h2>Resultados:</h2>
+        <div class="section-bar">Resultados:</div>
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
             @foreach($cartas as $carta)
                 <div style="border: 1px solid #ccc; padding: 10px; text-align: center; border-radius: 8px; display: flex; flex-direction: column; align-items: center;">
