@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\RegisterController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +24,8 @@ Route::get('/', function () {
 //  Página de inicio y catálogo
 Route::get('/inicio', [CartaController::class, 'inicio'])->name('inicio');
 Route::get('/catalogo', [CartaController::class, 'catalogo'])->name('catalogo');
+Route::get('/registro', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/registro', [RegisterController::class, 'register'])->name('register.post');
 
 //  Panel de administración
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
@@ -57,3 +60,7 @@ Route::delete('/categorias/{id}', [CategoriaController::class, 'destroy'])->name
 Route::post('/admin/categorias', [CategoriaController::class, 'store'])->name('admin.categorias.store');
 Route::delete('/admin/categorias/{id}', [CategoriaController::class, 'destroy'])->name('admin.categorias.destroy');
 Route::get('/admin/categorias', [CategoriaController::class, 'adminIndex'])->name('admin.categorias');
+
+//Politica de privacidad y terminos de uso
+Route::get('/terminos-de-servicio', function () {return view('terminos');})->name('terminos');
+Route::get('/politica-de-privacidad', function () {return view('privacidad');})->name('privacidad');

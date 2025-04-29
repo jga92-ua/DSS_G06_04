@@ -54,10 +54,11 @@
         margin-bottom: 10px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-
+    
     .admin-buttons {
         margin-top: 10px;
     }
+    
 
     .admin-buttons a, .admin-buttons button {
         margin-right: 5px;
@@ -72,6 +73,27 @@
         font-size: 18px;
         text-align: center;
     }
+
+    .admin-item-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .admin-text {
+        flex-grow: 1;
+    }
+
+    .admin-buttons {
+        display: flex;
+        gap: 5px;
+    }
+
+    /* QUITAR SCROLL HORIZONTAL */
+    html, body {
+        overflow-x: hidden;
+    }
+
 </style>
 
 <div class="container">
@@ -105,7 +127,7 @@
             <!-- Filtro de Usuarios -->
             <form method="GET" action="{{ route('admin.index') }}">
                 <div class="form-group">
-                    <input type="text" name="nombre_usuario" placeholder="Buscar nombre..." value="{{ request('nombre_usuario') }}">
+                    <input type="text" name="nombre" placeholder="Buscar nombre..." value="{{ request('nombre') }}">
                     <select name="orden_usuarios">
                         <option value="asc" {{ request('orden_usuarios') == 'asc' ? 'selected' : '' }}>Nombre (A-Z)</option>
                         <option value="desc" {{ request('orden_usuarios') == 'desc' ? 'selected' : '' }}>Nombre (Z-A)</option>
@@ -119,19 +141,21 @@
 
             @foreach($usuarios as $usuario)
                 <div class="admin-item">
-                    <strong>Nombre:</strong> {{ $usuario->name }}<br>
-                    <strong>Email:</strong> {{ $usuario->email }}<br>
-                    <strong>Teléfono:</strong> {{ $usuario->numTelf }}<br>
-
-                    <div class="admin-buttons">
-                        <a href="{{ route('admin.usuarios.edit', $usuario->id) }}"
-                        style="background-color: #ffc107; color: black; padding: 5px 10px; border-radius: 4px; text-decoration: none;">Editar</a>
-
-                        <form action="{{ route('user.destroy', ['id' => $usuario->id]) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 4px;">Eliminar</button>
-                        </form>
+                    <div class="admin-item-content">
+                        <div class="admin-text">
+                            <strong>Nombre:</strong> {{ $usuario->name }}<br>
+                            <strong>Email:</strong> {{ $usuario->email }}
+                        </div>
+                        <div class="admin-buttons">
+                            <a href="{{ route('admin.usuarios.edit', $usuario->id) }}">
+                                <button type="button" style="background-color:rgb(255, 235, 59); color: black; padding: 5px 10px; border-radius: 4px;">Editar</button>
+                            </a>
+                            <form action="{{ route('user.destroy', ['id' => $usuario->id]) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 4px;">Eliminar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             @endforeach
@@ -170,18 +194,21 @@
 
             @foreach($categorias as $categoria)
                 <div class="admin-item">
-                    <strong>Nombre:</strong> {{ $categoria->nombre }}<br>
-                    <strong>Descripción:</strong> {{ $categoria->descripcion }}<br>
-
-                    <div class="admin-buttons">
-                        <a href="{{ route('categorias.edit', $categoria->id) }}"
-                        style="background-color: #ffc107; color: black; padding: 5px 10px; border-radius: 4px; text-decoration: none;">Editar</a>
-
-                        <form action="{{ route('admin.categorias.destroy', $categoria->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 4px;">Eliminar</button>
-                        </form>
+                    <div class="admin-item-content">
+                        <div class="admin-text">
+                            <strong>Nombre:</strong> {{ $categoria->nombre }}<br>
+                            <strong>Descripción:</strong> {{ $categoria->descripcion }}
+                        </div>
+                        <div class="admin-buttons">
+                            <a href="{{ route('categorias.edit', $categoria->id) }}">
+                                <button type="button" style="background-color:rgb(255, 235, 59); color: black; padding: 5px 10px; border-radius: 4px;">Editar</button>
+                            </a>
+                            <form action="{{ route('admin.categorias.destroy', $categoria->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 4px;">Eliminar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             @endforeach
