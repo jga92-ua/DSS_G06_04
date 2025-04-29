@@ -106,9 +106,8 @@ class CartaController extends Controller
 
     public function catalogo()
     {
-        $cartas = Carta::all(); // Obtiene todas las cartas de la base de datos
+        $cartas = \App\Models\Carta::paginate(14); // 14 cartas por página
 
-        // Obtener imÃ¡genes desde la API
         $cartasConImagenes = $cartas->map(function ($carta) {
             $idApi = $carta->id_carta_api;
             $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
@@ -120,8 +119,12 @@ class CartaController extends Controller
             ];
         });
 
-        return view('catalogo.catalogo', ['cartas' => $cartasConImagenes]);
+        return view('catalogo.catalogo', [
+            'cartas' => $cartasConImagenes,
+            'cartasOriginales' => $cartas // Para que los links de paginación funcionen
+        ]);
     }
+
 
     private function obtenerInfoDesdeApi($cartas)
     {
