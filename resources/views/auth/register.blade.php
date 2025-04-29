@@ -13,7 +13,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh; /* Ocupa toda la pantalla */
+        height: 100vh;
     }
 
     .register-box {
@@ -54,6 +54,7 @@
         border-radius: 5px;
         border: 1px solid #ccc;
         background-color: #e0e0e0;
+        box-sizing: border-box;
     }
 
     .checkbox-label {
@@ -94,28 +95,41 @@
 </style>
 
 <div class="register-container">
-    <form class="register-box" method="POST" action="{{ route('register.post') }}">
+    <form class="register-box" method="POST" action="{{ route('register') }}">
         @csrf
         <h2>¡Bienvenido a PokeMarketTCG!</h2>
 
+        {{-- Mostrar errores si los hay --}}
+        @if ($errors->any())
+            <div style="color: red; margin-bottom: 10px;">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="form-row">
-            <input type="text" name="username" placeholder="Nombre de Usuario *" required>
-            <input type="password" name="password" placeholder="Contraseña *" required>
+            <input type="text" id="name" name="name" placeholder="Nombre de Usuario *" required autocomplete="name">
+            <input type="password" id="password" name="password" placeholder="Contraseña *" required autocomplete="new-password">
         </div>
 
-        <input type="password" name="password_confirmation" placeholder="Confirmar Contraseña *" required>
-        <input type="email" name="email" placeholder="Email *" required>
-        <input type="text" name="address" placeholder="Dirección *" required>
-        <input type="tel" name="phone" placeholder="Número de Teléfono *" required>
+        <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirmar Contraseña *" required autocomplete="new-password">
+        <input type="email" id="email" name="email" placeholder="Email *" required autocomplete="email">
+        <input type="tel" id="numTelf" name="numTelf" placeholder="Número de Teléfono *" required autocomplete="tel">
+        <input type="text" id="direccion" name="direccion" placeholder="Dirección *" autocomplete="street-address">
 
         <label class="checkbox-label">
             <input type="checkbox" required>
             Acepto los <a href="{{ route('terminos') }}" target="_blank">Términos de Servicio</a> y la <a href="{{ route('privacidad') }}" target="_blank">Política de Privacidad</a>
         </label>
 
+        <button type="submit" class="btn-black">Registrarse</button>
 
-        <button type="submit" class="btn-black">Añadir Usuario</button>
-        <button type="button" class="btn-grey">Cancelar</button>
+        <a href="{{ route('login') }}">
+            <button type="button" class="btn-grey">Volver</button>
+        </a>
     </form>
 </div>
 @endsection

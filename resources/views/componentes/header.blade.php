@@ -35,19 +35,17 @@
         </div>
         
         <div class="user">
-            @if(auth()->user())
-                <div class="info">
-                    <strong>{{ auth()->user()->name }}</strong>
-                    <span>{{ auth()->user()->role }}</span>
-                </div>
-                <img src="{{ asset('imagenes/usuario.png') }}" alt="User">
+            @auth
+                <a href="{{ route('perfil') }}">
+                    <img src="{{ asset('imagenes/usuario.png') }}" alt="Perfil" style="width: 40px; height: auto; border-radius: 50%; cursor: pointer;">
+                </a>
             @else
-                <div class="info">
-                    <strong>Iniciar sesión</strong>
-                </div>
-                <img src="{{ asset('imagenes/usuario.png') }}" alt="User">
-            @endif
+                <a href="{{ route('login') }}">
+                    <img src="{{ asset('imagenes/usuario.png') }}" alt="Iniciar sesión" style="width: 40px; height: auto; border-radius: 50%; cursor: pointer;">
+                </a>
+            @endauth
         </div>
+
     </div>
 </header>
 

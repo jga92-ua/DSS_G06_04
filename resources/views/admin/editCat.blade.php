@@ -9,6 +9,8 @@
         <a href="{{ route('admin.index') }}" style="background-color: #343a40; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Admin</a>
         <a href="{{ url('/cartas/buscar') }}" style="background-color: #17a2b8; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Buscar carta</a>
         <a href="{{ route('cartas.mis') }}" style="background-color: #6f42c1; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Mis cartas</a>
+        <a href="{{ route('cartas.index') }}" style="background-color: #ffc107; color: #212529; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Ver todas las cartas</a>
+
     </div>
 </div>
 

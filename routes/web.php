@@ -6,6 +6,7 @@ use App\Http\Controllers\CartaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Auth\LogoutController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,3 +65,13 @@ Route::get('/admin/categorias', [CategoriaController::class, 'adminIndex'])->nam
 //Politica de privacidad y terminos de uso
 Route::get('/terminos-de-servicio', function () {return view('terminos');})->name('terminos');
 Route::get('/politica-de-privacidad', function () {return view('privacidad');})->name('privacidad');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/perfil', function () {
+    return view('perfil');
+})->name('perfil')->middleware('auth');
+
+Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
