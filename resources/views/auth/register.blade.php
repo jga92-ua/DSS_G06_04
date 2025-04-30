@@ -82,6 +82,11 @@
         margin-bottom: 10px;
         border: none;
         border-radius: 5px;
+        transition: background-color 0.2s ease;
+    }
+
+    .btn-black:hover {
+        background-color: #555;
     }
 
     .btn-grey {
@@ -91,7 +96,13 @@
         width: 100%;
         border: none;
         border-radius: 5px;
+        transition: background-color 0.2s ease;
     }
+
+    .btn-grey:hover {
+        background-color: #bbb;
+    }
+
 </style>
 
 <div class="register-container">

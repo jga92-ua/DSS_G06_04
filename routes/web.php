@@ -7,6 +7,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\PerfilController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -75,3 +77,8 @@ Route::get('/perfil', function () {
 })->name('perfil')->middleware('auth');
 
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
+    Route::put('/perfil', [PerfilController::class, 'update'])->name('perfil.actualizar');
+});
