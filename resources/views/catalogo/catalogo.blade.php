@@ -41,10 +41,17 @@
         justify-content: center;
     }
 
+    .card {
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
     .card img {
         width: 100%;
         border-radius: 8px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .search-form {
@@ -70,6 +77,17 @@
         cursor: pointer;
     }
 
+    .add-button {
+        background-color: #5cb85c;
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
     /* QUITAR SCROLL HORIZONTAL */
     html, body {
         overflow-x: hidden;
@@ -78,28 +96,31 @@
 
 <div class="section-bar">Catálogo</div>
 
-<div
-    <!-- Formulario de búsqueda -->
-    <form method="GET" action="{{ route('catalogo') }}" class="search-form">
-        <input type="text" name="nombre" placeholder="Buscar cartas por nombre" value="{{ request('nombre') }}">
-        <button type="submit">Buscar</button>
-    </form>
+<!-- Formulario de búsqueda -->
+<form method="GET" action="{{ route('catalogo') }}" class="search-form">
+    <input type="text" name="nombre" placeholder="Buscar cartas por nombre" value="{{ request('nombre') }}">
+    <button type="submit">Buscar</button>
+</form>
 
-    @if($cartas->isEmpty())
-        <p style="text-align: center; margin-top: 20px;">No se encontraron cartas.</p>
-    @else
-        <div class="cards-container">
-            @foreach($cartas as $carta)
-                <div class="card">
-                    <img src="{{ $carta['imagen'] }}" alt="Carta Pokémon">
-                </div>
-            @endforeach
-        </div>
-    @endif
-</div>
+@if($cartas->isEmpty())
+    <p style="text-align: center; margin-top: 20px;">No se encontraron cartas.</p>
+@else
+    <div class="cards-container">
+        @foreach($cartas as $carta)
+            <div class="card">
+                <img src="{{ $carta['imagen'] }}" alt="Carta Pokémon">
+
+                <form method="POST" action="{{ route('cesta.anadir', $carta['id']) }}">
+                    @csrf
+                    <button type="submit" class="add-button">Añadir a la cesta</button>
+                </form>
+            </div>
+        @endforeach
+    </div>
+@endif
 
 <div class="mt-6 flex justify-center">
-    {{ $cartasOriginales->links('vendor.pagination.custom') }}
+    {{ $cartasOriginales->links()}}
 </div>
 
 @endsection

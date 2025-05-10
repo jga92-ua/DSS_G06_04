@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\CestaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +64,17 @@ Route::delete('/categorias/{id}', [CategoriaController::class, 'destroy'])->name
 Route::post('/admin/categorias', [CategoriaController::class, 'store'])->name('admin.categorias.store');
 Route::delete('/admin/categorias/{id}', [CategoriaController::class, 'destroy'])->name('admin.categorias.destroy');
 Route::get('/admin/categorias', [CategoriaController::class, 'adminIndex'])->name('admin.categorias');
+
+//Cesta
+Route::get('/cesta', [CestaController::class, 'index'])->name('cesta.index');
+Route::post('/cesta/anadir/{id}', [CestaController::class, 'añadir'])->name('cesta.anadir');
+Route::post('/cesta/eliminar/{id}', [CestaController::class, 'eliminar'])->name('cesta.eliminar');
+Route::post('/cesta/comprar', [CestaController::class, 'comprar'])->name('cesta.comprar');
+Route::post('/cesta/incrementar/{id}', [CestaController::class, 'incrementar'])->name('cesta.incrementar');
+Route::post('/cesta/decrementar/{id}', [CestaController::class, 'decrementar'])->name('cesta.decrementar');
+Route::post('/cesta/vaciar', [CestaController::class, 'vaciar'])->name('cesta.vaciar');
+
+
 
 //Politica de privacidad y terminos de uso
 Route::get('/terminos-de-servicio', function () {return view('terminos');})->name('terminos');
