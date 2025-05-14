@@ -75,7 +75,6 @@ Route::post('/cesta/decrementar/{id}', [CestaController::class, 'decrementar'])-
 Route::post('/cesta/vaciar', [CestaController::class, 'vaciar'])->name('cesta.vaciar');
 
 
-
 //Politica de privacidad y terminos de uso
 Route::get('/terminos-de-servicio', function () {return view('terminos');})->name('terminos');
 Route::get('/politica-de-privacidad', function () {return view('privacidad');})->name('privacidad');
@@ -94,3 +93,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
     Route::put('/perfil', [PerfilController::class, 'update'])->name('perfil.actualizar');
 });
+
