@@ -81,7 +81,7 @@
         </form>
 
         <!-- Información dirección actual -->
-        <div class="perfil-card">
+        <div class="perfil-card info-direccion-card">
             <h3>Información dirección actual</h3>
             <div class="info-direccion">
                 {{ Auth::user()->direccion ?? 'No hay información' }}
@@ -161,7 +161,6 @@
         border: 1px solid #ccc;
         background: white;
         color: #C0C0C0;
-        border-color: #606060;
         border-width: 2px;
         border-style: solid;
         border-radius: 3px;
@@ -202,7 +201,6 @@
     }
 
     .botones-container {
-        display: flex;
         flex-direction: column;
         gap: 0.5rem;
         flex: 1;
@@ -210,33 +208,55 @@
 
     .direccion-form .fila {
         display: grid;
-        gap: 2rem;
-        margin-bottom: 0.5rem;
+        gap: 1rem;
+        margin-bottom: 1rem;
     }
 
+    /* Fila con 2 columnas: Nombre, Calle */
     .fila-1 {
-        grid-template-columns: 2fr 3fr;
+        grid-template-columns: 1fr 1fr;
     }
 
+    /* Fila con 3 columnas: Número, Puerta/Piso, CPP */
     .fila-2 {
         grid-template-columns: 1fr 1fr 1fr;
     }
 
+    /* Fila con 2 columnas: Localidad, País */
     .fila-3 {
         grid-template-columns: 1fr 1fr;
     }
 
-    .direccion-form .campo {
+    /* Estilo de los campos */
+    .campo input {
+        width: 100%;
+        padding: 0.5rem;
+        box-sizing: border-box;
+    }
+
+    /* Botón */
+    .direccion-form button {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        font-weight: bold;
+    }
+
+    .info-direccion-card {
+        flex: 1 1 50%;
+        max-width: 50%;
         display: flex;
         flex-direction: column;
+        justify-content: flex-start;
     }
 
     .info-direccion {
         background: #EBEBEB;
         padding: 1rem;
-        width: 1fr;
         border-radius: 5px;
         color: #606060;
+        flex-grow: 1;
+        display: flex;
+        align-items: flex-start;
     }
 </style>
 

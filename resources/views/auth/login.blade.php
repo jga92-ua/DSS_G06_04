@@ -89,7 +89,7 @@
 <div class="login-container">
     <form class="login-box" method="POST" action="{{ route('login') }}">
         @csrf
-        <h2>Acceso a tu cuenta</h2>
+        <h2>¡Bienvenido a PokeMarketTCG!</h2>
 
         <input type="email" name="email" placeholder="Correo electrónico *" required autofocus class="input-full">
         <input type="password" name="password" placeholder="Contraseña *" required class="input-full">
