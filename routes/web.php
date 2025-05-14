@@ -80,5 +80,8 @@ Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
-    Route::put('/perfil', [PerfilController::class, 'update'])->name('perfil.actualizar');
+    Route::post('/perfil/password', [PerfilController::class, 'actualizarContraseña'])->name('perfil.password');
+    Route::post('/perfil/usuario', [PerfilController::class, 'actualizarUsuario'])->name('perfil.usuario');
+    Route::post('/perfil/direccion', [PerfilController::class, 'actualizarDireccion'])->name('perfil.direccion');
+    Route::post('/perfil/foto', [PerfilController::class, 'actualizarFoto'])->name('perfil.foto');
 });
