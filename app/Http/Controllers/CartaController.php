@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Carta;
+use App\Models\CestaItem;
+
 
 class CartaController extends Controller
 {
@@ -171,42 +173,59 @@ class CartaController extends Controller
 
 
     public function store(Request $request)
-{
-    // Validar datos del formulario
-    $request->validate([
-        'id_carta_api' => 'required|string',
-        'nombre_carta_api' => 'required|string',
-        'rareza' => 'required|string',
-        'estado' => 'required|string',
-        'precio' => 'required|numeric|min:0',
-        'fecha_adquisicion' => 'required|date',
-    ]);
+    {
+        // Validar datos del formulario
+        $request->validate([
+            'id_carta_api' => 'required|string',
+            'nombre_carta_api' => 'required|string',
+            'rareza' => 'required|string',
+            'estado' => 'required|string',
+            'precio' => 'required|numeric|min:0',
+            'fecha_adquisicion' => 'required|date',
+        ]);
 
-    // Crear nueva carta
-    \App\Models\Carta::create([
-        'id_carta_api' => $request->input('id_carta_api'),
-        // 'usuario_id' => auth()->id(), // Solo si tienes login
-        'usuario_id' => 1,
-        'nombre_carta_api' => $request->input('nombre_carta_api'),
-        'rareza' => $request->input('rareza'),
-        'estado' => $request->input('estado'),
-        'precio' => $request->input('precio'),
-        'fecha_adquisicion' => $request->input('fecha_adquisicion'),
-    ]);
+        // Crear nueva carta
+        \App\Models\Carta::create([
+            'id_carta_api' => $request->input('id_carta_api'),
+            // 'usuario_id' => auth()->id(), // Solo si tienes login
+            'usuario_id' => 1,
+            'nombre_carta_api' => $request->input('nombre_carta_api'),
+            'rareza' => $request->input('rareza'),
+            'estado' => $request->input('estado'),
+            'precio' => $request->input('precio'),
+            'fecha_adquisicion' => $request->input('fecha_adquisicion'),
+        ]);
 
-    return redirect()->route('cartas.mis')->with('success', 'Carta subida correctamente');
-}
+        return redirect()->route('cartas.mis')->with('success', 'Carta subida correctamente');
+    }
 
-public function destroy($id)
-{
-    $carta = Carta::findOrFail($id);
-    $carta->delete();
+    public function destroy($id)
+    {
+        $carta = Carta::findOrFail($id);
+        $carta->delete();
 
-    return redirect()->route('cartas.mis')->with('success', 'Carta eliminada correctamente');
-}
+        return redirect()->route('cartas.mis')->with('success', 'Carta eliminada correctamente');
+    }
+    
+    public function show($id)
+    {
+        $carta = Carta::findOrFail($id);
 
+        // Buscar imagen desde la API de PokéTCG
+        $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards", [
+            'q' => 'name:"' . $carta->nombre_carta_api . '"'
+        ]);
 
+        $imagenCarta = null;
+        if ($apiResponse->successful() && isset($apiResponse['data'][0]['images']['large'])) {
+            $imagenCarta = $apiResponse['data'][0]['images']['large'];
+        }
 
+        $vendedores = CestaItem::with('cesta.user')
+            ->where('carta_id', $id)
+            ->get();
 
+        return view('cartas.carta', compact('carta', 'imagenCarta', 'vendedores'));
+    }
 
 }

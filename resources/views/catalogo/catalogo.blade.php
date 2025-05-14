@@ -41,17 +41,15 @@
         justify-content: center;
     }
 
-    .card {
-        background-color: #fff;
-        padding: 10px;
-        border-radius: 8px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
     .card img {
         width: 100%;
         border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .card img:hover {
+        transform: scale(1.05);
     }
 
     .search-form {
@@ -77,20 +75,12 @@
         cursor: pointer;
     }
 
-    .add-button {
-        background-color: #5cb85c;
-        color: white;
-        padding: 8px 12px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        margin-top: 10px;
-    }
-
-    /* QUITAR SCROLL HORIZONTAL */
     html, body {
         overflow-x: hidden;
+    }
+
+    a.card {
+        text-decoration: none;
     }
 </style>
 
@@ -107,20 +97,15 @@
 @else
     <div class="cards-container">
         @foreach($cartas as $carta)
-            <div class="card">
+            <a href="{{ url('/cartas/' . $carta['id']) }}" class="card">
                 <img src="{{ $carta['imagen'] }}" alt="Carta Pokémon">
-
-                <form method="POST" action="{{ route('cesta.anadir', $carta['id']) }}">
-                    @csrf
-                    <button type="submit" class="add-button">Añadir a la cesta</button>
-                </form>
-            </div>
+            </a>
         @endforeach
     </div>
 @endif
 
 <div class="mt-6 flex justify-center">
-    {{ $cartasOriginales->links()}}
+    {{ $cartasOriginales->links('vendor.pagination.custom') }}
 </div>
 
 @endsection

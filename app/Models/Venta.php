@@ -5,25 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Carta extends Model
+class Venta extends Model
 {
     use HasFactory;
 
-    protected $table = 'cartas';
-
     protected $fillable = [
-        'id_carta_api',
-        'nombre_carta_api',
-        'usuario_id',
-        'rareza',
+        'user_id',
+        'carta_id',
         'estado',
         'precio',
         'fecha_adquisicion',
     ];
 
-    public function ventas()
+    public function user()
     {
-        return $this->hasMany(\App\Models\Venta::class);
+        return $this->belongsTo(User::class);
     }
 
+    public function carta()
+    {
+        return $this->belongsTo(Carta::class);
+    }
 }
