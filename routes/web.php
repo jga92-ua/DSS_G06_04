@@ -96,4 +96,3 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/perfil/direccion', [PerfilController::class, 'actualizarDireccion'])->name('perfil.direccion');
     Route::post('/perfil/foto', [PerfilController::class, 'actualizarFoto'])->name('perfil.foto');
 });
-

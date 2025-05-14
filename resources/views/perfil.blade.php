@@ -88,6 +88,15 @@
             </div>
         </div>
     </div>
+
+    <!-- FILA 3: Cerrar sesión -->
+    <div class="perfil-row">
+        <form class="perfil-card perfil-50" method="POST" action="{{ route('logout') }}">
+            @csrf
+
+            <button type="submit">CERRAR SESIÓN</button>
+        </form>
+    </div>
 </div>
 
 <style>
@@ -150,12 +159,18 @@
         padding: 0.5rem;
         border-radius: 4px;
         border: 1px solid #ccc;
-        background: #929292;
+        background: white;
         color: #C0C0C0;
         border-color: #606060;
         border-width: 2px;
         border-style: solid;
         border-radius: 3px;
+    }
+
+    .bloque-formulario {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
     }
 
     .perfil-card button {
@@ -214,6 +229,14 @@
     .direccion-form .campo {
         display: flex;
         flex-direction: column;
+    }
+
+    .info-direccion {
+        background: #EBEBEB;
+        padding: 1rem;
+        width: 1fr;
+        border-radius: 5px;
+        color: #606060;
     }
 </style>
 
