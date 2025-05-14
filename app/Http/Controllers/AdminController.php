@@ -100,7 +100,6 @@ class AdminController extends Controller
         return view('cartas.mis', compact('cartas'));
     }
 
-
     public function store(Request $request)
     {
         $request->validate([
@@ -118,7 +117,7 @@ class AdminController extends Controller
             'password' => bcrypt($request->input('contraseña')),
             'direccion' => $request->input('direccion'),
             'numTelf' => $request->input('numTelf'),
-            'is_admin' => $request->has('is_admin'),
+            'admin' => $request->has('admin') ? 1 : 0,
         ]);
         
 
