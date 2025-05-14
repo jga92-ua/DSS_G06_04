@@ -120,7 +120,15 @@
                 <div class="form-group">
                     <input type="text" name="direccion" placeholder="Dirección">
                     <input type="text" name="numTelf" placeholder="Número de teléfono">
-                    <button type="submit" style="background-color: #eee;">Crear Usuario</button>
+                    <label style="display: flex; align-items: center; gap: 5px; font-size: 12px;">
+                        <input type="checkbox" name="is_admin" value="1">
+                        Admin
+                    </label>
+
+                    <!-- Botón Crear Usuario reducido -->
+                    <button type="submit" style="background-color: #eee; padding: 6px 10px; font-size: 12px; border-radius: 4px;">
+                        Crear Usuario
+                    </button>
                 </div>
             </form>
 

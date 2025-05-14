@@ -118,6 +118,7 @@ class AdminController extends Controller
             'password' => bcrypt($request->input('contraseña')),
             'direccion' => $request->input('direccion'),
             'numTelf' => $request->input('numTelf'),
+            'is_admin' => $request->has('is_admin'),
         ]);
         
 
