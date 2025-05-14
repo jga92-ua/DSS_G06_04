@@ -18,12 +18,16 @@
                 <a class="nav-link" href="{{ route('catalogo') }}" title="Catálogo" style="margin-top: 40px;">
                     <div><i class="bi bi-images" style="color: #606060"></i></div>
                 </a>
-                <a class="nav-link" href="{{ route('admin.index') }}" title="Admin" style="margin-top: 40px;">
-                    <div><i class="bi bi-people-fill" style="color: #606060"></i></div>
-                </a>
                 <a class="nav-link" href="{{ route('cartas.mis') }}" title="Configuración" style="margin-top: 40px;">
                     <div><i class="bi bi-gear-fill" style="color: #606060"></i></div>
                 </a>
+                @auth
+                    @if(auth()->user()->admin)
+                        <a class="nav-link" href="{{ route('admin.index') }}" title="Admin" style="margin-top: 40px;">
+                            <div><i class="bi bi-people-fill" style="color: #606060"></i></div>
+                        </a>
+                    @endif
+                @endauth
             </div>
         </div>
     </div>

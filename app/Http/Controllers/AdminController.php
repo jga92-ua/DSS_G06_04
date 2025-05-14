@@ -9,9 +9,6 @@ use App\Models\Carta;
 use App\Models\Categoria;
 
 
-
-
-
 class AdminController extends Controller
 {
     public function index(Request $request)
@@ -80,28 +77,28 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('success', 'Usuario actualizado');
     }
     public function misCartas(Request $request)
-{
-    $query = $request->input('query');
-    $orden = $request->input('orden');
+    {
+        $query = $request->input('query');
+        $orden = $request->input('orden');
 
-    $cartas = Carta::query();
+        $cartas = Carta::query();
 
-    // Solo buscar por nombre
-    if ($query) {
-        $cartas->where('nombre_carta_api', 'like', "%$query%");
+        // Solo buscar por nombre
+        if ($query) {
+            $cartas->where('nombre_carta_api', 'like', "%$query%");
+        }
+
+        // Ordenar por precio si se indica
+        if ($orden === 'asc') {
+            $cartas->orderBy('precio', 'asc');
+        } elseif ($orden === 'desc') {
+            $cartas->orderBy('precio', 'desc');
+        }
+
+        $cartas = $cartas->get();
+
+        return view('cartas.mis', compact('cartas'));
     }
-
-    // Ordenar por precio si se indica
-    if ($orden === 'asc') {
-        $cartas->orderBy('precio', 'asc');
-    } elseif ($orden === 'desc') {
-        $cartas->orderBy('precio', 'desc');
-    }
-
-    $cartas = $cartas->get();
-
-    return view('cartas.mis', compact('cartas'));
-}
 
 
     public function store(Request $request)

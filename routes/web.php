@@ -77,7 +77,6 @@ Route::post('/cesta/decrementar/{id}', [CestaController::class, 'decrementar'])-
 Route::post('/cesta/vaciar', [CestaController::class, 'vaciar'])->name('cesta.vaciar');
 
 
-
 //Politica de privacidad y terminos de uso
 Route::get('/terminos-de-servicio', function () {return view('terminos');})->name('terminos');
 Route::get('/politica-de-privacidad', function () {return view('privacidad');})->name('privacidad');
@@ -94,5 +93,8 @@ Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
-    Route::put('/perfil', [PerfilController::class, 'update'])->name('perfil.actualizar');
+    Route::post('/perfil/password', [PerfilController::class, 'actualizarContraseña'])->name('perfil.password');
+    Route::post('/perfil/usuario', [PerfilController::class, 'actualizarUsuario'])->name('perfil.usuario');
+    Route::post('/perfil/direccion', [PerfilController::class, 'actualizarDireccion'])->name('perfil.direccion');
+    Route::post('/perfil/foto', [PerfilController::class, 'actualizarFoto'])->name('perfil.foto');
 });
