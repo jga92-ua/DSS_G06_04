@@ -42,7 +42,17 @@ Route::post('/admin/usuarios/{id}/update', [AdminController::class, 'update'])->
 Route::get('/cartas/crear', [CartaController::class, 'create'])->name('cartas.create');
 Route::post('/cartas', [CartaController::class, 'store'])->name('cartas.store');
 Route::get('/cartas/buscar', [CartaController::class, 'buscar'])->name('cartas.buscar');
-Route::get('/cartas/mis-cartas', [CartaController::class, 'misCartas'])->name('cartas.mis');
+Route::middleware(['auth'])->group(function () {
+    // Perfil (ya está)
+    Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
+    Route::post('/perfil/password', [PerfilController::class, 'actualizarContraseña'])->name('perfil.password');
+    Route::post('/perfil/usuario', [PerfilController::class, 'actualizarUsuario'])->name('perfil.usuario');
+    Route::post('/perfil/direccion', [PerfilController::class, 'actualizarDireccion'])->name('perfil.direccion');
+    Route::post('/perfil/foto', [PerfilController::class, 'actualizarFoto'])->name('perfil.foto');
+
+    // Añade aquí la ruta protegida
+    Route::get('/cartas/mis-cartas', [CartaController::class, 'misCartas'])->name('cartas.mis');
+});
 Route::get('/cartas/{id}/edit', [CartaController::class, 'edit'])->name('cartas.edit');
 Route::put('/cartas/{id}/update', [CartaController::class, 'update'])->name('cartas.update');
 Route::delete('/cartas/{id}', [CartaController::class, 'destroy'])->name('cartas.destroy');

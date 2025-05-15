@@ -47,7 +47,7 @@ class CartaController extends Controller
     public function misCartas()
     {
         $usuario_id = 1; // o el ID del usuario autenticado
-        $cartas = Carta::where('usuario_id', $usuario_id)->get();
+        $cartas = \App\Models\Carta::where('usuario_id', auth()->id())->get();
     
         $cartasConInfo = $cartas->map(function ($carta) {
             $idApi = $carta->id_carta_api;
@@ -143,11 +143,13 @@ class CartaController extends Controller
         });
     }
     
-    public function adminCartas()
-    {
-        $cartas = \App\Models\Carta::all(); // Muestra todas las cartas
-        return view('cartas.admin', compact('cartas'));
-    }
+   public function adminCartas()
+{
+    // Opcional: puedes añadir verificación de rol si tu sistema lo soporta
+    $cartas = \App\Models\Carta::with('usuario')->get();
+    return view('cartas.admin', compact('cartas'));
+}
+
 
     public function edit($id)
     {
@@ -188,7 +190,7 @@ class CartaController extends Controller
         \App\Models\Carta::create([
             'id_carta_api' => $request->input('id_carta_api'),
             // 'usuario_id' => auth()->id(), // Solo si tienes login
-            'usuario_id' => 1,
+            'usuario_id'        => auth()->id(), // ID del usuario autenticado
             'nombre_carta_api' => $request->input('nombre_carta_api'),
             'rareza' => $request->input('rareza'),
             'estado' => $request->input('estado'),
