@@ -223,11 +223,14 @@ class CartaController extends Controller
             $imagenCarta = $apiResponse['data'][0]['images']['large'];
         }
 
-        $vendedores = CestaItem::with('cesta.user')
-            ->where('carta_id', $id)
+        // Buscar vendedores (usuarios que subieron cartas con mismo nombre)
+        $vendedores = Carta::where('nombre_carta_api', $carta->nombre_carta_api)
+            ->join('users', 'cartas.usuario_id', '=', 'users.id') // usa 'cartas' y no 'carta'
+            ->select('cartas.estado', 'cartas.precio', 'users.name as vendedor')
+            ->orderBy('cartas.precio', 'asc')
             ->get();
 
-        return view('cartas.carta', compact('carta', 'imagenCarta', 'vendedores'));
+        return view('cartas.show', compact('carta', 'vendedores', 'imagenCarta'));
     }
 
 }

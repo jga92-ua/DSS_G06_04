@@ -79,7 +79,7 @@ Route::get('/admin/categorias', [CategoriaController::class, 'adminIndex'])->nam
 
 //Cesta
 Route::get('/cesta', [CestaController::class, 'index'])->name('cesta.index');
-Route::post('/cesta/anadir/{id}', [CestaController::class, 'añadir'])->name('cesta.anadir');
+Route::post('/cesta/agregar/{id}', [CestaController::class, 'añadir'])->name('cesta.anadir');
 Route::post('/cesta/eliminar/{id}', [CestaController::class, 'eliminar'])->name('cesta.eliminar');
 Route::post('/cesta/comprar', [CestaController::class, 'comprar'])->name('cesta.comprar');
 Route::post('/cesta/incrementar/{id}', [CestaController::class, 'incrementar'])->name('cesta.incrementar');

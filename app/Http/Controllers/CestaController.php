@@ -5,6 +5,7 @@ use App\Models\Cesta;
 use App\Models\CestaItem;
 use App\Models\Carta;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class CestaController extends Controller
 {
@@ -20,12 +21,11 @@ class CestaController extends Controller
         return view('cesta.cesta', compact('cartasEnCesta', 'precioTotal'));
     }
 
-   public function agregar(Request $request)
+    public function agregar(Request $request)
     {
         $request->validate([
             'carta_id' => 'required|exists:cartas,id',
             'precio_unitario' => 'required|numeric',
-            'cesta_item_id' => 'required|exists:cesta_items,id'
         ]);
 
         $user = auth()->user();
@@ -40,10 +40,11 @@ class CestaController extends Controller
             'cesta_id' => $cesta->id,
             'carta_id' => $request->carta_id,
             'precio_unitario' => $request->precio_unitario,
-            'cantidad' => 1, // Puedes ajustar esto si permites múltiples cantidades
+            'cantidad' => 1,
         ]);
 
-        return back()->with('success', 'Carta añadida a la cesta');
+        // Redirección explícita al carrito
+        return redirect()->route('cesta.index')->with('success', 'Carta añadida a la cesta');
     }
 
     public function eliminar($id)
@@ -64,13 +65,13 @@ class CestaController extends Controller
         return redirect()->route('inicio')->with('success', 'Compra realizada correctamente');
     }
     public function incrementar($id)
-{
-    $item = CestaItem::findOrFail($id);
-    $item->cantidad += 1;
-    $item->save();
+    {
+        $item = CestaItem::findOrFail($id);
+        $item->cantidad += 1;
+        $item->save();
 
-    return redirect()->route('cesta.index');
-}
+        return redirect()->route('cesta.index');
+    }
 
 public function decrementar($id)
 {
