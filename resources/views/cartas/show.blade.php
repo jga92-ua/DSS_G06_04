@@ -37,7 +37,7 @@
         min-width: 300px;
         max-width: 950px;
         padding: 20px;
-        background-color: #f9f9f9;
+        background-color: #dcdcdc;
         border-radius: 12px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
@@ -52,10 +52,13 @@
         width: 100%;
         border-collapse: collapse;
         margin-top: 10px;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+        overflow: hidden;
     }
 
     thead {
-        background-color: #f3f3f3;
+        background-color: #f0f0f0;
     }
 
     th, td {
@@ -69,7 +72,7 @@
     }
 
     tr:nth-child(even) {
-        background-color: #fafafa;
+        background-color: #f0f0f0;
     }
 
     td:last-child {

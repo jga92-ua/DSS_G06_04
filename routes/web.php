@@ -56,8 +56,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/cartas/{id}/edit', [CartaController::class, 'edit'])->name('cartas.edit');
 Route::put('/cartas/{id}/update', [CartaController::class, 'update'])->name('cartas.update');
 Route::delete('/cartas/{id}', [CartaController::class, 'destroy'])->name('cartas.destroy');
-Route::post('/cesta/agregar', [\App\Http\Controllers\CestaController::class, 'agregar'])->name('cesta.agregar');
-Route::get('/cartas/{id}', [App\Http\Controllers\CartaController::class, 'show'])->name('cartas.show');
+Route::post('/cesta/agregar', [CestaController::class, 'agregar'])->name('cesta.agregar');
+Route::get('/cartas/{id}', [CartaController::class, 'show'])->name('cartas.show');
 
 // Cartas desde panel de admin
 Route::get('/cartas/admin', [CartaController::class, 'adminCartas'])->name('cartas.admin');

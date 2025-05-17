@@ -59,6 +59,14 @@ class CestaController extends Controller
         $cesta = Cesta::where('user_id', $user->id)->first();
 
         if ($cesta) {
+            $items = $cesta->items;
+
+            // Eliminar las cartas de la base de datos (para que no se puedan volver a comprar)
+            foreach ($items as $item) {
+                $item->carta->delete();
+            }
+
+            // Luego eliminar los ítems de la cesta
             $cesta->items()->delete();
         }
 

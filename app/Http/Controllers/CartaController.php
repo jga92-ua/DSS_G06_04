@@ -71,13 +71,14 @@ class CartaController extends Controller
 
     public function inicio()
     {
-        // Obtener 4 cartas aleatorias para Trending
-        $cartasTrending = Carta::inRandomOrder()->limit(7)->get();
+        // Obtener cartas únicas (máximo disponibles en DB) y barajarlas
+        $cartasUnicas = Carta::all()->unique('id_carta_api')->shuffle();
 
-        // Obtener 3 cartas aleatorias del catálogo
-        $cartasCatalogo = Carta::inRandomOrder()->limit(4)->get();
+        // Separar 7 para Trending y 4 para Catálogo (sin repetidas)
+        $cartasTrending = $cartasUnicas->take(7);
+        $cartasCatalogo = $cartasUnicas->slice(7)->take(4);
 
-        // Obtener información desde la API para Trending
+        // Obtener datos de la API para cada bloque
         $cartasTrending = $cartasTrending->map(function ($carta) {
             $idApi = $carta->id_carta_api;
             $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
@@ -90,7 +91,6 @@ class CartaController extends Controller
             ];
         });
 
-        // Obtener información desde la API para el Catálogo (solo 3 cartas)
         $cartasCatalogo = $cartasCatalogo->map(function ($carta) {
             $idApi = $carta->id_carta_api;
             $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
@@ -108,22 +108,26 @@ class CartaController extends Controller
 
     public function catalogo()
     {
-        $cartas = \App\Models\Carta::paginate(14); // 14 cartas por página
+        // Obtener cartas únicas por id_carta_api
+        $cartasOriginales = Carta::select('id_carta_api')
+            ->distinct()
+            ->paginate(14);
 
-        $cartasConImagenes = $cartas->map(function ($carta) {
+        // Obtener datos desde la API para cada carta única
+        $cartasConImagenes = $cartasOriginales->map(function ($carta) {
             $idApi = $carta->id_carta_api;
             $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
             $datosApi = $apiResponse->json();
 
             return [
-                'id' => $carta->id,
+                'id' => $idApi, // Ojo: este ya no es el ID de tu DB, sino el de la API
                 'imagen' => $datosApi['data']['images']['small'] ?? asset('imagenes/default-card.png'),
             ];
         });
 
         return view('catalogo.catalogo', [
             'cartas' => $cartasConImagenes,
-            'cartasOriginales' => $cartas // Para que los links de paginación funcionen
+            'cartasOriginales' => $cartasOriginales, // para paginación
         ]);
     }
 
@@ -146,7 +150,7 @@ class CartaController extends Controller
    public function adminCartas()
 {
     // Opcional: puedes añadir verificación de rol si tu sistema lo soporta
-    $cartas = \App\Models\Carta::with('usuario')->get();
+    $cartas = Carta::with('usuario')->get();
     return view('cartas.admin', compact('cartas'));
 }
 
@@ -187,7 +191,7 @@ class CartaController extends Controller
         ]);
 
         // Crear nueva carta
-        \App\Models\Carta::create([
+        Carta::create([
             'id_carta_api' => $request->input('id_carta_api'),
             // 'usuario_id' => auth()->id(), // Solo si tienes login
             'usuario_id'        => auth()->id(), // ID del usuario autenticado
@@ -209,23 +213,22 @@ class CartaController extends Controller
         return redirect()->route('cartas.mis')->with('success', 'Carta eliminada correctamente');
     }
     
-    public function show($id)
+    public function show($id_carta_api)
     {
-        $carta = Carta::findOrFail($id);
+        // Obtener la primera carta subida con ese id de la API
+        $carta = Carta::where('id_carta_api', $id_carta_api)->firstOrFail();
 
         // Buscar imagen desde la API de PokéTCG
-        $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards", [
-            'q' => 'name:"' . $carta->nombre_carta_api . '"'
-        ]);
+        $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$id_carta_api}");
 
         $imagenCarta = null;
-        if ($apiResponse->successful() && isset($apiResponse['data'][0]['images']['large'])) {
-            $imagenCarta = $apiResponse['data'][0]['images']['large'];
+        if ($apiResponse->successful() && isset($apiResponse['data']['images']['large'])) {
+            $imagenCarta = $apiResponse['data']['images']['large'];
         }
 
-        // Buscar vendedores (usuarios que subieron cartas con mismo nombre)
-        $vendedores = Carta::where('nombre_carta_api', $carta->nombre_carta_api)
-            ->join('users', 'cartas.usuario_id', '=', 'users.id') // usa 'cartas' y no 'carta'
+        // Buscar vendedores (usuarios que subieron esa misma carta)
+        $vendedores = Carta::where('id_carta_api', $id_carta_api)
+            ->join('users', 'cartas.usuario_id', '=', 'users.id')
             ->select('cartas.estado', 'cartas.precio', 'users.name as vendedor')
             ->orderBy('cartas.precio', 'asc')
             ->get();
