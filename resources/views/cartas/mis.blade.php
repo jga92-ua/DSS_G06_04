@@ -6,32 +6,34 @@
     <h1 style="text-align: center;">Mis cartas subidas</h1>
 
     @if(session('success'))
-        <div style="color: green; text-align: center;">{{ session('success') }}</div>
+        <div style="color: green; text-align: center; margin-bottom: 10px;">{{ session('success') }}</div>
     @endif
 
     <!-- Contenedor con Grid -->
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px;">
 
     @foreach($cartas as $carta)
-        <div style="border: 1px solid #ccc; padding: 8px; border-radius: 6px; box-shadow: 1px 1px 6px rgba(0,0,0,0.08); background: #fff;">
-            <p><strong>Nombre:</strong> {{ $carta['nombre'] }}</p>
-            <p><strong>Rareza:</strong> {{ $carta['rareza'] }}</p>
-            <p><strong>Estado:</strong> {{ $carta['estado'] }}</p>
-            <p><strong>Precio:</strong> {{ $carta['precio'] }} €</p>
-            <p><strong>Fecha:</strong> {{ $carta['fecha_adquisicion'] }}</p>
+        <div style="border: 1px solid #ccc; padding: 12px; border-radius: 6px; box-shadow: 1px 1px 6px rgba(0,0,0,0.08); background: #fff; display: flex; flex-direction: column; justify-content: space-between; height: 100%; font-size: 14px;">
+            <p style="margin: 4px 0;"><strong>Nombre:</strong> {{ $carta['nombre'] }}</p>
+            <p style="margin: 4px 0;"><strong>Rareza:</strong> {{ $carta['rareza'] }}</p>
+            <p style="margin: 4px 0;"><strong>Estado:</strong> {{ $carta['estado'] }}</p>
+            <p style="margin: 4px 0;"><strong>Precio:</strong> {{ $carta['precio'] }} €</p>
+            <p style="margin: 4px 0;"><strong>Fecha:</strong> {{ $carta['fecha_adquisicion'] }}</p>
 
-            <a href="{{ route('cartas.edit', $carta['id']) }}" 
-                style="background-color: blue; color: white; padding: 4px 8px; text-decoration: none; border-radius: 4px; display: inline-block; margin-top: 6px;">
-                Editar
-            </a>
+            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                <a href="{{ route('cartas.edit', $carta['id']) }}" 
+                    style="background-color: #007bff; color: white; padding: 6px 10px; text-decoration: none; border-radius: 4px;">
+                    Editar
+                </a>
 
-            <form action="{{ route('cartas.destroy', $carta['id']) }}" method="POST" style="margin-top: 6px; text-align: center;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" style="background-color: #dc3545; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer;">
-                    Eliminar
-                </button>
-            </form>
+                <form action="{{ route('cartas.destroy', $carta['id']) }}" method="POST" style="margin: 0;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" style="background-color: #dc3545; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer;">
+                        Eliminar
+                    </button>
+                </form>
+            </div>
         </div>
     @endforeach
 

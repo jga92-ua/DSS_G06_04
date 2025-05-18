@@ -37,6 +37,7 @@ Route::post('/admin', [AdminController::class, 'store'])->name('admin.store');
 Route::delete('/usuarios/{id}', [AdminController::class, 'destroy'])->name('user.destroy');
 Route::get('/admin/usuarios/{id}/edit', [AdminController::class, 'edit'])->name('admin.usuarios.edit');
 Route::post('/admin/usuarios/{id}/update', [AdminController::class, 'update'])->name('admin.usuarios.update');
+// Vista y acción de edición de cartas desde el panel de admin
 
 // Cartas (CRUD)
 Route::get('/cartas/crear', [CartaController::class, 'create'])->name('cartas.create');
@@ -63,6 +64,10 @@ Route::get('/cartas/{id}', [CartaController::class, 'show'])->name('cartas.show'
 Route::get('/cartas/admin', [CartaController::class, 'adminCartas'])->name('cartas.admin');
 Route::post('/admin/cartas', [AdminController::class, 'storeCarta'])->name('admin.cartas.store');
 Route::delete('/admin/cartas/{id}', [AdminController::class, 'eliminarCarta'])->name('admin.cartas.destroy');
+Route::get('/admin/cartas/{id}/edit', [CartaController::class, 'editAdmin'])->name('cartas.edit.admin');
+Route::put('/admin/cartas/{id}', [CartaController::class, 'updateAdmin'])->name('cartas.update.admin');
+
+
 
 // Categorías (CRUD)
 Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');

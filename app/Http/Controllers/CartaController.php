@@ -148,35 +148,73 @@ class CartaController extends Controller
     }
     
    public function adminCartas()
-{
-    // Opcional: puedes añadir verificación de rol si tu sistema lo soporta
-    $cartas = Carta::with('usuario')->get();
-    return view('cartas.admin', compact('cartas'));
-}
+    {
+        // Opcional: puedes añadir verificación de rol si tu sistema lo soporta
+        $cartas = Carta::with('usuario')->get();
+        return view('cartas.admin', compact('cartas'));
+    }
 
 
     public function edit($id)
     {
         $carta = Carta::findOrFail($id);
+
+        // Guardamos en sesión la URL desde la que venimos
+        session(['previous_url' => url()->previous()]);
+
         return view('cartas.editCarta', compact('carta'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'rareza' => 'required|string',
-            'estado' => 'required|string',
-            'precio' => 'required|numeric',
+            'rareza'            => 'required|string',
+            'estado'            => 'required|string',
+            'precio'            => 'required|numeric',
             'fecha_adquisicion' => 'required|date',
         ]);
 
         $carta = Carta::findOrFail($id);
-        $carta->update($request->only(['rareza', 'estado', 'precio', 'fecha_adquisicion']));
+        $carta->update($request->only([
+            'rareza', 'estado', 'precio', 'fecha_adquisicion'
+        ]));
 
-        return redirect()->route('cartas.admin')->with('success', 'Carta actualizada');
+        // Recuperamos la URL que guardamos en edit(),
+        // o caemos en la ruta 'cartas.mis' si no existe.
+        $urlAnterior = session('previous_url', route('cartas.mis'));
+
+        // Opcional: limpiamos la clave de sesión
+        session()->forget('previous_url');
+
+        return redirect($urlAnterior)
+               ->with('success', 'Carta actualizada correctamente.');
     }
 
+    // Mostrar formulario admin
+    public function editAdmin($id)
+    {
+        $carta = Carta::findOrFail($id);
+        session(['admin_previous_url' => url()->previous()]);
+        return view('admin.editCarta', compact('carta'));
+    }
 
+    // Guardar cambios
+    public function updateAdmin(Request $request, $id)
+    {
+        $carta = Carta::findOrFail($id);
+
+        $carta->rareza = $request->input('rareza');
+        $carta->estado = $request->input('estado');
+        $carta->precio = $request->input('precio');
+        $carta->fecha_adquisicion = $request->input('fecha_adquisicion');
+        $carta->save();
+
+        // híbrido: Laravel te guarda automáticamente la URL anterior en la sesión
+        $urlAnterior = session('admin_previous_url', route('admin.index'));
+        return redirect($urlAnterior)
+                ->with('success', '¡Carta actualizada correctamente!');
+
+    }
 
     public function store(Request $request)
     {
