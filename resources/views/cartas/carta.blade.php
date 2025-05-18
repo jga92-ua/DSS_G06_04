@@ -67,18 +67,30 @@
         @endif
     </div>
 
-    <div class="vendedores">
-        <h3>Vendedores:</h3>
-        @forelse($vendedores as $item)
-            <div class="vendedor">
-                <h4>{{ $item->cesta->user->name }}</h4>
-                <p>Precio: {{ $item->precio_unitario }} €</p>
-                <p>Cantidad disponible: {{ $item->cantidad }}</p>
-            </div>
-        @empty
-            <p>No hay vendedores para esta carta.</p>
-        @endforelse
-    </div>
+    <h2 class="text-xl font-bold mt-6 mb-2">Vendedores disponibles</h2>
+
+    <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="py-2 px-4 text-left">Vendedor</th>
+                <th class="py-2 px-4 text-left">Estado</th>
+                <th class="py-2 px-4 text-left">Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($vendedores as $v)
+                <tr class="border-t">
+                    <td class="py-2 px-4">{{ $v->vendedor }}</td>
+                    <td class="py-2 px-4">{{ ucfirst($v->estado) }}</td>
+                    <td class="py-2 px-4">{{ number_format($v->precio, 2) }} €</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="3" class="py-4 px-4 text-center text-gray-500">No hay vendedores disponibles.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 </div>
 
 @endsection

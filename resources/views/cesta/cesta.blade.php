@@ -4,7 +4,7 @@
 <style>
     .cesta-container {
         max-width: 1200px;
-        margin: 20px auto;
+        margin: 20px;
         padding: 20px;
         background-color: #f5f5f5;
         border-radius: 8px;
@@ -103,6 +103,11 @@
         border: none;
         border-radius: 5px;
     }
+
+    html, body {
+        overflow-x: hidden;
+    }
+
 </style>
 
 <div class="cesta-container">
