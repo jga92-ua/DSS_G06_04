@@ -1,32 +1,99 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Barra superior fija con botones -->
-<div style="position: fixed; top: 0; left: 0; width: 100%; background: #f9f9f9; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); z-index: 999;">
-    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-        <a href="{{ route('inicio') }}" style="background-color: #007bff; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Inicio</a>
-        <a href="{{ route('admin.index') }}" style="background-color: #343a40; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Admin</a>
-        <a href="{{ url('/cartas/buscar') }}" style="background-color: #17a2b8; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Buscar carta</a>
-        <a href="{{ route('cartas.mis') }}" style="background-color: #6f42c1; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Mis cartas</a>
+
+<div style="max-width: 900px; margin: 0 auto; padding: 10px 20px 20px 20px; font-size: 16px;">
+    <h1 style="text-align: center; margin: 40px 0 10px 0;">Editar Usuario</h1>
+
+    <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+
+        <form action="{{ route('admin.usuarios.update', $usuario->id) }}" method="POST" style="display: flex; flex-direction: column; gap: 16px;">
+            @csrf
+
+            <input type="text" name="name" value="{{ $usuario->name }}" placeholder="Nombre" required style="padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
+
+            <input type="email" name="email" value="{{ $usuario->email }}" placeholder="Email" required style="padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
+
+            <input type="text" name="direccion" value="{{ $usuario->direccion }}" placeholder="Dirección" style="padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
+
+            <input type="text" name="numTelf" value="{{ $usuario->numTelf }}" placeholder="Número de Teléfono" style="padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
+
+            <button type="submit" style="padding: 12px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease;">
+                GUARDAR CAMBIOS
+            </button>
+        </form>
+
     </div>
+
+    @if($cartas->count())
+    <div id="cartas" style="margin-top: 30px; background-color: #fefefe; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+        <h3 style="text-align: center; margin-bottom: 16px; font-size: 20px;">Cartas subidas por el usuario</h3>
+
+        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+            <form action="{{ route('admin.usuarios.edit', $usuario->id) }}#cartas" method="GET" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar por nombre..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px;">
+                <select name="sort" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px;">
+                    <option value="">Ordenar por nombre</option>
+                    <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>Nombre A-Z</option>
+                    <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Nombre Z-A</option>
+                </select>
+                <button type="submit" style="padding: 6px 12px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+                    Filtrar
+                </button>
+            </form>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;">
+            @foreach($cartas as $carta)
+                <div style="border: 1px solid #ddd; padding: 14px; border-radius: 6px; background: #fff; font-size: 14px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>{{ $carta->nombre_carta_api }}</strong><br>
+                            Rareza: {{ $carta->rareza }}
+                        </div>
+                        <a href="{{ route('cartas.edit', $carta->id) }}" style="background-color: #007bff; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none;">
+                            Editar
+                        </a>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                        <div>
+                            Estado: {{ $carta->estado }}<br>
+                            Precio: {{ $carta->precio }} €
+                        </div>
+                        <form action="{{ route('cartas.destroy', $carta->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta carta?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="background-color: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 5px;">
+                                Eliminar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
 </div>
 
-<!-- Espacio para evitar que el contenido quede oculto por la barra -->
-<div style="height: 65px;"></div>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        scroll-behavior: auto;
+    }
 
+    * {
+        box-sizing: border-box;
+    }
 
-<div class="container">
-    <h1>Editar Usuario</h1>
+    #app {
+        overflow-x: hidden;
+    }
+</style>
 
-    <form action="{{ route('admin.usuarios.update', $usuario->id) }}" method="POST">
-        @csrf
-        <input type="text" name="name" value="{{ $usuario->name }}" required>
-        <input type="email" name="email" value="{{ $usuario->email }}" required>
-        <input type="text" name="direccion" value="{{ $usuario->direccion }}">
-        <input type="text" name="numTelf" value="{{ $usuario->numTelf }}">
-        <button type="submit">Guardar cambios</button>
-    </form>
-
-    <a href="{{ route('admin.index') }}">Volver</a>
-</div>
 @endsection

@@ -44,7 +44,7 @@ class AdminController extends Controller
         $usuario = User::findOrFail($id);
         $usuario->delete();
 
-        return redirect()->route('admin.index')->with('success', 'Usuario eliminado correctamente.');
+        return redirect()->back()->with('success', 'Carta eliminada correctamente.');
     }
     public function adminCartas()
     {
@@ -53,10 +53,25 @@ class AdminController extends Controller
         return view('cartas.admin', compact('cartas'));
     }
 
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        $usuario = User::findOrFail($id); // Buscar usuario por ID
-        return view('admin.editUser', compact('usuario'));
+        $usuario = User::findOrFail($id);
+
+        $query = $usuario->cartas();
+
+        // Filtro por nombre
+        if ($request->has('search') && $request->search != '') {
+            $query->where('nombre_carta_api', 'like', '%' . $request->search . '%');
+        }
+
+        // Ordenación
+        if ($request->has('sort') && in_array($request->sort, ['asc', 'desc'])) {
+            $query->orderBy('nombre_carta_api', $request->sort);
+        }
+
+        $cartas = $query->get();
+
+        return view('admin.editUser', compact('usuario', 'cartas'));
     }
 
     public function update(Request $request, $id)
@@ -74,7 +89,7 @@ class AdminController extends Controller
             'numTelf' => $request->numTelf,
         ]);
 
-        return redirect()->route('admin.index')->with('success', 'Usuario actualizado');
+        return redirect()->back()->with('success', 'Usuario actualizado correctamente.');
     }
     public function misCartas(Request $request)
     {
