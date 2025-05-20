@@ -106,30 +106,51 @@ class CartaController extends Controller
         return view('home.inicio', compact('cartasTrending', 'cartasCatalogo'));
     }
 
-    public function catalogo()
+    public function catalogo(Request $request)
     {
-        // Obtener cartas únicas por id_carta_api
-        $cartasOriginales = Carta::select('id_carta_api')
-            ->distinct()
-            ->paginate(14);
+        $expansion = $request->query('expansion');
 
-        // Obtener datos desde la API para cada carta única
-        $cartasConImagenes = $cartasOriginales->map(function ($carta) {
-            $idApi = $carta->id_carta_api;
-            $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
-            $datosApi = $apiResponse->json();
+        if ($expansion) {
+            // Obtener cartas de la expansión especificada desde la API
+            $response = Http::get("https://api.pokemontcg.io/v2/cards", [
+                'q' => 'set.name:"' . $expansion . '"',
+                'pageSize' => 14,
+            ]);
 
-            return [
-                'id' => $idApi, // Ojo: este ya no es el ID de tu DB, sino el de la API
-                'imagen' => $datosApi['data']['images']['small'] ?? asset('imagenes/default-card.png'),
-            ];
-        });
+            if ($response->successful()) {
+                $cartas = collect($response->json()['data']);
+            } else {
+                $cartas = [];
+            }
 
-        return view('catalogo.catalogo', [
-            'cartas' => $cartasConImagenes,
-            'cartasOriginales' => $cartasOriginales, // para paginación
-        ]);
+            return view('catalogo.catalogo', [
+                'cartas' => $cartas,
+                'expansion' => $expansion,
+            ]);
+        } else {
+            // Lógica existente para mostrar el catálogo sin filtro
+            $cartasOriginales = Carta::select('id_carta_api')
+                ->distinct()
+                ->paginate(14);
+
+            $cartasConImagenes = $cartasOriginales->map(function ($carta) {
+                $idApi = $carta->id_carta_api;
+                $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
+                $datosApi = $apiResponse->json();
+
+                return [
+                    'id' => $idApi,
+                    'imagen' => $datosApi['data']['images']['small'] ?? asset('imagenes/default-card.png'),
+                ];
+            });
+
+            return view('catalogo.catalogo', [
+                'cartas' => $cartasConImagenes,
+                'cartasOriginales' => $cartasOriginales,
+            ]);
+        }
     }
+
 
 
     private function obtenerInfoDesdeApi($cartas)

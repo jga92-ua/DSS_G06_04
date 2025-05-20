@@ -110,13 +110,14 @@
         </div>
     </div>
     
-    <div class="right-section">
+    <div class="right-section" onclick="window.location='{{ route('expansiones') }}'" style="cursor: pointer;">
         <h3>Expansiones</h3>
         <div class="right-images">
             <img src="{{ asset('imagenes/chispas.png') }}" alt="Chispas Fulgurantes">
             <img src="{{ asset('imagenes/prismatic.png') }}" alt="Evoluciones Prismáticas">
         </div>
     </div>
+
 </div>
 
 @endsection

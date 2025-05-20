@@ -97,9 +97,11 @@
 @else
     <div class="cards-container">
         @foreach($cartas as $carta)
-            <a href="{{ url('/cartas/' . $carta['id']) }}" class="card">
-                <img src="{{ $carta['imagen'] }}" alt="Carta Pokémon">
-            </a>
+            @if(isset($carta['imagen']))
+                <a href="{{ url('/cartas/' . $carta['id']) }}" class="card">
+                    <img src="{{ $carta['imagen'] }}" alt="Carta Pokémon">
+                </a>
+            @endif
         @endforeach
     </div>
 @endif
