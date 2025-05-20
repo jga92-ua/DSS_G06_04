@@ -40,6 +40,11 @@
         
         <div class="user">
             @auth
+                <form action="{{ url('/cesta') }}" method="get" style="margin-right: 10px;">
+                    <button type="submit" class="carrito-btn" title="Carrito">
+                        <img src="{{ asset('imagenes/carrito.png') }}" alt="Carrito" style="width: 40px; height: 40px; border-radius: 0;">
+                    </button>
+                </form>
                 <a href="{{ route('perfil') }}">
                     <img src="{{ asset('imagenes/usuario.png') }}" alt="Perfil" style="width: 40px; height: auto; border-radius: 50%; cursor: pointer;">
                 </a>
@@ -49,6 +54,8 @@
                 </a>
             @endauth
         </div>
+
+
 
     </div>
 </header>
@@ -157,4 +164,18 @@
         margin-left: 10px;
         border-radius: 50%;
     }
+
+    .carrito-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .carrito-btn img {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
 </style>
