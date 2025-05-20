@@ -39,11 +39,12 @@
 
 </div>
 
-    <div style="text-align: center; margin-top: 20px;">
+    <div style="position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);">
         <a href="{{ url('/cartas/buscar') }}" 
-           style="background-color: #007bff; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none;">
+        style="background-color: #007bff; color: white; padding: 14px 20px; border-radius: 6px; text-decoration: none; font-size: 18px; font-weight: bold;">
             + Subir nueva carta
         </a>
     </div>
+
 </div>
 @endsection
