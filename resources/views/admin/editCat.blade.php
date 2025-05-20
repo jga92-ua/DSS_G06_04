@@ -2,6 +2,13 @@
 
 @section('content')
 
+<style>
+    
+    body, html {
+        overflow-x: hidden;
+    }
+
+</style>
 
 <!-- Espaciado para evitar solapamiento con la barra -->
 <div style="height: 70px;"></div>

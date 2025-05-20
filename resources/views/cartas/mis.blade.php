@@ -2,6 +2,13 @@
 
 @section('content')
 
+<style>
+    body, html {
+        overflow-x: hidden;
+    }
+    
+</style>
+
 <div style="max-width: 1200px; margin-left: 10px; padding: 20px;">
     <h1 style="text-align: center;">Mis cartas subidas</h1>
 

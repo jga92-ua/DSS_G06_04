@@ -101,7 +101,7 @@
 </div>
 
 <div class="content-section">
-    <div class="left-section">
+    <div class="left-section" onclick="window.location='{{ route('catalogo') }}'" style="cursor: pointer;">
         <h3>Catálogo</h3>
         <div class="left-cards">
             @foreach($cartasCatalogo as $carta)

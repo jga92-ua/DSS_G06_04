@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+
+<style>
+    body, html {
+        overflow-x: hidden;
+    }
+
+</style>
+
 <form action="{{ route('cartas.update', $carta->id) }}" method="POST" style="max-width: 600px; margin: 0 auto; padding: 20px;">
     @csrf
     @method('PUT')
