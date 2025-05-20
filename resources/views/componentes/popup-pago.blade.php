@@ -1,24 +1,45 @@
-<div id="popup-pago" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 1000;">
-    <div style="background: white; width: 500px; margin: 100px auto; padding: 20px; border-radius: 10px; position: relative;">
-        <h2 style="text-align: center;">Método de Pago</h2>
+<!-- Modal Bootstrap Pago -->
+<div class="modal fade" id="popupPago" tabindex="-1" aria-labelledby="popupPagoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form method="POST" action="{{ route('cesta.procesarPago') }}">
+      @csrf
+      <div class="modal-content shadow-lg">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title" id="popupPagoLabel">Método de Pago</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center mb-3">
+            <img src="https://img.icons8.com/color/48/visa.png" width="50">
+            <img src="https://img.icons8.com/color/48/mastercard.png" width="50">
+            <img src="https://img.icons8.com/color/48/amex.png" width="50">
+          </div>
 
-        <form method="POST" action="{{ route('cesta.procesarPago') }}">
-            @csrf
-            <label for="numero">Número de Tarjeta</label>
-            <input type="text" name="numero" required class="form-control mb-2">
+          <div class="mb-3">
+            <label class="form-label">Número de Tarjeta</label>
+            <input type="text" class="form-control" name="numero" placeholder="1234 5678 9012 3456" required>
+          </div>
 
-            <label for="caducidad">Fecha de Caducidad</label>
-            <input type="text" name="caducidad" required class="form-control mb-2">
-
-            <label for="cvv">CVV</label>
-            <input type="text" name="cvv" required class="form-control mb-3">
-
-            <p>Se enviará confirmación a tu correo.</p>
-
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <button type="button" onclick="document.getElementById('popup-pago').style.display='none';">Cancelar</button>
-                <button type="submit">Pagar</button>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Fecha de Caducidad</label>
+              <input type="text" class="form-control" name="caducidad" placeholder="MM/AA" required>
             </div>
-        </form>
-    </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">CVV</label>
+              <input type="text" class="form-control" name="cvv" placeholder="123" required>
+            </div>
+          </div>
+
+          <div class="alert alert-info text-center">
+            Se enviará confirmación a tu correo.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success">Pagar</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

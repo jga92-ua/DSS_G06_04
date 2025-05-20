@@ -1,3 +1,9 @@
+@section('head')
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+@endsection
+
+
 @extends('layouts.app')
 
 @section('content')
@@ -200,23 +206,21 @@
         <p style="text-align: center;">No hay cartas en la cesta.</p>
     @endforelse
 
+    
     @if (!$cartasEnCesta->isEmpty())
-        <div class="precio-final">
-            <h3>PRECIO TOTAL (21% IVA): {{ number_format($precioTotal * 1.21, 2) }} EUROS</h3>
-            <label>
-                <input type="checkbox" id="terminosCheckbox">
-                He leído y acepto los <a href="#">términos y condiciones</a> de venta de PokeMarket TCG
-            </label>
-            <br>
-            <button type="button" class="finalizar-btn" onclick="abrirPopup()">Finalizar Compra</button>
-            <div class="vaciar-btn-container">
-                <form action="{{ route('cesta.vaciar') }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres vaciar la cesta?');">
-                    @csrf
-                    <button type="submit" class="vaciar-btn">Vaciar Cesta</button>
-                </form>
-            </div>
-        </div>
-    @endif
+  <div class="precio-final text-center mt-4">
+    <h3>PRECIO TOTAL (21% IVA): {{ number_format($precioTotal * 1.21, 2) }} EUROS</h3>
+
+    <label>
+      <input type="checkbox" id="terminosCheckbox" required>
+      He leído y acepto los <a href="#">términos y condiciones</a>
+    </label>
+    <br>
+
+    <button type="button" class="btn btn-success mt-2" onclick="abrirModalPago()">Finalizar Compra</button>
+  </div>
+@endif
+
 </div>
 
 <script>
@@ -229,3 +233,14 @@
     }
 </script>
 @endsection
+<script>
+  function abrirModalPago() {
+    const checkbox = document.getElementById('terminosCheckbox');
+    if (!checkbox.checked) {
+      alert('Debes aceptar los términos y condiciones.');
+      return;
+    }
+    const modal = new bootstrap.Modal(document.getElementById('popupPago'));
+    modal.show();
+  }
+</script>
