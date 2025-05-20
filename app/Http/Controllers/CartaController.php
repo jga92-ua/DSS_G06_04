@@ -71,42 +71,46 @@ class CartaController extends Controller
 
     public function inicio()
     {
-        // Obtener cartas únicas (máximo disponibles en DB) y barajarlas
-        $cartasUnicas = Carta::all()->unique('id_carta_api')->shuffle();
+        // Obtener cartas de la base de datos barajadas
+        $cartasDB = Carta::all()->shuffle();
 
-        // Separar 7 para Trending y 4 para Catálogo (sin repetidas)
-        $cartasTrending = $cartasUnicas->take(7);
-        $cartasCatalogo = $cartasUnicas->slice(7)->take(4);
+        // Conseguir 7 cartas únicas para Trending
+        $cartasTrending = collect();
+        $idsAgregados = [];
+
+        foreach ($cartasDB as $carta) {
+            if (!in_array($carta->id_carta_api, $idsAgregados)) {
+                $cartasTrending->push($carta);
+                $idsAgregados[] = $carta->id_carta_api;
+            }
+            if ($cartasTrending->count() == 7) break;
+        }
+
+        // Conseguir 4 cartas únicas para Catálogo (también evitando duplicados internos)
+        $cartasCatalogo = collect();
+        $idsCatalogo = [];
+
+        foreach ($cartasDB as $carta) {
+            if (!in_array($carta->id_carta_api, $idsCatalogo)) {
+                $cartasCatalogo->push($carta);
+                $idsCatalogo[] = $carta->id_carta_api;
+            }
+            if ($cartasCatalogo->count() == 4) break;
+        }
 
         // Obtener datos de la API para cada bloque
-        $cartasTrending = $cartasTrending->map(function ($carta) {
-            $idApi = $carta->id_carta_api;
-            $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
-            $datosApi = $apiResponse->json();
-
-            return [
-                'id' => $carta->id,
-                'nombre' => $datosApi['data']['name'] ?? 'Desconocido',
-                'imagen' => $datosApi['data']['images']['small'] ?? asset('imagenes/default-card.png'),
-            ];
-        });
-
-        $cartasCatalogo = $cartasCatalogo->map(function ($carta) {
-            $idApi = $carta->id_carta_api;
-            $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
-            $datosApi = $apiResponse->json();
-
-            return [
-                'id' => $carta->id,
-                'nombre' => $datosApi['data']['name'] ?? 'Desconocido',
-                'imagen' => $datosApi['data']['images']['small'] ?? asset('imagenes/default-card.png'),
-            ];
-        });
+        $cartasTrending = $this->obtenerInfoDesdeApi($cartasTrending);
+        $cartasCatalogo = $this->obtenerInfoDesdeApi($cartasCatalogo);
 
         return view('home.inicio', compact('cartasTrending', 'cartasCatalogo'));
     }
 
+<<<<<<< HEAD
     public function catalogo(Request $request)
+=======
+
+    public function catalogo()
+>>>>>>> 7f021740929a683deefacadebbd780f6c833f7d8
     {
         $expansion = $request->query('expansion');
 
@@ -253,7 +257,7 @@ class CartaController extends Controller
         Carta::create([
             'id_carta_api' => $request->input('id_carta_api'),
             // 'usuario_id' => auth()->id(), // Solo si tienes login
-            'usuario_id'        => auth()->id(), // ID del usuario autenticado
+            'usuario_id' => auth()->id(), // ID del usuario autenticado
             'nombre_carta_api' => $request->input('nombre_carta_api'),
             'rareza' => $request->input('rareza'),
             'estado' => $request->input('estado'),
