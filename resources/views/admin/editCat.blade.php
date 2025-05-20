@@ -2,41 +2,33 @@
 
 @section('content')
 
-<!-- Barra superior fija con botones -->
-<div style="position: fixed; top: 0; left: 0; width: 100%; background: #f9f9f9; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); z-index: 999;">
-    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-        <a href="{{ route('inicio') }}" style="background-color: #007bff; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Inicio</a>
-        <a href="{{ route('admin.index') }}" style="background-color: #343a40; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Admin</a>
-        <a href="{{ url('/cartas/buscar') }}" style="background-color: #17a2b8; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Buscar carta</a>
-        <a href="{{ route('cartas.mis') }}" style="background-color: #6f42c1; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Mis cartas</a>
-        <a href="{{ route('cartas.index') }}" style="background-color: #ffc107; color: #212529; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Ver todas las cartas</a>
 
-    </div>
-</div>
+<!-- Espaciado para evitar solapamiento con la barra -->
+<div style="height: 70px;"></div>
 
-<!-- Espacio para evitar que el contenido quede oculto por la barra -->
-<div style="height: 65px;"></div>
+<!-- Contenedor principal -->
+<div class="container" style="max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
 
+    <h2 style="text-align: center; margin-bottom: 20px;">Editar Categoría</h2>
 
-<div class="container">
-    <h1>Editar Categoría</h1>
-
-    <form action="{{ route('categorias.update', $categoria->id) }}" method="POST">
-
+    <form action="{{ route('categorias.update', $categoria->id) }}" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
         @csrf
         @method('PUT')
 
-        <div>
-            <label for="nombre">Nombre</label>
-            <input type="text" name="nombre" value="{{ $categoria->nombre }}" required>
+        <div style="display: flex; flex-direction: column;">
+            <label for="nombre" style="font-weight: bold; margin-bottom: 5px;">Nombre</label>
+            <input type="text" name="nombre" value="{{ $categoria->nombre }}" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
         </div>
 
-        <div>
-            <label for="descripcion">Descripción</label>
-            <input type="text" name="descripcion" value="{{ $categoria->descripcion }}">
+        <div style="display: flex; flex-direction: column;">
+            <label for="descripcion" style="font-weight: bold; margin-bottom: 5px;">Descripción</label>
+            <input type="text" name="descripcion" value="{{ $categoria->descripcion }}" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
         </div>
 
-        <button type="submit" style="margin-top: 10px;">Actualizar categoría</button>
+        <button type="submit" style="padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px;">
+            Actualizar categoría
+        </button>
     </form>
 </div>
+
 @endsection

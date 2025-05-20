@@ -108,7 +108,56 @@
         overflow-x: hidden;
     }
 
+    /* Popup */
+    #popup-pago {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.6);
+        z-index: 9999;
+    }
+    #popup-pago .popup-content {
+        width: 400px;
+        background: #fff;
+        border-radius: 8px;
+        margin: 100px auto;
+        padding: 30px;
+        position: relative;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        font-family: sans-serif;
+    }
+    #popup-pago .popup-content h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    #popup-pago .popup-content input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+    #popup-pago .popup-content button {
+        padding: 10px 15px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+    #popup-pago .btn-cancelar {
+        background-color: #888;
+        color: #fff;
+    }
+    #popup-pago .btn-pagar {
+        background-color: #28a745;
+        color: white;
+    }
 </style>
+
+@include('componentes.popup-pago')
 
 <div class="cesta-container">
     <h2>Cesta de Compra</h2>
@@ -154,17 +203,12 @@
     @if (!$cartasEnCesta->isEmpty())
         <div class="precio-final">
             <h3>PRECIO TOTAL (21% IVA): {{ number_format($precioTotal * 1.21, 2) }} EUROS</h3>
-
-            <form method="POST" action="{{ route('cesta.comprar') }}">
-                @csrf
-                <label>
-                    <input type="checkbox" required>
-                    He leído y acepto los <a href="#">términos y condiciones</a> de venta de PokeMarket TCG
-                </label>
-                <br>
-                <button type="submit" class="finalizar-btn">Finalizar Compra</button>
-            </form>
-
+            <label>
+                <input type="checkbox" id="terminosCheckbox">
+                He leído y acepto los <a href="#">términos y condiciones</a> de venta de PokeMarket TCG
+            </label>
+            <br>
+            <button type="button" class="finalizar-btn" onclick="abrirPopup()">Finalizar Compra</button>
             <div class="vaciar-btn-container">
                 <form action="{{ route('cesta.vaciar') }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres vaciar la cesta?');">
                     @csrf
@@ -174,4 +218,14 @@
         </div>
     @endif
 </div>
+
+<script>
+    function abrirPopup() {
+        if (!document.getElementById('terminosCheckbox').checked) {
+            alert("Debes aceptar los términos y condiciones antes de continuar.");
+            return;
+        }
+        document.getElementById('popup-pago').style.display = 'block';
+    }
+</script>
 @endsection

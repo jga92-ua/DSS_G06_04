@@ -6,6 +6,8 @@ use App\Models\CestaItem;
 use App\Models\Carta;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class CestaController extends Controller
 {
@@ -20,6 +22,7 @@ class CestaController extends Controller
 
         return view('cesta.cesta', compact('cartasEnCesta', 'precioTotal'));
     }
+    
 
     public function agregar(Request $request)
     {
@@ -101,6 +104,45 @@ public function vaciar()
 
     return redirect()->route('cesta.index')->with('success', 'Cesta vaciada correctamente');
 }
+
+
+
+public function procesarPago(Request $request)
+{
+    $user = Auth::user();
+    $cesta = Cesta::with('items.carta')->where('user_id', $user->id)->first();
+
+    if (!$cesta || $cesta->items->isEmpty()) {
+        return redirect()->route('cesta.index')->with('error', 'Cesta vacía');
+    }
+
+    // Crear contenido del PDF o texto
+    $contenido = "Gracias por tu compra en PokeMarket TCG\n\n";
+    foreach ($cesta->items as $item) {
+        $contenido .= "- " . $item->carta->nombre_carta_api . " x{$item->cantidad} = " . number_format($item->cantidad * $item->precio_unitario, 2) . " €\n";
+    }
+
+    $total = $cesta->items->sum(fn($i) => $i->cantidad * $i->precio_unitario);
+    $contenido .= "\nTotal con IVA: " . number_format($total * 1.21, 2) . " €\n";
+
+    // Guardar fichero
+    $nombreFichero = 'resumen_compra_' . time() . '.txt';
+    Storage::disk('local')->put($nombreFichero, $contenido);
+
+    // Enviar correo
+    Mail::raw("Adjunto el resumen de tu compra.", function($mensaje) use ($user, $nombreFichero) {
+        $mensaje->to($user->email)
+            ->subject('Resumen de tu compra en PokeMarket TCG')
+            ->attach(storage_path('app/' . $nombreFichero));
+    });
+
+    // Limpiar cesta
+    $cesta->items()->delete();
+
+    return redirect()->route('cesta.index')->with('success', 'Pago realizado con éxito. Revisa tu correo.');
+}
+
+
 
 
 }

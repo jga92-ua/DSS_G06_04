@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\CestaController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -90,6 +91,8 @@ Route::post('/cesta/comprar', [CestaController::class, 'comprar'])->name('cesta.
 Route::post('/cesta/incrementar/{id}', [CestaController::class, 'incrementar'])->name('cesta.incrementar');
 Route::post('/cesta/decrementar/{id}', [CestaController::class, 'decrementar'])->name('cesta.decrementar');
 Route::post('/cesta/vaciar', [CestaController::class, 'vaciar'])->name('cesta.vaciar');
+Route::post('/cesta/procesar-pago', [CestaController::class, 'procesarPago'])->name('cesta.procesarPago');
+
 
 
 //Politica de privacidad y terminos de uso
