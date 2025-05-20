@@ -105,12 +105,7 @@ class CartaController extends Controller
         return view('home.inicio', compact('cartasTrending', 'cartasCatalogo'));
     }
 
-<<<<<<< HEAD
     public function catalogo(Request $request)
-=======
-
-    public function catalogo()
->>>>>>> 7f021740929a683deefacadebbd780f6c833f7d8
     {
         $expansion = $request->query('expansion');
 
