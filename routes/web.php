@@ -9,6 +9,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\CestaController;
+use App\Http\Controllers\PedidoController;
 
 
 /*
@@ -120,3 +121,6 @@ Route::middleware(['auth'])->group(function () {
 
 //Expansiones
 Route::get('/expansiones', [App\Http\Controllers\ExpansionController::class, 'index'])->name('expansiones');
+
+
+Route::post('/pedido', [PedidoController::class, 'realizar'])->name('pedido.realizar');
