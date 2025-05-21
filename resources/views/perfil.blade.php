@@ -3,6 +3,28 @@
 @section('content')
 
 <div class="perfil-wrapper">
+    @if (session('success'))
+        <div style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div style="background-color: #f8d7da; color: #721c24; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div style="background-color: #f8d7da; color: #721c24; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">
+            <ul style="margin: 0; padding-left: 1rem;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- FILA 1: Contraseña, Usuario, Foto -->
     <div class="perfil-row">
         <!-- Contraseña -->
@@ -29,7 +51,10 @@
             @csrf
             <div class="foto-fila">
                 <div class="imagen-container">
-                    <img src="{{ Auth::user()->foto_perfil_url ?? asset('imagenes/usuario.png') }}" alt="Foto perfil">
+                    <img 
+                        src="{{ Auth::user()->foto ? asset('storage/' . Auth::user()->foto) : asset('imagenes/usuario.png') }}" 
+                        alt="Foto de perfil" 
+                        style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; background: #EBEBEB;">
                 </div>
                 <div class="botones-container">
                     <h3>Foto de perfil</h3>
@@ -84,7 +109,14 @@
         <div class="perfil-card info-direccion-card">
             <h3>Información dirección actual</h3>
             <div class="info-direccion">
-                {{ Auth::user()->direccion ?? 'No hay información' }}
+                <div class="info-bloque">
+                    <h4>Dirección</h4>
+                    <p>{{ Auth::user()->direccion ?? 'No hay información' }}</p>
+                </div>
+                <div class="info-bloque">
+                    <h4>Nombre de usuario</h4>
+                    <p>{{ Auth::user()->name ?? 'No disponible' }}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -100,7 +132,7 @@
         <!-- Ver pedidos -->
         <div class="perfil-card perfil-50" style="display: flex; justify-content: flex-end; align-items: center;">
             <a href="{{ route('pedidos.index') }}">
-                <button type="button" style="background: #ebebeb; font-weight: bold; border: none; padding: 0.6rem 1.2rem; border-radius: 5px; cursor: pointer;">
+                <button type="button">
                     VER PEDIDOS
                 </button>
             </a>
@@ -183,7 +215,7 @@
     }
 
     .perfil-card button {
-        background: #ebebeb;
+        background: #606060;
         font-weight: bold;
         border: none;
         padding: 0.6rem 1.2rem;
@@ -267,6 +299,32 @@
         flex-grow: 1;
         display: flex;
         align-items: flex-start;
+    }
+
+    button {
+        background: #606060;
+        font-weight: bold;
+        color: white;
+    }
+
+    button:hover {
+        background: #505050;
+    }
+
+    .info-bloque {
+        flex: 1 1 100%;
+        margin-bottom: 1rem;
+    }
+
+    .info-bloque h4 {
+        margin: 0 0 0.5rem 0;
+        font-weight: bold;
+        color: #404040;
+    }
+
+    .info-bloque p {
+        margin: 0;
+        color: #606060;
     }
 </style>
 

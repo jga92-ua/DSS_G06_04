@@ -46,17 +46,20 @@
                     </button>
                 </form>
                 <a href="{{ route('perfil') }}">
-                    <img src="{{ asset('imagenes/usuario.png') }}" alt="Perfil" style="width: 40px; height: auto; border-radius: 50%; cursor: pointer;">
+                    <img 
+                        src="{{ Auth::user()->foto ? asset('storage/' . Auth::user()->foto) : asset('imagenes/usuario.png') }}" 
+                        alt="Perfil" 
+                        style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; cursor: pointer;">
                 </a>
             @else
                 <a href="{{ route('login') }}">
-                    <img src="{{ asset('imagenes/usuario.png') }}" alt="Iniciar sesión" style="width: 40px; height: auto; border-radius: 50%; cursor: pointer;">
+                    <img 
+                        src="{{ asset('imagenes/usuario.png') }}" 
+                        alt="Iniciar sesión" 
+                        style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; cursor: pointer;">
                 </a>
             @endauth
         </div>
-
-
-
     </div>
 </header>
 
@@ -68,11 +71,11 @@
         margin-top: 65px;
         padding-left: 65px;
     }
-    
+
     .header {
         display: flex;
     }
-    
+
     .sidebar {
         position: fixed;
         top: 0;
@@ -81,7 +84,7 @@
         display: flex;
         flex-direction: column;
     }
-    
+
     .sb-top {
         width: 65px;
         height: 65px;
@@ -90,7 +93,7 @@
         justify-content: center;
         align-items: center;
     }
-    
+
     .sb-options {
         background: none;
         border: none;
@@ -98,7 +101,7 @@
         font-size: 24px;
         cursor: pointer;
     }
-    
+
     .sb-pages {
         width: 65px;
         height: calc(100% - 65px);
@@ -108,18 +111,18 @@
         align-items: center;
     }
 
-    .sb-pages .nav{
+    .sb-pages .nav {
         font-size: 24px;
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-    
+
     .top {
         position: fixed;
         top: 0;
-        left: 65px; 
+        left: 65px;
         right: 0;
         height: 65px;
         display: flex;
@@ -128,41 +131,42 @@
         background-color: #d6d6d6;
         padding: 0 20px;
     }
-    
+
     .logo {
         display: flex;
         align-items: center;
         font-size: 24px;
     }
-    
+
     .logo img {
         width: 40px;
         height: auto;
         margin-left: 10px;
     }
-    
+
     .user {
         display: flex;
         align-items: center;
         text-align: right;
     }
-    
+
     .user .info {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
     }
-    
+
     .user .info span {
         color: #888888;
         font-size: 14px;
     }
-    
+
     .user img {
         width: 40px;
-        height: auto;
+        height: 40px;
         margin-left: 10px;
         border-radius: 50%;
+        object-fit: cover;
     }
 
     .carrito-btn {
@@ -177,5 +181,4 @@
         width: 30px !important;
         height: 30px !important;
     }
-
 </style>

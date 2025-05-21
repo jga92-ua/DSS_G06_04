@@ -27,14 +27,22 @@ class PerfilController extends Controller
         return back()->with('status', 'Contraseña actualizada');
     }
 
+
     public function actualizarUsuario(Request $request) {
         $request->validate([
-            'nuevo_usuario' => 'required',
+            'nuevo_usuario' => 'required|string|min:3|max:255',
+            'password' => 'required|string',
         ]);
+
+        if (!Hash::check($request->password, Auth::user()->password)) {
+            return back()->withErrors(['password' => 'La contraseña no es correcta.']);
+        }
 
         Auth::user()->update(['name' => $request->nuevo_usuario]);
         return back()->with('status', 'Usuario actualizado');
     }
+
+
 
     public function actualizarDireccion(Request $request) {
         // Aquí puedes validar y guardar los campos
@@ -42,25 +50,21 @@ class PerfilController extends Controller
     }
 
     public function actualizarFoto(Request $request) {
-        if ($request->hasFile('foto')) {
-            $path = $request->file('foto')->store('perfiles', 'public');
-            Auth::user()->update(['foto' => $path]);
-        }
-
-        return back()->with('status', 'Foto actualizada');
-    }
-    public function update(Request $request)
-    {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'numTelf' => 'required|string|max:20',
-            'direccion' => 'nullable|string|max:255',
+            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $user = Auth::user();
-        $user->update($request->only('name', 'email', 'numTelf', 'direccion'));
+        $usuario = Auth::user();
 
-        return redirect()->route('perfil')->with('success', 'Datos actualizados correctamente.');
+        // Borrar la foto anterior si no es la por defecto
+        if ($usuario->foto && \Storage::disk('public')->exists($usuario->foto)) {
+            \Storage::disk('public')->delete($usuario->foto);
+        }
+
+        // Guardar la nueva
+        $path = $request->file('foto')->store('perfiles', 'public');
+        $usuario->update(['foto' => $path]);
+
+        return back()->with('success', 'Foto de perfil actualizada correctamente.');
     }
 }
