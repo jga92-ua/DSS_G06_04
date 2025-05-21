@@ -73,6 +73,18 @@
         cursor: pointer;
     }
 
+    p {
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 10px 20px;
+        text-align: center;
+        background-color: #C0C0C0;
+        border-radius: 10px;
+        margin-top: 10px;
+        margin-bottom: 1px;
+    }
+
     /* QUITAR SCROLL HORIZONTAL */
     html, body {
         overflow-x: hidden;
@@ -92,7 +104,7 @@
         <div class="section-bar">Resultados</div>
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
             @foreach($cartas as $carta)
-                <div style="border: 1px solid #ccc; padding: 10px; text-align: center; border-radius: 8px; display: flex; flex-direction: column; align-items: center;">
+                <div style="padding: 10px; text-align: center; border-radius: 8px; display: flex; flex-direction: column; align-items: center;">
                     <img src="{{ $carta['images']['small'] }}" alt="Carta" width="120">
                     <p><strong>Nombre:</strong> {{ $carta['name'] }}</p>
 

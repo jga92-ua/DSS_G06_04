@@ -45,12 +45,13 @@
         padding: 12px;
         border-radius: 6px;
         box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.08);
-        background: #fff;
+        background: #ccc;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         height: 100%;
         font-size: 14px;
+        color: white;
     }
 
     .carta-item p {
@@ -85,13 +86,16 @@
         bottom: 40px;
         left: 50%;
         transform: translateX(-50%);
-        background-color: #007bff;
+        background-color: #606060;
         color: white;
         padding: 14px 20px;
         border-radius: 6px;
         text-decoration: none;
         font-size: 18px;
         font-weight: bold;
+    }
+    .btn-subir-carta:hover {
+        background-color: #505050;
     }
 </style>
 
