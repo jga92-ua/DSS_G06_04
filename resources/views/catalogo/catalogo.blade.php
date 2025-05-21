@@ -23,9 +23,12 @@
     }
 
     .section-bar {
-        background-color: #ddd;
+        background-color: #606060;
+        color: white;
+        border-radius: 10px;
+        text-align: left;
         padding: 10px 20px;
-        font-size: 18px;
+        font-size: 22px;
         font-weight: bold;
         display: flex;
         align-items: center;

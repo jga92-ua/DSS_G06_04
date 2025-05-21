@@ -7,6 +7,10 @@ use App\Models\Categoria;
 
 class CategoriaController extends Controller
 {
+    public function show(){
+        return view('categoria.index');
+    }
+
     public function index()
     {
         $categorias = Categoria::all();
