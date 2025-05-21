@@ -6,11 +6,11 @@
         
         <div class="sb-pages">
             <div class="nav">
-                <a class="nav-link" href="{{ url('/cartas/buscar') }}" title="Subir Carta" style="margin-top: 40px;">
-                    <div class="sb-nav-link-icon"><i class="bi bi-file-earmark-arrow-up-fill" style="color: #606060"></i></div>
-                </a>
                 <a class="nav-link" href="{{ route('inicio') }}" title="Inicio" style="margin-top: 40px;">
                     <div><i class="bi bi-house-fill" style="color: #606060"></i></div>
+                </a>
+                <a class="nav-link" href="{{ url('/cartas/buscar') }}" title="Subir Carta" style="margin-top: 40px;">
+                    <div class="sb-nav-link-icon"><i class="bi bi-file-earmark-arrow-up-fill" style="color: #606060"></i></div>
                 </a>
                 <a class="nav-link" href="{{ route('catalogo') }}" title="Catálogo" style="margin-top: 40px;">
                     <div><i class="bi bi-images" style="color: #606060"></i></div>
