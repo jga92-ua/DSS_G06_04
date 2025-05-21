@@ -34,7 +34,12 @@
                             @else
                                 <span class="text-muted">Sin productos</span>
                             @endif
+
+                            <div class="mt-2">
+                                <a href="{{ route('pedidos.show', $pedido->id) }}" class="btn btn-sm btn-primary">Ver detalles</a>
+                            </div>
                         </td>
+
                     </tr>
                 @endforeach
             </tbody>

@@ -20,7 +20,17 @@ class Pedido extends Model
         'fecha_pedido',
         'comprador_id',
     ];
-
+    public function items()
+{
+    return $this->hasManyThrough(
+        \App\Models\CestaItem::class,
+        \App\Models\Cesta::class,
+        'id', // Foreign key on `pedidos` (cesta_id)
+        'cesta_id', // Foreign key on `cesta_items`
+        'cesta_id', // Local key on `pedidos`
+        'id' // Local key on `cestas`
+    )->with('carta.usuario');
+}
     public function cliente()
     {
         return $this->belongsTo(User::class, 'cliente_id');

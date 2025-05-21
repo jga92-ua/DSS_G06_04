@@ -126,5 +126,6 @@ Route::get('/expansiones', [App\Http\Controllers\ExpansionController::class, 'in
 Route::post('/pedido', [PedidoController::class, 'realizar'])->name('pedido.realizar');
 
 Route::get('/pedidos', [PedidoController::class, 'index'])->middleware('auth')->name('pedidos.index');
+Route::get('/pedidos/{id}', [PedidoController::class, 'show'])->middleware('auth')->name('pedidos.show');
 
 

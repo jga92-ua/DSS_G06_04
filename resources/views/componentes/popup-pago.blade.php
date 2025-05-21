@@ -1,7 +1,6 @@
 <!-- Modal Bootstrap Pago -->
 <div class="modal fade" id="popupPago" tabindex="-1" aria-labelledby="popupPagoLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-
     <div class="modal-content shadow-lg">
       <div class="modal-header bg-dark text-white">
         <h5 class="modal-title" id="popupPagoLabel">Método de Pago</h5>
@@ -37,25 +36,41 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-between">
-        <!-- Botón de prueba: insertar pedido -->
-        <form method="POST" action="{{ route('pedido.realizar') }}">
-          @csrf
-          <input type="hidden" name="metodo_pago" value="Tarjeta">
-          <button type="submit" class="btn btn-success">[TEST] Insertar Pedido</button>
-        </form>
-
-        <div>
-          <!-- Botón original -->
-          <form method="POST" action="{{ route('cesta.procesarPago') }}" style="display: inline;">
-            @csrf
-            <button type="submit" class="btn btn-primary">Finalizar Compra</button>
-          </form>
-
-          <!-- Cancelar -->
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        </div>
+        <button type="button" class="btn btn-primary" onclick="abrirConfirmacionDesdePago()">Finalizar Compra</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
       </div>
-
     </div>
   </div>
 </div>
+
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="confirmarPedidoModal" tabindex="-1" aria-labelledby="confirmarPedidoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content popup-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmarPedidoLabel">¿Confirmar pedido?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>¿Estás seguro de que deseas realizar la compra?</p>
+        <form method="POST" action="{{ route('pedido.realizar') }}">
+          @csrf
+          <input type="hidden" name="metodo_pago" value="Tarjeta">
+          <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success">Sí, confirmar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script de flujo -->
+<script>
+  function abrirConfirmacionDesdePago() {
+    const modalPago = bootstrap.Modal.getInstance(document.getElementById('popupPago'));
+    modalPago.hide();
+
+    const modalConfirm = new bootstrap.Modal(document.getElementById('confirmarPedidoModal'));
+    modalConfirm.show();
+  }
+</script>

@@ -1,10 +1,9 @@
+@extends('layouts.app')
+
 @section('head')
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
-
-
-@extends('layouts.app')
 
 @section('content')
 <style>
@@ -68,24 +67,9 @@
         cursor: pointer;
     }
 
-    .finalizar-btn {
-        margin: 20px auto;
-        background-color: #5cb85c;
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
     .precio-final {
         text-align: center;
         margin-top: 40px;
-    }
-
-    .precio-final h3 {
-        margin-bottom: 10px;
     }
 
     .precio-final label {
@@ -93,73 +77,8 @@
         margin-bottom: 15px;
     }
 
-    .vaciar-btn-container {
-        text-align: right;
-        margin-top: 10px;
-    }
-
-    .vaciar-btn-container form {
-        display: inline;
-    }
-
-    .vaciar-btn {
-        background-color: #d9534f;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-    }
-
     html, body {
         overflow-x: hidden;
-    }
-
-    /* Popup */
-    #popup-pago {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0,0,0,0.6);
-        z-index: 9999;
-    }
-    #popup-pago .popup-content {
-        width: 400px;
-        background: #fff;
-        border-radius: 8px;
-        margin: 100px auto;
-        padding: 30px;
-        position: relative;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        font-family: sans-serif;
-    }
-    #popup-pago .popup-content h2 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    #popup-pago .popup-content input {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 12px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-    }
-    #popup-pago .popup-content button {
-        padding: 10px 15px;
-        margin-top: 10px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-    #popup-pago .btn-cancelar {
-        background-color: #888;
-        color: #fff;
-    }
-    #popup-pago .btn-pagar {
-        background-color: #28a745;
-        color: white;
     }
 </style>
 
@@ -206,33 +125,44 @@
         <p style="text-align: center;">No hay cartas en la cesta.</p>
     @endforelse
 
-    
     @if (!$cartasEnCesta->isEmpty())
-  <div class="precio-final text-center mt-4">
-    <h3>PRECIO TOTAL (21% IVA): {{ number_format($precioTotal * 1.21, 2) }} EUROS</h3>
+    <div class="precio-final text-center mt-4">
+        <h3>PRECIO TOTAL (21% IVA): {{ number_format($precioTotal * 1.21, 2) }} EUROS</h3>
 
-    <label>
-      <input type="checkbox" id="terminosCheckbox" required>
-      He leído y acepto los <a href="#">términos y condiciones</a>
-    </label>
-    <br>
+        <label>
+            <input type="checkbox" id="terminosCheckbox" required>
+            He leído y acepto los <a href="#">términos y condiciones</a>
+        </label>
+        <br>
 
-    <button type="button" class="btn btn-success mt-2" onclick="abrirModalPago()">Finalizar Compra</button>
-  </div>
-@endif
-
+        <button type="button" class="btn btn-success mt-2" onclick="abrirModalPago()">Finalizar Compra</button>
+    </div>
+    @endif
 </div>
 
-<script>
-    function abrirPopup() {
-        if (!document.getElementById('terminosCheckbox').checked) {
-            alert("Debes aceptar los términos y condiciones antes de continuar.");
-            return;
-        }
-        document.getElementById('popup-pago').style.display = 'block';
-    }
-</script>
+<!-- MODAL DE CONFIRMACIÓN FINAL -->
+<div class="modal fade" id="confirmarPedidoModal" tabindex="-1" aria-labelledby="confirmarPedidoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content popup-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="confirmarPedidoLabel">Confirmar pedido</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>¿Estás seguro de que deseas realizar la compra?</p>
+        <form id="formPedidoConfirmado" action="{{ route('pedido.realizar') }}" method="POST">
+          @csrf
+          <input type="hidden" name="metodo_pago" value="Tarjeta">
+          <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success">Sí, continuar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
+
+@section('scripts')
 <script>
   function abrirModalPago() {
     const checkbox = document.getElementById('terminosCheckbox');
@@ -243,4 +173,13 @@
     const modal = new bootstrap.Modal(document.getElementById('popupPago'));
     modal.show();
   }
+
+  function abrirConfirmacionDesdePago() {
+    const modalPago = bootstrap.Modal.getInstance(document.getElementById('popupPago'));
+    modalPago.hide();
+
+    const modalConfirm = new bootstrap.Modal(document.getElementById('confirmarPedidoModal'));
+    modalConfirm.show();
+  }
 </script>
+@endsection
