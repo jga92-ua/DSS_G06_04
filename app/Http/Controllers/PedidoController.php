@@ -31,4 +31,14 @@ class PedidoController extends Controller
 
         return redirect()->route('cesta.index')->with('success', 'Pedido registrado correctamente.');
     }
+
+    public function index()
+    {
+        $usuarioId = Auth::id(); // ID del usuario autenticado
+
+        // Filtrar pedidos solo del usuario actual
+        $pedidos = Pedido::where('cliente_id', $usuarioId)->get();
+
+        return view('pedidos.index', compact('pedidos'));
+    }
 }

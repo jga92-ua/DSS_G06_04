@@ -89,14 +89,24 @@
         </div>
     </div>
 
-    <!-- FILA 3: Cerrar sesión -->
+    <!-- FILA 3: Cerrar sesión y Ver pedidos -->
     <div class="perfil-row">
+        <!-- Cerrar sesión -->
         <form class="perfil-card perfil-50" method="POST" action="{{ route('logout') }}">
             @csrf
-
             <button type="submit">CERRAR SESIÓN</button>
         </form>
+
+        <!-- Ver pedidos -->
+        <div class="perfil-card perfil-50" style="display: flex; justify-content: flex-end; align-items: center;">
+            <a href="{{ route('pedidos.index') }}">
+                <button type="button" style="background: #ebebeb; font-weight: bold; border: none; padding: 0.6rem 1.2rem; border-radius: 5px; cursor: pointer;">
+                    VER PEDIDOS
+                </button>
+            </a>
+        </div>
     </div>
+
 </div>
 
 <style>

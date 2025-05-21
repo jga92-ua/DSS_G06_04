@@ -122,5 +122,9 @@ Route::middleware(['auth'])->group(function () {
 //Expansiones
 Route::get('/expansiones', [App\Http\Controllers\ExpansionController::class, 'index'])->name('expansiones');
 
-
+//Pedidos
 Route::post('/pedido', [PedidoController::class, 'realizar'])->name('pedido.realizar');
+
+Route::get('/pedidos', [PedidoController::class, 'index'])->middleware('auth')->name('pedidos.index');
+
+
