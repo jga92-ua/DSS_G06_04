@@ -85,15 +85,14 @@ Route::delete('/admin/categorias/{id}', [CategoriaController::class, 'destroy'])
 Route::get('/admin/categorias', [CategoriaController::class, 'adminIndex'])->name('admin.categorias');
 
 //Cesta
-Route::get('/cesta', [CestaController::class, 'index'])->name('cesta.index');
-Route::post('/cesta/agregar/{id}', [CestaController::class, 'añadir'])->name('cesta.anadir');
-Route::post('/cesta/eliminar/{id}', [CestaController::class, 'eliminar'])->name('cesta.eliminar');
-Route::post('/cesta/comprar', [CestaController::class, 'comprar'])->name('cesta.comprar');
-Route::post('/cesta/incrementar/{id}', [CestaController::class, 'incrementar'])->name('cesta.incrementar');
-Route::post('/cesta/decrementar/{id}', [CestaController::class, 'decrementar'])->name('cesta.decrementar');
-Route::post('/cesta/vaciar', [CestaController::class, 'vaciar'])->name('cesta.vaciar');
-Route::post('/cesta/procesar-pago', [CestaController::class, 'procesarPago'])->name('cesta.procesarPago');
-
+Route::get('/cesta', [CestaController::class, 'index'])->middleware('auth')->name('cesta.index');
+Route::post('/cesta/agregar/{id}', [CestaController::class, 'añadir'])->middleware('auth')->name('cesta.anadir');
+Route::post('/cesta/eliminar/{id}', [CestaController::class, 'eliminar'])->middleware('auth')->name('cesta.eliminar');
+Route::post('/cesta/comprar', [CestaController::class, 'comprar'])->middleware('auth')->name('cesta.comprar');
+Route::post('/cesta/incrementar/{id}', [CestaController::class, 'incrementar'])->middleware('auth')->name('cesta.incrementar');
+Route::post('/cesta/decrementar/{id}', [CestaController::class, 'decrementar'])->middleware('auth')->name('cesta.decrementar');
+Route::post('/cesta/vaciar', [CestaController::class, 'vaciar'])->middleware('auth')->name('cesta.vaciar');
+Route::post('/cesta/procesar-pago', [CestaController::class, 'procesarPago'])->middleware('auth')->name('cesta.procesarPago');
 
 
 //Politica de privacidad y terminos de uso
@@ -123,7 +122,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/expansiones', [App\Http\Controllers\ExpansionController::class, 'index'])->name('expansiones');
 
 //Pedidos
-Route::post('/pedido', [PedidoController::class, 'realizar'])->name('pedido.realizar');
+Route::post('/pedido', [PedidoController::class, 'realizar'])->middleware('auth')->name('pedido.realizar');
 
 Route::get('/pedidos', [PedidoController::class, 'index'])->middleware('auth')->name('pedidos.index');
 Route::get('/pedidos/{id}', [PedidoController::class, 'show'])->middleware('auth')->name('pedidos.show');

@@ -103,16 +103,9 @@
             </div>
             <div class="cesta-col">{{ number_format($item->precio_unitario, 2) }} €</div>
             <div class="cesta-col cantidad-control">
-                <form method="POST" action="{{ route('cesta.decrementar', $item->id) }}">
-                    @csrf
-                    <button type="submit">−</button>
-                </form>
-                {{ $item->cantidad }}
-                <form method="POST" action="{{ route('cesta.incrementar', $item->id) }}">
-                    @csrf
-                    <button type="submit">+</button>
-                </form>
+                 {{ $item->cantidad }}
             </div>
+
             <div class="cesta-col">{{ number_format($item->cantidad * $item->precio_unitario, 2) }} €</div>
             <div class="cesta-col">
                 <form method="POST" action="{{ route('cesta.eliminar', $item->id) }}">
@@ -164,22 +157,60 @@
 
 @section('scripts')
 <script>
-  function abrirModalPago() {
-    const checkbox = document.getElementById('terminosCheckbox');
-    if (!checkbox.checked) {
-      alert('Debes aceptar los términos y condiciones.');
-      return;
-    }
-    const modal = new bootstrap.Modal(document.getElementById('popupPago'));
-    modal.show();
+function abrirModalPago() {
+  const checkbox = document.getElementById('terminosCheckbox');
+  if (!checkbox.checked) {
+    alert('Debes aceptar los términos y condiciones.');
+    return;
+  }
+  const modal = new bootstrap.Modal(document.getElementById('popupPago'));
+  modal.show();
+}
+
+function abrirConfirmacionDesdePago() {
+  const modalPago = bootstrap.Modal.getInstance(document.getElementById('popupPago'));
+  modalPago.hide();
+
+  const modalConfirm = new bootstrap.Modal(document.getElementById('confirmarPedidoModal'));
+  modalConfirm.show();
+}
+
+function validarFormularioPago() {
+  const numero = document.getElementById("numero").value.replace(/\s/g, '');
+  const caducidad = document.getElementById("caducidad").value;
+  const cvv = document.getElementById("cvv").value;
+
+  const tarjetaValida = /^[0-9]{16}$/.test(numero);
+  const cvvValido = /^[0-9]{3}$/.test(cvv);
+  const fechaValida = /^(0[1-9]|1[0-2])\/\d{2}$/.test(caducidad);
+
+  if (!tarjetaValida) {
+    alert("Número de tarjeta inválido. Debe tener 16 dígitos.");
+    return false;
   }
 
-  function abrirConfirmacionDesdePago() {
-    const modalPago = bootstrap.Modal.getInstance(document.getElementById('popupPago'));
-    modalPago.hide();
-
-    const modalConfirm = new bootstrap.Modal(document.getElementById('confirmarPedidoModal'));
-    modalConfirm.show();
+  if (!cvvValido) {
+    alert("CVV inválido. Debe tener 3 dígitos.");
+    return false;
   }
+
+  if (!fechaValida) {
+    alert("Fecha de caducidad inválida. Usa el formato MM/AA.");
+    return false;
+  }
+
+  const [mes, anio] = caducidad.split('/').map(Number);
+  const hoy = new Date();
+  const anioActual = parseInt(hoy.getFullYear().toString().slice(-2));
+  const mesActual = hoy.getMonth() + 1;
+
+  if (anio < anioActual || (anio === anioActual && mes < mesActual)) {
+    alert("La tarjeta ya ha caducado.");
+    return false;
+  }
+
+  return true;
+}
 </script>
 @endsection
+

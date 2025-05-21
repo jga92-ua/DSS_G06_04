@@ -23,32 +23,34 @@ class CestaController extends Controller
         return view('cesta.cesta', compact('cartasEnCesta', 'precioTotal'));
     }
     
+public function agregar(Request $request)
+{
+    $request->validate([
+        'carta_id' => 'required|exists:cartas,id'
+    ]);
 
-    public function agregar(Request $request)
-    {
-        $request->validate([
-            'carta_id' => 'required|exists:cartas,id',
-            'precio_unitario' => 'required|numeric',
-        ]);
+    $user = Auth::user();
+    $cesta = Cesta::firstOrCreate(['user_id' => $user->id]);
 
-        $user = auth()->user();
+    $item = CestaItem::where('cesta_id', $cesta->id)
+                ->where('carta_id', $request->carta_id)
+                ->first();
 
-        if (!$user) {
-            return redirect()->route('login');
-        }
-
-        $cesta = Cesta::firstOrCreate(['user_id' => $user->id]);
-
+    if ($item) {
+        $item->cantidad += 1;
+        $item->save();
+    } else {
         CestaItem::create([
             'cesta_id' => $cesta->id,
             'carta_id' => $request->carta_id,
-            'precio_unitario' => $request->precio_unitario,
             'cantidad' => 1,
+            'precio_unitario' => Carta::find($request->carta_id)->precio,
         ]);
-
-        // Redirección explícita al carrito
-        return redirect()->route('cesta.index')->with('success', 'Carta añadida a la cesta');
     }
+
+    return redirect()->route('cesta.index')->with('success', 'Carta añadida a la cesta.');
+}
+
 
     public function eliminar($id)
     {

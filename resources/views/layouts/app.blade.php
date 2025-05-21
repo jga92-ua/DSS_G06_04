@@ -37,5 +37,6 @@
         <div class="container">
             @yield('content')
         </div>
+        @yield('scripts')
     </body>
 </html>
