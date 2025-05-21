@@ -16,10 +16,12 @@
     }
 
     .trending-bar {
-        background-color: #ddd;
+        background-color: #606060;
+        border-radius: 10px;
         padding: 10px 20px;
-        font-size: 18px;
+        font-size: 22px;
         font-weight: bold;
+        color: white;
         display: flex;
         align-items: center;
         justify-content: start;
@@ -35,7 +37,7 @@
     }
 
     .card {
-        width: 150px;
+        width: 200px;
         height: auto;
         border-radius: 8px;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -54,15 +56,25 @@
 
     .left-section {
         width: 66%;
-        background-color: #ddd;
         padding: 10px;
         text-align: center;
         border-radius: 8px;
     }
 
+    .left-section h3,
+    .right-section h3 {
+        margin-bottom: 10px;
+        color: white;
+        background-color: #606060;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-size: 22px;
+        font-weight: bold;
+        text-align: left;
+    }
+
     .right-section {
         width: 33%;
-        background-color: #ddd;
         padding: 10px;
         text-align: center;
         border-radius: 8px;

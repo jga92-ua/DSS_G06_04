@@ -49,7 +49,7 @@
 
     .titulo-pedidos {
         width: 93%;
-        background-color: #3f3f3f;
+        background-color: #606060;
         padding: 10px 20px;
         border-radius: 10px;
         margin-bottom: 20px;
@@ -65,6 +65,7 @@
         color: white;
         margin: 0;
         text-align: left;
+        font-size: 22px;
     }
 
     .tabla-estilizada {
