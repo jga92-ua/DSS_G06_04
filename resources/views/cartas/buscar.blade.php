@@ -23,9 +23,12 @@
     }
 
     .section-bar {
-        background-color: #ddd;
+        background-color: #606060;
+        text-align: left;
+        color: white;
+        border-radius: 10px;
         padding: 10px 20px;
-        font-size: 18px;
+        font-size: 22px;
         font-weight: bold;
         display: flex;
         align-items: center;
@@ -86,7 +89,7 @@
 
 
     @if(isset($cartas))
-        <div class="section-bar">Resultados:</div>
+        <div class="section-bar">Resultados</div>
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
             @foreach($cartas as $carta)
                 <div style="border: 1px solid #ccc; padding: 10px; text-align: center; border-radius: 8px; display: flex; flex-direction: column; align-items: center;">

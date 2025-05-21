@@ -127,4 +127,7 @@ Route::post('/pedido', [PedidoController::class, 'realizar'])->name('pedido.real
 
 Route::get('/pedidos', [PedidoController::class, 'index'])->middleware('auth')->name('pedidos.index');
 
+//Categorías
+Route::get('/categorias', [CategoriaController::class, 'show'])->name('categoria.index');
+
 
