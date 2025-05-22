@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Expansion;
+use App\Models\Carta;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -27,4 +29,15 @@ class ExpansionController extends Controller
 
         return view('expansiones.index', compact('expansiones'));
     }
+
+    public function verCartas($id)
+    {
+        $cartas = Carta::where('expansion_api_id', $id)->get();
+
+        return view('expansiones.cartas', [
+            'expansion_name' => $id,
+            'cartas' => $cartas
+        ]);
+    }
 }
+

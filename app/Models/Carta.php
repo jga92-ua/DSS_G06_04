@@ -19,6 +19,7 @@ class Carta extends Model
         'estado',
         'precio',
         'fecha_adquisicion',
+        'expansion_api_id',
     ];
 
     public function ventas()

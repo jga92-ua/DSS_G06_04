@@ -1,7 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-
+@if ($errors->any())
+    <div class="alert alert-danger" style="color:red; margin-bottom: 15px;">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="upload-container">
     <h1 class="upload-title">Subir Carta Personalizada</h1>
 
@@ -53,6 +61,9 @@
                 <input type="date" name="fecha_adquisicion" required class="form-control">
             </div>
         </div>
+
+        <input type="hidden" name="expansion_api_id" value="{{ $expansion_api_id ?? '' }}">
+
 
         <button type="submit" class="submit-button">Subir carta</button>
     </form>

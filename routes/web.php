@@ -10,7 +10,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\CestaController;
 use App\Http\Controllers\PedidoController;
-
+use App\Http\Controllers\ExpansionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -120,6 +120,10 @@ Route::middleware(['auth'])->group(function () {
 
 //Expansiones
 Route::get('/expansiones', [App\Http\Controllers\ExpansionController::class, 'index'])->name('expansiones');
+Route::get('/expansion/{id}/cartas', [ExpansionController::class, 'verCartas'])->name('expansion.cartas');
+Route::get('/carta/{id_carta_api}', [CartaController::class, 'show'])->name('cartas.show');
+
+
 
 //Pedidos
 Route::post('/pedido', [PedidoController::class, 'realizar'])->middleware('auth')->name('pedido.realizar');
