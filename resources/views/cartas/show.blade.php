@@ -4,7 +4,7 @@
 
 <style>
     .section-bar {
-        background-color: #ddd;
+        background-color: #606060;
         padding: 10px 20px;
         font-size: 18px;
         font-weight: bold;
@@ -14,6 +14,8 @@
         justify-content: start;
         margin-top: 5px;
         margin-left: 5px;
+        color: white;
+        border-radius: 10px;
     }
 
     .carta-main {
