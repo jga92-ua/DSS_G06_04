@@ -8,7 +8,7 @@
       </div>
 
       <div class="modal-body">
-<form id="formPago" method="POST" action="{{ route('cesta.procesarPago') }}">
+<form id="formPago" method="POST" action="{{ route('pedido.realizar') }}">
           @csrf
           <input type="hidden" name="metodo_pago" value="Tarjeta">
 
