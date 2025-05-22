@@ -21,7 +21,12 @@
     }
 
     h2 {
-        margin-top: 35px; /* espacio debajo del header */
+        margin-top: 35px;
+        background-color: #505050;
+        color: white; 
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-align: left;
     }
 
     .expansion-grid {
@@ -53,6 +58,16 @@
         margin-top: 8px;
         font-size: 14px;
     }
+
+    .nombre-expansion {
+        margin-top: 35px;
+        background-color: #c0c0c0;
+        color: #606060; 
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+    
 </style>
 
 <div class="container">
@@ -62,7 +77,7 @@
             <a href="{{ route('expansion.cartas', ['id' => $expansion['id']]) }}" class="expansion-card">
                 <img src="{{ $expansion['images']['logo'] ?? asset('imagenes/default_expansion.png') }}"
                      alt="{{ $expansion['name'] }}">
-                <p>{{ $expansion['name'] }}</p>
+                <p class="nombre-expansion">{{ $expansion['name'] }}</p>
             </a>
         @empty
             <p>No se encontraron expansiones.</p>
