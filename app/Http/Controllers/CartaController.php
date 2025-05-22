@@ -40,10 +40,58 @@ class CartaController extends Controller
     // Mostrar el formulario para crear la carta seleccionada
     public function create(Request $request)
     {
-        $id_carta_api = $request->input('id_carta_api');
-        $nombre_carta_api = $request->input('nombre_carta_api');
-        return view('cartas.crear', compact(['id_carta_api', 'nombre_carta_api']));
+        $nombre_carta_api = $request->get('nombre_carta_api');
+        $id_carta_api = $request->get('id_carta_api');
+
+        // Obtener expansion_api_id desde la API si no viene en la request
+        $expansion_api_id = $request->get('expansion_api_id');
+        if (!$expansion_api_id && $id_carta_api) {
+            $response = Http::get("https://api.pokemontcg.io/v2/cards/{$id_carta_api}");
+            if ($response->successful()) {
+                $expansion_api_id = $response['data']['set']['id'] ?? '';
+            }
+        }
+
+        return view('cartas.crear', compact('nombre_carta_api', 'id_carta_api', 'expansion_api_id'));
     }
+
+    public function cartasPorExpansion($expansion_id)
+    {
+        // Tus cartas del usuario actual
+        $cartas = Carta::where('usuario_id', auth()->id())
+                    ->where('expansion_api_id', $expansion_id)
+                    ->get();
+
+        // Nombre de la expansión
+        $expansion_name = null;
+        if ($cartas->isNotEmpty()) {
+            $firstCarta = $cartas->first();
+            $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$firstCarta->id_carta_api}");
+            if ($apiResponse->successful()) {
+                $data = $apiResponse->json();
+                $expansion_name = $data['data']['set']['name'] ?? null;
+            }
+        }
+
+        // Obtener TODAS las cartas de la expansión desde la API externa
+        $cartas_expansion_completa = [];
+        $response = Http::get("https://api.pokemontcg.io/v2/cards", [
+            'q' => 'set.id:' . $expansion_id,
+            'pageSize' => 30
+        ]);
+
+        if ($response->successful()) {
+            $cartas_expansion_completa = $response->json()['data'] ?? [];
+        }
+
+        return view('expansiones.cartas', [
+            'cartas' => $cartas,
+            'expansion_id' => $expansion_id,
+            'expansion_name' => $expansion_name,
+            'cartas_expansion_completa' => $cartas_expansion_completa
+        ]);
+    }
+
     public function misCartas()
     {
         $usuario_id = 1; // o el ID del usuario autenticado
@@ -163,6 +211,8 @@ class CartaController extends Controller
                 'id' => $carta->id,
                 'nombre' => $datosApi['data']['name'] ?? 'Desconocido',
                 'imagen' => $datosApi['data']['images']['small'] ?? asset('imagenes/default-card.png'),
+                'expansion_api_id' => $datosApi['data']['set']['id'] ?? null,
+            'expansion_api_name' => $datosApi['data']['set']['name'] ?? null,
             ];
         });
     }
@@ -246,6 +296,7 @@ class CartaController extends Controller
             'estado' => 'required|string',
             'precio' => 'required|numeric|min:0',
             'fecha_adquisicion' => 'required|date',
+            'expansion_api_id' => 'required|string',
         ]);
 
         // Crear nueva carta
@@ -258,9 +309,11 @@ class CartaController extends Controller
             'estado' => $request->input('estado'),
             'precio' => $request->input('precio'),
             'fecha_adquisicion' => $request->input('fecha_adquisicion'),
+            'expansion_api_id' => $request->input('expansion_api_id'), 
         ]);
 
         return redirect()->route('cartas.mis')->with('success', 'Carta subida correctamente');
+
     }
 
     public function destroy($id)

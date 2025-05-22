@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('estado');
             $table->decimal('precio', 8, 2)->nullable();
             $table->date('fecha_adquisicion')->nullable();
+            $table->string('expansion_api_id')->nullable();
             $table->timestamps();
 
             // Clave foránea
