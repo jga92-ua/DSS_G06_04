@@ -12,16 +12,26 @@ use Illuminate\Support\Facades\Storage;
 class CestaController extends Controller
 {
     public function index()
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        $cesta = Cesta::with('items.carta')->firstOrCreate(['user_id' => $user->id]);
+    // Carga la cesta más reciente del usuario (la vacía tras pedido)
+    $cesta = Cesta::with('items.carta')
+        ->where('user_id', $user->id)
+        ->orderByDesc('id') // Importante: trae la última cesta creada
+        ->first();
 
-        $cartasEnCesta = $cesta->items;
-        $precioTotal = $cartasEnCesta->sum(fn($item) => $item->cantidad * $item->precio_unitario);
-
-        return view('cesta.cesta', compact('cartasEnCesta', 'precioTotal'));
+    // Si no hay ninguna (raro, pero posible), se crea una nueva
+    if (!$cesta) {
+        $cesta = Cesta::create(['user_id' => $user->id]);
     }
+
+    $cartasEnCesta = $cesta->items;
+    $precioTotal = $cartasEnCesta->sum(fn($item) => $item->cantidad * $item->precio_unitario);
+
+    return view('cesta.cesta', compact('cartasEnCesta', 'precioTotal'));
+}
+
     
 public function agregar(Request $request)
 {
@@ -30,7 +40,12 @@ public function agregar(Request $request)
     ]);
 
     $user = Auth::user();
-    $cesta = Cesta::firstOrCreate(['user_id' => $user->id]);
+    $cesta = Cesta::where('user_id', $user->id)->orderByDesc('id')->first();
+
+    if (!$cesta) {
+        $cesta = Cesta::create(['user_id' => $user->id]);
+    }
+
 
     $item = CestaItem::where('cesta_id', $cesta->id)
                 ->where('carta_id', $request->carta_id)
@@ -140,11 +155,9 @@ public function procesarPago(Request $request)
 
     // Limpiar cesta
     $cesta->items()->delete();
-
+    $cesta->delete(); // <-- AÑADE ESTA LÍNEA
+    Cesta::create(['user_id' => $user->id]); // nueva cesta vacía
     return redirect()->route('cesta.index')->with('success', 'Pago realizado con éxito. Revisa tu correo.');
 }
-
-
-
 
 }

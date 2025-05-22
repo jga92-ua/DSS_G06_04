@@ -19,14 +19,20 @@
         <tbody>
             @foreach ($pedido->items as $item)
                 <tr>
-                    <td><img src="https://images.pokemontcg.io/{{ $item->carta->id_carta_api }}/large.png" width="80" alt="{{ $item->carta->nombre_carta_api }}">
-</td>
+                    @php
+                        $parts = explode('-', $item->carta->id_carta_api);
+                        $set = $parts[0] ?? '';
+                        $number = $parts[1] ?? '';
+                    @endphp
+                    <td>
+                        <img src="https://images.pokemontcg.io/{{ $set }}/{{ $number }}_hires.png" width="80" alt="{{ $item->carta->nombre_carta_api }}">
+                    </td>
                     <td>{{ $item->carta->nombre_carta_api }}</td>
                     <td>{{ number_format($item->precio_unitario, 2) }} €</td>
                     <td>{{ $item->cantidad }}</td>
                     <td>{{ $item->carta->usuario->name ?? 'Desconocido' }}</td>
                 </tr>
-            @endforeach
+                            @endforeach
         </tbody>
     </table>
 </div>
