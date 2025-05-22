@@ -77,10 +77,6 @@
         background-color: #f0f0f0;
     }
 
-    td:last-child {
-        text-align: center;
-    }
-
     .text-center {
         text-align: center;
     }
