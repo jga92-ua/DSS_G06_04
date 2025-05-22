@@ -36,6 +36,7 @@ class PedidoController extends Controller
         'metodo_pago'     => $request->input('metodo_pago', 'Tarjeta'),
         'fecha_pedido'    => now(),
         'comprador_id'    => $vendedorId,
+        'id_carta_api'    => $cesta->items->first()->carta->id_carta_api ?? null,
     ];
 
     try {
