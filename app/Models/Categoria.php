@@ -15,7 +15,13 @@ class Categoria extends Model
         'id',
         'nombre',
         'descripcion',
+        'id_cartas',
         'created_at',
         'updated_at',
     ];
+
+    public function carta()
+    {
+        return $this->belongsTo(Carta::class, 'id_cartas');
+    }
 }
