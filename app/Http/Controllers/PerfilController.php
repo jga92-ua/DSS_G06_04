@@ -45,8 +45,31 @@ class PerfilController extends Controller
 
 
     public function actualizarDireccion(Request $request) {
-        // Aquí puedes validar y guardar los campos
-        return back()->with('status', 'Dirección actualizada');
+        $request->validate([
+            'calle' => 'required|string|max:255',
+            'numero' => 'required|string|regex:/^\d+$/|max:10',
+            'piso' => 'nullable|string|max:50',
+            'cpp' => 'required|string|regex:/^\d+$/|max:20',
+            'localidad' => 'required|string|max:100',
+            'pais' => 'required|string|max:100',
+        ], [
+            'numero.regex' => 'El número solo puede contener dígitos.',
+            'cpp.regex' => 'El código postal solo puede contener dígitos.',
+        ]);
+
+        // Construcción del string de dirección
+        $direccion = $request->calle . ' ' . $request->numero;
+        if ($request->filled('piso')) {
+            $direccion .= ', ' . $request->piso;
+        }
+        $direccion .= ', ' . $request->cpp . ', ' . $request->localidad . ', ' . $request->pais;
+
+        // Guardar en el usuario autenticado
+        $user = auth()->user();
+        $user->direccion = $direccion;
+        $user->save();
+
+        return back()->with('success', 'Dirección actualizada');
     }
 
     public function actualizarFoto(Request $request) {

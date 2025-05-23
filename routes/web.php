@@ -133,5 +133,12 @@ Route::get('/pedidos/{id}', [PedidoController::class, 'show'])->middleware('auth
 
 //Categorías
 Route::get('/categorias', [CategoriaController::class, 'show'])->name('categoria.index');
+Route::get('/cartas/{id_carta_api}', [CartaController::class, 'show'])->name('cartas.show');
+
+Route::get('/expansiones/{codigo}', [CartaController::class, 'porExpansion'])->name('cartas.expansion');
+Route::get('/cartas/{id}', [CartaController::class, 'show'])->name('cartas.show');
+Route::get('/cartas/{id_carta_api}', [CartaController::class, 'show'])->name('cartas.show');
+Route::get('/expansion/{id}/cartas', [ExpansionController::class, 'verCartas'])->name('expansion.cartas');
+
 
 
