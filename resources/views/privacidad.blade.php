@@ -1,8 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="padding: 40px; max-width: 800px; margin: auto;">
-    <h1>Política de Privacidad</h1>
+<style>
+    html, body {
+        overflow-x: hidden;
+    }
+</style>
+<div style="
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 40px;
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+">
+    <h1 class="text-center mb-4">Política de Privacidad</h1>
 
     <p><strong>1. Información General</strong></p>
     <p>PokeMarketTCG recopila, procesa y protege los datos personales de sus usuarios de conformidad con las normativas de protección de datos aplicables, incluyendo el Reglamento General de Protección de Datos (RGPD). El uso de nuestra plataforma implica la aceptación de esta política de privacidad.</p>
