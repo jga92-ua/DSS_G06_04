@@ -11,10 +11,12 @@
     }
 
     .top-bar {
-        background-color: #ddd;
+        background-color: #505050;
         padding: 10px 20px;
         font-size: 18px;
+        border-radius: 10px;
         font-weight: bold;
+        color: white;
         display: flex;
         align-items: center;
         justify-content: start;
@@ -66,11 +68,12 @@
 
     .section-title {
         margin: 20px 0 10px;
-        background-color: white;
-        padding: 8px;
-        border: 2px solid black;
-        border-radius: 5px;
-        font-size: 18px;
+        background-color: #505050;
+        padding: 10px 20px;
+        color: white;
+        font-weight: bold;
+        border-radius: 10px;
+        font-size: 16px;
         text-align: center;
     }
 
@@ -142,7 +145,7 @@
             </form>
 
             <!-- Usuarios Existentes -->
-            <div class="section-title">Usuarios Existentes:</div>
+            <div class="section-title">Usuarios Existentes</div>
 
             @foreach($usuarios as $usuario)
                 <div class="admin-item">
@@ -195,7 +198,7 @@
             </form>
 
             <!-- Categorías Existentes -->
-            <div class="section-title">Categorías Existentes:</div>
+            <div class="section-title">Categorías Existentes</div>
 
             @foreach($categorias as $categoria)
                 <div class="admin-item">
