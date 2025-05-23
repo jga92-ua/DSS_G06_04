@@ -9,10 +9,24 @@
 <style>
     .cesta-container {
         max-width: 1200px;
-        margin: 20px;
+        margin: 20px auto;
         padding: 20px;
         background-color: #f5f5f5;
         border-radius: 8px;
+    }
+
+    .section-bar {
+        background-color: #606060;
+        color: white;
+        border-radius: 10px;
+        text-align: left;
+        padding: 10px 20px;
+        font-size: 22px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        margin-bottom: 20px;
     }
 
     .cesta-header,
@@ -102,7 +116,7 @@
 @include('componentes.popup-pago')
 
 <div class="cesta-container">
-    <h2>Cesta de Compra</h2>
+    <div class="section-bar">Cesta de Compra</div>
 
     <div class="cesta-header">
         <div class="cesta-info">Producto</div>
@@ -139,9 +153,15 @@
     <div class="precio-final text-center mt-4">
         <h3>PRECIO TOTAL (21% IVA): {{ number_format($precioTotal * 1.21, 2) }} EUROS</h3>
 
+<<<<<<< HEAD
         <label class="checkbox-label">
             <input type="checkbox" required>
             Acepto los <a href="{{ route('terminos') }}" target="_blank">Términos de Servicio</a> y la <a href="{{ route('privacidad') }}" target="_blank">Política de Privacidad</a>
+=======
+        <label>
+            <input type="checkbox" id="terminosCheckbox" required>
+            He leído y acepto los <a href="/terminos" target="_blank">términos y condiciones</a>
+>>>>>>> 2f056cbd5f4bbb422f1078cc6307e6a265c74ba6
         </label>
         <br>
 
@@ -230,4 +250,3 @@ function validarFormularioPago() {
 }
 </script>
 @endsection
-
