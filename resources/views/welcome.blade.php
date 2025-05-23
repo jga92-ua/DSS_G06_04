@@ -23,7 +23,7 @@
 
     .mensaje {
       position: absolute;
-      top: 15%;
+      top: 5%; /* ← bajado del 15% al 30% */
       left: 50%;
       transform: translateX(-50%);
       background: #C0C0C0;
@@ -34,6 +34,7 @@
       font-weight: bold;
       box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
     }
+
 
     .mensaje-info {
       position: absolute;
@@ -59,6 +60,7 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.2);
       cursor: pointer;
       transition: transform 0.3s;
+      bottom: 15%;
     }
 
     .pokeball::before {
