@@ -35,6 +35,20 @@
       box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
     }
 
+    .mensaje-info {
+      position: absolute;
+      left: 50%;
+      bottom: 15%;
+      transform: translateX(-50%);
+      background: #C0C0C0;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    }
+
     .pokeball {
       width: 150px;
       height: 150px;
@@ -86,6 +100,8 @@
   <div class="pokeball" id="pokeball">
     <div class="button-center"></div>
   </div>
+
+  <div class="mensaje-info">Nuestro proyecto PokeMarket TCG es una página web encargada de la compraventa de cartas de Pokémon. Nuestro objetivo es ofrecer un acceso seguro a las cartas de este mundillo, permitiendo la compra y autentificando cada usuario de forma intuitiva. De este modo, solo los usuarios autentificados podrán acceder a la compra y venta de cartas, y contaremos con administradores que podrán gestionar todos los usuarios y las cartas subidas, junto con las categorías.</div>
 
   <script>
     document.getElementById('pokeball').addEventListener('click', () => {
