@@ -43,6 +43,10 @@
         
         <div class="user">
             @auth
+                <a href="{{ url('/contacto') }}" title="Contacto" style="margin-right: 10px; font-size: 24px; color:rgb(0, 0, 0);">
+                    <i class="bi bi-person-lines-fill"></i>
+                </a>
+
                 <form action="{{ url('/cesta') }}" method="get" style="margin-right: 10px;">
                     <button type="submit" class="carrito-btn" title="Carrito">
                         <img src="{{ asset('imagenes/carrito.png') }}" alt="Carrito" style="width: 40px; height: 40px; border-radius: 0;">

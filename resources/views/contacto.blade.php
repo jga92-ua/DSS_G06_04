@@ -4,46 +4,55 @@
 
 <style>
     .contacto-container {
-        max-width: 1300px;
-        margin: 40px auto;
+        max-width: 1200px;
+        margin: 20px 0 0 40px; /* Menor margen superior, más a la izquierda */
         display: flex;
-        gap: 40px;
-        padding: 0 30px;
-        justify-content: center;
+        gap: 30px;
+        padding: 0 20px;
+        align-items: flex-start; /* Alineación superior */
     }
 
     .formulario-contacto,
     .info-contacto {
         flex: 1;
         background-color: #f0f0f0;
-        padding: 30px;
+        padding: 25px;
         border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         font-size: 16px;
+    }
+
+    .formulario-contacto {
+        max-height: 550px; /* Controlamos altura del formulario */
+    }
+
+    .info-contacto {
+        max-height: 400px; /* Limita la altura del grid derecho */
+        overflow-y: auto;  /* Scroll si se excede */
     }
 
     .formulario-contacto h2,
     .info-contacto h2 {
         background-color: #505050;
         color: white;
-        padding: 12px 18px;
+        padding: 10px 16px;
         border-radius: 8px;
-        margin-bottom: 25px;
-        font-size: 22px;
+        margin-bottom: 20px;
+        font-size: 20px;
     }
 
     .formulario-contacto input,
     .formulario-contacto textarea {
         width: 100%;
-        margin-bottom: 20px;
-        padding: 12px;
-        font-size: 16px;
+        margin-bottom: 16px;
+        padding: 10px;
+        font-size: 15px;
         border: 1px solid #bbb;
         border-radius: 6px;
     }
 
     .formulario-contacto button {
-        padding: 12px 25px;
+        padding: 10px 22px;
         background-color: #007bff;
         border: none;
         color: white;
@@ -54,25 +63,27 @@
 
     .info-contacto div {
         background-color: #e0e0e0;
-        padding: 12px;
-        margin-bottom: 18px;
+        padding: 10px;
+        margin-bottom: 14px;
         border-radius: 6px;
         text-align: left;
-        font-size: 15px;
+        font-size: 14px;
         line-height: 1.4;
     }
 
     html, body {
-        overflow-x: hidden;
+        overflow: hidden;
     }
 
     @media (max-width: 768px) {
         .contacto-container {
             flex-direction: column;
             padding: 10px;
+            margin-left: 0;
         }
     }
 </style>
+
 
 
 <div class="contacto-container">
