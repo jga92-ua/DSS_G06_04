@@ -18,6 +18,18 @@
         border-radius: 10px;
     }
 
+    .text-center {
+        background-color: #c0c0c0;
+        padding: 10px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        max-width: 1221px;
+        display: flex;
+        text-align: center;
+        color: white;
+        border-radius: 10px;
+    }
+
     .carta-main {
         display: flex;
         flex-wrap: wrap;
@@ -47,6 +59,7 @@
     .vendedores-titulo {
         font-size: 20px;
         font-weight: bold;
+        color: #606060;
         margin-bottom: 10px;
     }
 

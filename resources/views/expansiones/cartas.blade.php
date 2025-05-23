@@ -41,16 +41,4 @@
         </div>
     @endif
 </div>
-
-<style>
-    h1 {
-        width: 100%;
-        background: #606060;
-        color: white;
-        padding: 0.5rem;
-        border-radius: 5px;
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-    }
-</style>
 @endsection
