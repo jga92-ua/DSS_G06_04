@@ -74,7 +74,7 @@
     <h2>Expansiones</h2>
     <div class="expansion-grid">
         @forelse ($expansiones as $expansion)
-            <a href="{{ route('expansion.cartas', ['id' => $expansion['id']]) }}" class="expansion-card">
+<a href="{{ route('cartas.expansion', ['codigo' => $expansion['id']]) }}" class="expansion-card">
                 <img src="{{ $expansion['images']['logo'] ?? asset('imagenes/default_expansion.png') }}"
                      alt="{{ $expansion['name'] }}">
                 <p class="nombre-expansion">{{ $expansion['name'] }}</p>
