@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Categoria;
 use App\Models\Carta;
+use Illuminate\Support\Facades\Http;
 
 class CategoriaController extends Controller
 {
@@ -18,7 +19,36 @@ class CategoriaController extends Controller
     public function show($id)
     {
         $categoria = Categoria::findOrFail($id);
-        return view('categorias.show', compact('categoria'));
+
+        $cartasSeleccionadas = collect();
+
+        if (!empty($categoria->id_carta)) {
+            $ids = explode(',', $categoria->id_carta);
+            $cartas = Carta::whereIn('id_carta_api', $ids)->get();
+
+            // Aquí enriquecemos las cartas con los datos de la API
+            $cartasSeleccionadas = $this->obtenerInfoDesdeApi($cartas);
+        }
+
+        return view('categorias.show', compact('categoria', 'cartasSeleccionadas'));
+    }
+
+    private function obtenerInfoDesdeApi($cartas)
+    {
+        return $cartas->map(function ($carta) {
+            $idApi = $carta->id_carta_api;
+            $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$idApi}");
+            $datosApi = $apiResponse->json();
+
+            return [
+                'id' => $carta->id,
+                'id_carta_api' => $idApi,
+                'nombre' => $datosApi['data']['name'] ?? 'Desconocido',
+                'imagen' => $datosApi['data']['images']['small'] ?? asset('imagenes/default-card.png'),
+                'expansion_api_id' => $datosApi['data']['set']['id'] ?? null,
+                'expansion_api_name' => $datosApi['data']['set']['name'] ?? null,
+            ];
+        });
     }
 
     // Vista solo para administradores
@@ -100,20 +130,37 @@ class CategoriaController extends Controller
     {
         $categoria = Categoria::findOrFail($id);
         $cartas = Carta::all();
+
+        $cartasEnriquecidas = $this->obtenerInfoDesdeApi($cartas);
+
+        $cartas = $cartasEnriquecidas;
+
         return view('categorias.select_cartas', compact('categoria', 'cartas'));
     }
+
 
     public function updateCartas(Request $request, $id)
     {
         $request->validate([
-            'id_cartas' => 'required|array|min:1',
+            'id_carta' => 'required|array|min:1',
         ], [
-            'id_cartas.required' => 'Debes seleccionar al menos una carta.',
-            'id_cartas.min' => 'Debes seleccionar al menos una carta.',
+            'id_carta.required' => 'Debes seleccionar al menos una carta.',
+            'id_carta.min' => 'Debes seleccionar al menos una carta.',
         ]);
 
         $categoria = Categoria::findOrFail($id);
-        $categoria->id_cartas = $request->input('id_cartas', []); // Asegúrate de tener $casts en el modelo
+
+        // Extraer las cartas actuales y convertirlas a array
+        $cartasActuales = $categoria->id_carta ? explode(',', $categoria->id_carta) : [];
+
+        // Obtener las nuevas seleccionadas del request
+        $cartasNuevas = $request->input('id_carta', []);
+
+        // Combinar y quitar duplicados
+        $todasCartas = array_unique(array_merge($cartasActuales, $cartasNuevas));
+
+        // Guardar como string separado por comas
+        $categoria->id_carta = implode(',', $todasCartas);
         $categoria->save();
 
         return redirect()->route('categorias.show', $id)->with('success', 'Cartas actualizadas correctamente.');

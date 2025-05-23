@@ -23,9 +23,8 @@
                 <label class="carta-card">
                     <div class="carta-info">
                         <img src="{{ $carta['imagen'] }}" alt="Carta Pokémon">
-                        <p>{{ $carta['name'] }}</p>
                     </div>
-                    <input type="checkbox" name="id_cartas[]" value="{{ $carta['id'] }}">
+                    <input type="checkbox" name="id_carta[]" value="{{ $carta['id_carta_api'] }}">
                 </label>
             @endforeach
         </div>
@@ -62,7 +61,6 @@
     }
 
     .carta-card {
-        width: 295px;
         border: 1px solid #ccc;
         border-radius: 10px;
         padding: 15px;

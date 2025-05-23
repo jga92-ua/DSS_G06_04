@@ -12,20 +12,20 @@ class Categoria extends Model
     protected $table = 'categorias';
 
     protected $casts = [
-        'id_cartas' => 'array',
+        'id_carta' => 'array',
     ];
 
     protected $fillable = [
         'id',
         'nombre',
         'descripcion',
-        'id_cartas',
+        'id_carta',
         'created_at',
         'updated_at',
     ];
 
-    public function carta()
+    public function cartas()
     {
-        return $this->belongsTo(Carta::class, 'id_cartas');
+        return Carta::whereIn('id_carta_api', $this->id_carta ?? [])->get();
     }
 }
