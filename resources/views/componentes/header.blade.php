@@ -15,7 +15,7 @@
                 <a class="nav-link" href="{{ route('catalogo') }}" title="Catálogo" style="margin-top: 40px;">
                     <div><i class="bi bi-images" style="color: #606060"></i></div>
                 </a>
-                <a class="nav-link" href="{{ route('categoria.index') }}" title="Categorías" style="margin-top: 40px;">
+                <a class="nav-link" href="{{ route('categorias.index') }}" title="Categorías" style="margin-top: 40px;">
                     <div><i class="bi bi-bookmarks-fill" style="color: #606060"></i></div>
                 </a>
                 <a class="nav-link" href="{{ route('expansiones') }}" title="Expansiones" style="margin-top: 40px;">

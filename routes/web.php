@@ -135,7 +135,13 @@ Route::get('/cartas/{id_carta_api}', [CartaController::class, 'show'])->name('ca
 
 // VISTA PÚBLICA de categorías
 Route::get('/categorias', [CategoriaController::class, 'showPublic'])->name('categorias.index');
-Route::get('/categorias/create-publica', [CategoriaController::class, 'createPublic'])->name('categorias.create.public');
+Route::get('/categorias/create', [CategoriaController::class, 'createPublic'])->name('categorias.create');
+Route::get('/categorias/{categoria}', [CategoriaController::class, 'show'])->name('categorias.show');
+Route::get('/categorias/{id}/cartas', [CategoriaController::class, 'editCartas'])->name('categorias.cartas.edit');
+Route::put('/categorias/{id}/cartas', [CategoriaController::class, 'updateCartas'])->name('categorias.cartas.update');
+Route::get('/categorias/{categoria}/cartas/seleccionar', [CategoriaController::class, 'editCartas'])
+    ->name('cartas.select_cartas');
+
 
 // ADMINISTRACIÓN de categorías
 Route::get('/admin/categorias', [CategoriaController::class, 'adminIndex'])->name('admin.categorias');

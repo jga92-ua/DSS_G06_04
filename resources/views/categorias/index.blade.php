@@ -7,9 +7,11 @@
 
 <div class="catalogo">
     @foreach ($categorias as $categoria)
-        <a href="{{ route('categorias.create', $categoria->id) }}" class="categoria-card">
-            <h3>{{ $categoria->nombre }}</h3>
-            <p>{{ $categoria->descripcion }}</p>
+        <a href="{{ route('categorias.show', $categoria->id) }}" class="categoria-card">
+            <div class="categoria-info">
+                <h3>{{ $categoria->nombre }}</h3>
+                <p>{{ $categoria->descripcion }}</p>
+            </div>
         </a>
     @endforeach
 </div>
@@ -19,6 +21,10 @@
 </a>
 
 <style>
+    body {
+        overflox-x: hidden;
+    }
+
     .titulo {
         width: 93%;
         text-align: left;
@@ -36,21 +42,44 @@
         flex-wrap: wrap;
         gap: 20px;
         padding: 0 20px;
+        justify-content: left;
     }
 
     .categoria-card {
-        flex: 1 1 calc(33.33% - 40px);
-        background-color: #f5f5f5;
-        padding: 20px;
-        border-radius: 8px;
+        width: 265px;
+        background-color: #c0c0c0;
+        border-radius: 10px;
+        overflow: hidden;
         text-decoration: none;
-        color: black;
-        transition: background-color 0.2s;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        color: #333;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease-in-out;
     }
 
     .categoria-card:hover {
-        background-color: #e0e0e0;
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .categoria-imagen img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .categoria-info {
+        padding: 15px;
+    }
+
+    .categoria-info h3 {
+        font-size: 20px;
+        margin: 0 0 10px;
+    }
+
+    .categoria-info p {
+        font-size: 14px;
+        color: #666;
     }
 
     .btn-subir-categoria {

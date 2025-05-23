@@ -11,6 +11,10 @@ class Categoria extends Model
 
     protected $table = 'categorias';
 
+    protected $casts = [
+        'id_cartas' => 'array',
+    ];
+
     protected $fillable = [
         'id',
         'nombre',
