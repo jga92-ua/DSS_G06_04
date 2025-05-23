@@ -46,6 +46,23 @@
         display: block;
     }
 
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        margin: 10px 0;
+        flex-wrap: wrap;
+    }
+
+    .checkbox-label input {
+        margin-right: 8px;
+        transform: scale(1.1);
+    }
+
+    .checkbox-label a {
+        margin: 0 3px;
+    }
+
     .cantidad-control {
         display: flex;
         justify-content: center;
@@ -122,9 +139,9 @@
     <div class="precio-final text-center mt-4">
         <h3>PRECIO TOTAL (21% IVA): {{ number_format($precioTotal * 1.21, 2) }} EUROS</h3>
 
-        <label>
-            <input type="checkbox" id="terminosCheckbox" required>
-            He leído y acepto los <a href="#">términos y condiciones</a>
+        <label class="checkbox-label">
+            <input type="checkbox" required>
+            Acepto los <a href="{{ route('terminos') }}" target="_blank">Términos de Servicio</a> y la <a href="{{ route('privacidad') }}" target="_blank">Política de Privacidad</a>
         </label>
         <br>
 
