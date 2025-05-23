@@ -18,7 +18,7 @@
 
 <style>
     body {
-        overflow: hidden;
+        overflow-x: hidden;
     }
 
     .main {
@@ -77,10 +77,8 @@
     }
 
     .paginacion {
-        position: fixed;
-        bottom: 80px;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translateX(-50px);
         z-index: 1000;
         display: flex;
         justify-content: center;
