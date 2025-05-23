@@ -19,6 +19,12 @@ class Pedido extends Model
         'metodo_pago',
         'fecha_pedido',
         'comprador_id',
+        'id_carta_api',
+        'nombre_carta_api',
+        'rareza',
+        'precio',
+        'estado_carta',
+        'expansion_api_id',
     ];
     public function items()
 {

@@ -30,28 +30,26 @@
                     <th>Imagen</th>
                     <th>Nombre</th>
                     <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Vendedor</th>
+                    <th>Rareza</th>
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($pedido->items as $item)
-                    @php
-                        $parts = explode('-', $item->carta->id_carta_api);
-                        $set = $parts[0] ?? '';
-                        $number = $parts[1] ?? '';
-                    @endphp
-                    <tr>
-                        <td>
-                            <img src="https://images.pokemontcg.io/{{ $set }}/{{ $number }}_hires.png"
-                                width="80" alt="{{ $item->carta->nombre_carta_api }}">
-                        </td>
-                        <td>{{ $item->carta->nombre_carta_api }}</td>
-                        <td>{{ number_format($item->precio_unitario, 2) }} €</td>
-                        <td>{{ $item->cantidad }}</td>
-                        <td>{{ $item->carta->usuario->name ?? 'Desconocido' }}</td>
-                    </tr>
-                @endforeach
+                @php
+                    $parts = explode('-', $pedido->id_carta_api);
+                    $set = $parts[0] ?? '';
+                    $number = $parts[1] ?? '';
+                @endphp
+                <tr>
+                    <td>
+                        <img src="https://images.pokemontcg.io/{{ $set }}/{{ $number }}_hires.png"
+                             width="80" alt="{{ $pedido->nombre_carta_api }}">
+                    </td>
+                    <td>{{ $pedido->nombre_carta_api }}</td>
+                    <td>{{ number_format($pedido->precio, 2) }} €</td>
+                    <td>{{ $pedido->rareza ?? 'Desconocida' }}</td>
+                    <td>{{ $pedido->estado_carta ?? 'N/A' }}</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -118,7 +116,7 @@
     th, td {
         padding: 10px 15px;
         text-align: left;
-        border-bottom: 1px solid #000; /* Línea negra */
+        border-bottom: 1px solid #000;
     }
 
     tr:last-child td {
