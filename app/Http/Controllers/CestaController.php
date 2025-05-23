@@ -37,6 +37,8 @@ class CestaController extends Controller
     {
         $request->validate([
             'carta_id' => 'required|exists:cartas,id'
+        ], [
+            'carta_id.exists' => '¡La carta no existe en la base de datos!',
         ]);
 
         $user = Auth::user();

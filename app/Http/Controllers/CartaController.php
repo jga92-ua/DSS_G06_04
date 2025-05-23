@@ -341,7 +341,7 @@ public function show($id_carta_api)
     // Buscar vendedores en la BD
     $vendedores = \App\Models\Carta::where('id_carta_api', $id_carta_api)
         ->join('users', 'cartas.usuario_id', '=', 'users.id')
-        ->select('cartas.estado', 'cartas.precio', 'users.name as vendedor')
+        ->select('cartas.id', 'cartas.estado', 'cartas.precio', 'users.name as vendedor')
         ->orderBy('cartas.precio', 'asc')
         ->get();
 
