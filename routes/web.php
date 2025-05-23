@@ -151,5 +151,7 @@ Route::get('/cartas/{id}', [CartaController::class, 'show'])->name('cartas.show'
 Route::get('/cartas/{id_carta_api}', [CartaController::class, 'show'])->name('cartas.show');
 Route::get('/expansion/{id}/cartas', [ExpansionController::class, 'verCartas'])->name('expansion.cartas');
 
+//Contacto
+Route::get('/contacto', function () {return view('contacto');})->name('contacto');
 
 
