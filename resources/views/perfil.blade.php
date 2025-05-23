@@ -145,6 +145,7 @@
         overflow-x: hidden;
     }
 
+    
     .perfil-wrapper {
         max-width: 1800px;
         width: 100%;
