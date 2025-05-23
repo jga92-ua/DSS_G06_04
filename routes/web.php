@@ -131,9 +131,20 @@ Route::post('/pedido', [PedidoController::class, 'realizar'])->middleware('auth'
 Route::get('/pedidos', [PedidoController::class, 'index'])->middleware('auth')->name('pedidos.index');
 Route::get('/pedidos/{id}', [PedidoController::class, 'show'])->middleware('auth')->name('pedidos.show');
 
-//Categorías
-Route::get('/categorias', [CategoriaController::class, 'show'])->name('categoria.index');
 Route::get('/cartas/{id_carta_api}', [CartaController::class, 'show'])->name('cartas.show');
+
+// VISTA PÚBLICA de categorías
+Route::get('/categorias', [CategoriaController::class, 'showPublic'])->name('categorias.index');
+Route::get('/categorias/create-publica', [CategoriaController::class, 'createPublic'])->name('categorias.create.public');
+
+// ADMINISTRACIÓN de categorías
+Route::get('/admin/categorias', [CategoriaController::class, 'adminIndex'])->name('admin.categorias');
+Route::get('/admin/categorias/create', [CategoriaController::class, 'create'])->name('admin.categorias.create');
+Route::post('/admin/categorias', [CategoriaController::class, 'store'])->name('admin.categorias.store');
+Route::get('/admin/categorias/{id}/edit', [CategoriaController::class, 'edit'])->name('categorias.edit');
+Route::put('/admin/categorias/{id}', [CategoriaController::class, 'update'])->name('categorias.update');
+Route::delete('/admin/categorias/{id}', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
+
 
 Route::get('/expansiones/{codigo}', [CartaController::class, 'porExpansion'])->name('cartas.expansion');
 Route::get('/cartas/{id}', [CartaController::class, 'show'])->name('cartas.show');

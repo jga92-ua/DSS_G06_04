@@ -7,17 +7,28 @@ use App\Models\Categoria;
 
 class CategoriaController extends Controller
 {
-    public function show(){
-        return view('categoria.index');
-    }
-
-    public function index()
+    // Vista pública para los usuarios normales
+    public function showPublic()
     {
         $categorias = Categoria::all();
-        return view('admin.index.blade.php', compact('categorias'));
+        return view('categorias.index', compact('categorias'));
     }
 
+    // Vista solo para administradores
+    public function adminIndex()
+    {
+        $categorias = Categoria::all();
+        return view('admin.categorias', compact('categorias'));
+    }
+
+    // Formulario de creación (solo admin)
     public function create()
+    {
+        return view('admin.createCat');
+    }
+
+    // Formulario de creación para usuario normal (si quieres permitirlo)
+    public function createPublic()
     {
         return view('categorias.create');
     }
@@ -36,19 +47,11 @@ class CategoriaController extends Controller
         return redirect()->back()->with('success', 'Categoría creada correctamente');
     }
 
-        public function edit($id)
-        {
-            $categoria = Categoria::findOrFail($id);
-            return view('admin.editCat', compact('categoria'));
-        }
-
-        public function adminIndex()
-        {
-            $categorias = Categoria::all();
-            return view('admin.categorias', compact('categorias'));
-
-        }
-        
+    public function edit($id)
+    {
+        $categoria = Categoria::findOrFail($id);
+        return view('admin.editCat', compact('categoria'));
+    }
 
     public function update(Request $request, $id)
     {
@@ -62,7 +65,7 @@ class CategoriaController extends Controller
             'descripcion' => $request->descripcion,
         ]);
 
-        return redirect()->route('admin.index')->with('success', 'Categoría actualizada');
+        return redirect()->route('admin.categorias')->with('success', 'Categoría actualizada');
     }
 
     public function destroy($id)
@@ -71,5 +74,12 @@ class CategoriaController extends Controller
         $categoria->delete();
 
         return redirect()->back()->with('success', 'Categoría eliminada');
+    }
+
+    // Mostrar una categoría concreta
+    public function showCategoria($id)
+    {
+        $categoria = Categoria::findOrFail($id);
+        return view('categorias.show', compact('categoria'));
     }
 }
