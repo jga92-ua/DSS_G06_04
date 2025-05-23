@@ -150,7 +150,7 @@ Route::get('/admin/categorias/create', [CategoriaController::class, 'create'])->
 Route::post('/admin/categorias', [CategoriaController::class, 'store'])->name('admin.categorias.store');
 Route::get('/admin/categorias/{id}/edit', [CategoriaController::class, 'edit'])->name('categorias.edit');
 Route::put('/admin/categorias/{id}', [CategoriaController::class, 'update'])->name('categorias.update');
-Route::delete('/admin/categorias/{id}', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
+Route::delete('/admin/categorias/{id}', [CategoriaController::class, 'destroy'])->name('admin.categorias.destroy');
 
 
 Route::get('/expansiones/{codigo}', [CartaController::class, 'porExpansion'])->name('cartas.expansion');
