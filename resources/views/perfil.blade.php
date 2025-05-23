@@ -73,9 +73,6 @@
             <h3>Dirección</h3>
             
             <div class="fila fila-1">
-                <div class="campo campo-nombre">
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre">
-                </div>
                 <div class="campo campo-calle">
                     <input type="text" id="calle" name="calle" placeholder="Calle">
                 </div>
@@ -256,7 +253,7 @@
 
     /* Fila con 2 columnas: Nombre, Calle */
     .fila-1 {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
     }
 
     /* Fila con 3 columnas: Número, Puerta/Piso, CPP */

@@ -13,12 +13,12 @@
                     </a>
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ $carta['name'] }}</h5>
-                        <p>{{ $carta['set']['name'] ?? '' }}</p>
+                        <p class="text-muted">{{ $carta['set']['name'] }}</p>
                     </div>
                 </div>
             </div>
         @empty
-            <p>No se encontraron cartas para esta expansión.</p>
+            <p>No hay cartas en esta expansión.</p>
         @endforelse
     </div>
 </div>

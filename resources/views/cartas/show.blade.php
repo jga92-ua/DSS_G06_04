@@ -4,7 +4,7 @@
 
 <style>
     .section-bar {
-        background-color: #ddd;
+        background-color: #606060;
         padding: 10px 20px;
         font-size: 18px;
         font-weight: bold;
@@ -14,6 +14,8 @@
         justify-content: start;
         margin-top: 5px;
         margin-left: 5px;
+        color: white;
+        border-radius: 10px;
     }
 
     .carta-main {
@@ -64,7 +66,7 @@
     th, td {
         padding: 10px 15px;
         text-align: left;
-        border-bottom: 1px solid #000; /* Línea negra */
+        border-bottom: 1px solid #000;
     }
 
     tr:last-child td {
@@ -73,10 +75,6 @@
 
     tr:nth-child(even) {
         background-color: #f0f0f0;
-    }
-
-    td:last-child {
-        text-align: center;
     }
 
     .text-center {
@@ -105,7 +103,7 @@
 <div class="carta-main">
     <div class="carta-imagen">
         @if($imagenCarta)
-            <img src="{{ $imagenCarta }}" alt="Imagen de la carta {{ $carta->nombre_carta_api }}">
+            <img src="{{ $imagenCarta }}" alt="Imagen de la carta {{ $carta['name'] ?? 'Carta' }}">
         @else
             <p>Imagen no disponible</p>
         @endif
@@ -135,9 +133,8 @@
                             <td>
                                 <form method="POST" action="{{ route('cesta.agregar') }}">
                                     @csrf
-                                    <input type="hidden" name="carta_id" value="{{ $carta->id }}">
+                                    <input type="hidden" name="carta_id" value="{{ $v->id }}">
                                     <input type="hidden" name="precio_unitario" value="{{ $v->precio }}">
-
                                     <button type="submit" class="carrito-btn">
                                         <img src="{{ asset('imagenes/carrito.png') }}" alt="Añadir a la cesta">
                                     </button>

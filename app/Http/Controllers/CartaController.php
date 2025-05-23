@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Carta;
+
 use App\Models\CestaItem;
 
 
@@ -324,27 +325,52 @@ class CartaController extends Controller
         return redirect()->route('cartas.mis')->with('success', 'Carta eliminada correctamente');
     }
     
-    public function show($id_carta_api)
-    {
-        // Obtener la primera carta subida con ese id de la API
-        $carta = Carta::where('id_carta_api', $id_carta_api)->firstOrFail();
 
-        // Buscar imagen desde la API de PokéTCG
-        $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$id_carta_api}");
 
-        $imagenCarta = null;
-        if ($apiResponse->successful() && isset($apiResponse['data']['images']['large'])) {
-            $imagenCarta = $apiResponse['data']['images']['large'];
-        }
+public function show($id_carta_api)
+{
+    // Obtener datos desde la API
+    $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards/{$id_carta_api}");
 
-        // Buscar vendedores (usuarios que subieron esa misma carta)
-        $vendedores = Carta::where('id_carta_api', $id_carta_api)
-            ->join('users', 'cartas.usuario_id', '=', 'users.id')
-            ->select('cartas.estado', 'cartas.precio', 'users.name as vendedor')
-            ->orderBy('cartas.precio', 'asc')
-            ->get();
-
-        return view('cartas.show', compact('carta', 'vendedores', 'imagenCarta'));
+    if (!$apiResponse->successful() || !isset($apiResponse['data'])) {
+        abort(404, 'Carta no encontrada');
     }
+
+    $data = $apiResponse['data'];
+
+    // Buscar vendedores en la BD
+    $vendedores = \App\Models\Carta::where('id_carta_api', $id_carta_api)
+        ->join('users', 'cartas.usuario_id', '=', 'users.id')
+        ->select('cartas.estado', 'cartas.precio', 'users.name as vendedor')
+        ->orderBy('cartas.precio', 'asc')
+        ->get();
+
+    return view('cartas.show', [
+        'carta' => $data,                   // datos completos desde la API
+        'vendedores' => $vendedores,
+        'imagenCarta' => $data['images']['large'] ?? null
+    ]);
+}
+
+
+
+public function porExpansion($codigo)
+{
+    $apiResponse = Http::get("https://api.pokemontcg.io/v2/cards", [
+        'q' => "set.id:$codigo",
+        'pageSize' => 250
+    ]);
+
+    if (!$apiResponse->successful()) {
+        abort(500, 'Error al obtener cartas de la expansión');
+    }
+
+    $cartas = $apiResponse['data'];
+
+    return view('cartas.expansion', compact('cartas'));
+}
+
+
+
 
 }
