@@ -131,14 +131,20 @@
                             <td>{{ ucfirst($v->estado) }}</td>
                             <td>{{ number_format($v->precio, 2) }} €</td>
                             <td>
-                                <form method="POST" action="{{ route('cesta.agregar') }}">
-                                    @csrf
-                                    <input type="hidden" name="carta_id" value="{{ $v->id }}">
-                                    <input type="hidden" name="precio_unitario" value="{{ $v->precio }}">
-                                    <button type="submit" class="carrito-btn">
-                                        <img src="{{ asset('imagenes/carrito.png') }}" alt="Añadir a la cesta">
-                                    </button>
-                                </form>
+                                @auth
+                                    <form method="POST" action="{{ route('cesta.agregar') }}">
+                                        @csrf
+                                        <input type="hidden" name="carta_id" value="{{ $v->id }}">
+                                        <input type="hidden" name="precio_unitario" value="{{ $v->precio }}">
+                                        <button type="submit" class="carrito-btn">
+                                            <img src="{{ asset('imagenes/carrito.png') }}" alt="Añadir a la cesta">
+                                        </button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('login') }}" class="carrito-btn">
+                                        <img src="{{ asset('imagenes/carrito.png') }}" alt="Inicia sesión para añadir a la cesta">
+                                    </a>
+                                @endauth
                             </td>
                         </tr>
                     @endforeach

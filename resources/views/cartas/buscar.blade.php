@@ -109,14 +109,19 @@
                     <p><strong>Nombre:</strong> {{ $carta['name'] }}</p>
 
                     <div style="margin-top: auto; padding-top: 10px; width: 100%; display: flex; justify-content: center;">
-                        <form method="GET" action="{{ route('cartas.create') }}">
-                            <input type="hidden" name="id_carta_api" value="{{ $carta['id'] }}">
-                            <input type="hidden" name="nombre_carta_api" value="{{ $carta['name'] }}">
-                            <button type="submit" style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+                        @auth
+                            <form method="GET" action="{{ route('cartas.create') }}">
+                                <input type="hidden" name="id_carta_api" value="{{ $carta['id'] }}">
+                                <input type="hidden" name="nombre_carta_api" value="{{ $carta['name'] }}">
+                                <button type="submit" style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+                                    Seleccionar esta carta
+                                </button>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}" style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; text-decoration: none; display: inline-block;">
                                 Seleccionar esta carta
-                            </button>
-
-                        </form>
+                            </a>
+                        @endauth
                     </div>
                 </div>
             @endforeach
