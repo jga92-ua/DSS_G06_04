@@ -98,6 +98,7 @@ Route::post('/cesta/procesar-pago', [CestaController::class, 'procesarPago'])->m
 //Politica de privacidad y terminos de uso
 Route::get('/terminos-de-servicio', function () {return view('terminos');})->name('terminos');
 Route::get('/politica-de-privacidad', function () {return view('privacidad');})->name('privacidad');
+Route::view('/terminos', 'terminos')->name('terminos');
 
 Auth::routes();
 
